@@ -1,5 +1,7 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.mygdx.game.MyGdxGame;
@@ -10,7 +12,7 @@ public class DesktopLauncher {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setTitle("SuperElectricCat");
 		config.setWindowedMode(800, 400);
-		config.useVsync(true);
+		//config.useVsync(true);
 		config.setForegroundFPS(60);
 		new Lwjgl3Application(new MyGdxGame(), config);
 	}
