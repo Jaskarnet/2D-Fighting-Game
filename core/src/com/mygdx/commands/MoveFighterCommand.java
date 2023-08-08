@@ -2,8 +2,7 @@ package com.mygdx.commands;
 
 import com.mygdx.entities.Fighter;
 
-// zmienić na MoveFighterLeft
-public class MoveFighterCommand implements Command{
+public class MoveFighterCommand implements Command {
     private Fighter fighter;
     int xBefore, yBefore;
     int x, y;
@@ -33,5 +32,21 @@ public class MoveFighterCommand implements Command{
     @Override
     public String toString() {
         return "M";
+    }
+
+    public int getXBefore() {
+        return xBefore;
+    }
+
+    public int getYBefore() {
+        return yBefore;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 }

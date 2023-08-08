@@ -8,12 +8,13 @@ import com.mygdx.utils.CircularBuffer;
 public class InputHandler {
     private Fighter fighter;
     private CircularBuffer<Command> commandHistory;
-    int commandHistorySize;
-    int leftButton, rightButton, undoButton;
-    boolean recordingInput;
+    private int commandHistorySize;
+    private int leftButton, rightButton, undoButton;
+    private boolean recordingInput;
 
     public InputHandler(Fighter fighter, Player player, int leftButton, int rightButton, int undoButton, int commandHistorySize) {
         this.fighter = fighter;
+        this.commandHistorySize = commandHistorySize;
         commandHistory = new CircularBuffer<>(commandHistorySize);
 
         for (int i = 0; i < commandHistorySize; i++) {
@@ -36,13 +37,16 @@ public class InputHandler {
             return CommandFactory.doNothingCommand();
         }
 
-        if (Gdx.input.isKeyPressed(leftButton)) {
+        if (Gdx.input.isKeyPressed(leftButton) && Gdx.input.isKeyPressed(rightButton)) {
+            command = CommandFactory.doNothingCommand();
+            if (recordingInput) commandHistory.add(command);
+            return command;
+        } else if (Gdx.input.isKeyPressed(leftButton)) {
             recordingInput = true;
             command = CommandFactory.moveFighterCommandLeft(fighter, fighter.getX(), fighter.getY());
             if (recordingInput) commandHistory.add(command);
             return command;
-        }
-        else if (Gdx.input.isKeyPressed(rightButton)) {
+        } else if (Gdx.input.isKeyPressed(rightButton)) {
             recordingInput = true;
             command = CommandFactory.moveFighterCommandRight(fighter, fighter.getX(), fighter.getY());
             if (recordingInput) commandHistory.add(command);
@@ -83,5 +87,13 @@ public class InputHandler {
 
     public void setRecordingInput(boolean recordingInput) {
         this.recordingInput = recordingInput;
+    }
+
+    public CircularBuffer<Command> getCommandHistory() {
+        return commandHistory;
+    }
+
+    public void setCommandHistory(CircularBuffer<Command> commandHistory) {
+        this.commandHistory = commandHistory;
     }
 }

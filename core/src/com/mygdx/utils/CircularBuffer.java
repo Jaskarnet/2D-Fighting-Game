@@ -26,7 +26,7 @@ public class CircularBuffer<T> {
         System.out.println("buffer.length: " + buffer.length + " size: " + size + " head: " + head + " tail: " + tail);
     }
 
-/*    public T get(int index) {
+    public T getLast(int index) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index out of range");
         }
@@ -34,7 +34,7 @@ public class CircularBuffer<T> {
         // Calculate the actual index in the buffer
         int actualIndex = (head + index) % buffer.length;
         return buffer[actualIndex];
-    }*/
+    }
 
     public T get(int index) {
         return buffer[index];
@@ -68,6 +68,14 @@ public class CircularBuffer<T> {
         System.out.println("buffer.length: " + buffer.length + " size: " + size + " head: " + head + " tail: " + tail);
         tail = (tail - 1 + buffer.length) % buffer.length;
         return tail;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
     }
 
     @Override
