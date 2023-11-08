@@ -1,70 +1,54 @@
 \chapter{Wstęp}
 \section{Wprowadzenie}
-W świecie gier komputerowych można odkryć fascynujący aspekt rywalizacji. Gry przestają być tylko rozrywką. Stają się miejscem, gdzie można spróbować swoich sił, zmierzyć się z przeciwnikami i poczuć dreszczyk emocji. Rywalizacja to sztuka, która przenika naszą egzystencję, a te cyfrowe konflikty stają się wyrazem tej głęboko zakorzenionej potrzeby.
+Świat gier komputerowych, w szczególność świat gier on-line, budowany jest zwykle w oparciu o różnego rodzaju mechanizmy rywalizacji. Dzięki tym mechanizmom samo granie przestaje mieć formę beztroskiej rozrywki, a staje się czymś więcej -- sposobem na sprawdzenie własnych możliwości, testem osiągniętej sprawności, okazją do zbudowania pozycji itp. Od wprowadzonych zasad oraz zakresu interakcji występujących między graczami częstokroć zależy, czy grono użytkowników danej gry powiększać się będzie o kolejne grupy fanów, czy nie zdobędzie ona żadnej popularności. Fakt ten też nie może specjalnie dziwić, gdyż rywalizacja jest uważana za część ludzkiej egzystencji, zaś uczestnictwo w cyfrowych konfliktach to tylko realizacji głęboko zakorzenionej potrzeby.
 
-Niezmiennie towarzyszy temu tworzenie społeczności, zrzeszających osoby o podobnych zainteresowaniach. Autor tego tekstu jest częścią jednej z takich grup, znanej jako FGC (ang.~\emph{Fighting Game Community}). Jest to społeczność, która od lat cieszy się zasłużoną renomą. Jej członkowie rywalizują ze sobą, dzielą się wskazówkami, transmitują swoje rozgrywki oraz co równie istotne, budują nowe relacje przyjacielskie. Dla wielu z nich udział w turniejach to nie tylko okazja do rywalizacji, ale także pretekst do spotkania ze starymi znajomymi, którzy podzielają tę samą pasję.
+Wydawaniu gier komputerowych niezmiennie towarzyszy tworzenie się wokół nich lokalnych społeczności, zrzeszających osoby o podobnych zainteresowaniach. Przykładem takiej społeczności jest, ciesząca się zasłużoną renomą, społeczność FGC (ang.~\emph{Fighting Game Community}. Jej członkowie, włącznie z autorem niniejszej pracy, rywalizują ze sobą, dzielą się wskazówkami, transmitują swoje rozgrywki oraz, co równie istotne, budują nowe relacje przyjacielskie. Dla wielu z nich udział w turniejach to nie tylko okazja do rywalizacji, ale także pretekst do spotkania ze starymi znajomymi dzielącymi tę samą pasję.
 
-Wszystkie te elementy związane z kulturą bijatyk, ang.~\emph{ang. Fighting Games}, oraz sentymentem do gier, które autor tej pracy kochał od dziecka, stanowiły kluczowy powód wyboru tematu pracy dyplomowej.
+Pojawiający się w angielskiej nazwie grupy termin \emph{Fighting Games} wskazuje na pewien gatunek gier, wokół których skupia się ta społeczność. Termin ten tłumaczony jest na język polski jako ,,bijatyki''. Jest to gatunek gier komputerowych, w których rywalizacja pomiędzy graczami odbywa się na wzór rywalizacji w sztukach walki -- gracze wykonują ruchy awatarami, zadając sobie ciosy, blokując ataki i stosując uniki. Tego typu gry mogą toczyć się w wirtualnym świecie o różnej złożoności, od dwuwymiarowej sceny, poprzez rozbudowane mapy aż po trójwymiarowe środowiska renderowane z dokładnością bliską filmowanej rzeczywistości.
 
-\section{Cel pracy}
+Wskazane powyżej fakty dotyczące kultury bijatyk, jak również budowany od dziecka sentymentem do gier stanowiły kluczowy powód do zdefiniowana oraz wyboru przez autora tematu niniejszej pracy dyplomowej. Temat ten zakłada zaprojektować gry z gatunku bijatyk, przy założeniu, że oferować ona będzie prostą, dwuwymiarową wizualizację sceny oraz proste sterowanie. Gra powinna umożliwiać prowadzenie rozgrywek online, w związku z czym konieczne będzie opracowanie jej interfejsu sieciowego. Przykładem tego rodzaju gry jest FOOTSIES: \url{https://store.steampowered.com/app/1344740/FOOTSIES_Rollback_Edition/}. 
+% TO DO: można tutaj opisać tę grę nieco szerzej, dodajaś zrzuty ekranu oraz opisy "ciosów". Chodzi o to, by było wiadomo, jak wygląda bijatyka 2D.
+
+Na jej przykładzie można zorientować się, o czym będzie niniejsza praca. Dokładniejszy opis jej celu i zakresu podano w kolejnym podrozdziale.
+
+\section{Cel i zakres pracy}
 Celem niniejszego projektu jest opracowanie oraz pełna implementacja dwuwymiarowej gry zręcznościowej, zaliczającej się do kategorii bijatyk. Gra ta ma umożliwiać rywalizację pomiędzy graczami w trybie online, przy wykorzystaniu uproszczonych rozwiązań w zakresie sterowania, grafiki i mechaniki walki.
 
-\section{Zakres pracy}
-Zakres pracy obejmuje następujące etapy:
-
-\textbf{Definicja Wymagań}
+Realizacja pracy odbywać się ma w następujących etapach:
+\begin{itemize}
+\item \textbf{Definicja Wymagań}
 \begin{itemize}
 	\item Przeprowadzenie szczegółowej analizy różnych możliwych dróg implementacji gry.
 	\item Określenie wymagań funkcjonalnych i niefunkcjonalnych gry, uwzględniając rozgrywkę online, uproszczone sterowanie, grafikę i mechanikę walki.
 	\item Sporządzenie dokładnej specyfikacji projektu na podstawie zebranych informacji.
 \end{itemize}
-
-\textbf{Dobór Technologii i Środowiska Pracy}
+\item \textbf{Dobór Technologii i Środowiska Pracy}
 \begin{itemize}
 	\item Wybór odpowiednich technologii programistycznych i narzędzi do stworzenia gry.
 	\item Konfiguracja środowiska programistycznego, które umożliwi efektywną pracę nad projektem.
 \end{itemize}
-
-\textbf{Projekt i Implementacja Gry}
+\item \textbf{Projekt i Implementacja Gry}
 \begin{itemize}
 	\item Opracowanie projektu gry, w tym projektu graficznego, interfejsu użytkownika i mechaniki rozgrywki.
 	\item Implementacja gry, włączając w to tworzenie kodu źródłowego, grafik i dźwięków.
 \end{itemize}
-
-\textbf{Przeprowadzenie Testów i Przygotowanie Wdrożenia}
+\item \textbf{Przeprowadzenie Testów i Przygotowanie Wdrożenia}
 \begin{itemize}
 	\item Testowanie gry w celu wykrycia i poprawienia błędów oraz optymalizacji działania.
 	\item Przygotowanie gry do wdrożenia, włączając w to proces pakowania i przygotowania do dystrybucji w trybie online.
 \end{itemize}
-
-
-
-\textbf{Stworzenie Dokumentacji}
+\item \textbf{Stworzenie Dokumentacji}
 \begin{itemize}
 	\item Opracowanie kompleksowej dokumentacji projektu, w tym instrukcji obsługi, opisującej mechanikę gry oraz konfigurację.
 	\item Dokumentacja techniczna, która opisuje strukturę kodu źródłowego i technologie użyte w projekcie.
 \end{itemize}
+\end{itemize}
 
-
-
-Szablon przygotowano do kompilacji narzędziem \texttt{pdflatex} należącym do dystrybucji systemu \LaTeX. Aby skorzystać z szablonu należy wcześniej zainstalować ten system  bądź też skorzystać z usług kompilacji \LaTeX-owych źródeł dostępnych on-line (jak \texttt{OverLeaf}). Na pierwszy rzut oka kod źródłowy szablonu (w szczególności głównego dokumentu \texttt{Dyplom.tex}) może wydać się nieco skomplikowany. Zdecydowano bowiem, by zamiast tworzyć osobną klasę dokumentu lepiej będzie wykorzystać jakąś istniejącą klasę, oferującą zestaw komend ułatwiających składanie tekstu. Wybór padł na klasę \texttt{memoir}. W efekcie szablon utworzono jako sparametryzowaną instancję tej klasy. 
-Samo zaś użycie szablonu jest dość proste. Wystarczy podmienić wartości atrybutów komend użytych do zdefiniowania zawartości strony tytułowej (metadane dokumentu: tytuł, autor, promotor, kierunek, specjalność, słowa kluczowe), a później zadbać o~właściwą strukturę reszty dokumentu. 
-
-W szablonie zamieszczono komendy zapewniające dołączenie  do wynikowego dokumentu \texttt{pdf} metadanych z podstawowymi informacjami (tytuł, autor, temat, słowa kluczowe, data). Metadane te będą widoczne we właściwościach dokumentu, gdy zacznie się go przeglądać w jakiejś przeglądarce \texttt{pdf} (np.~\texttt{SumatraPD}F lub \texttt{Acrobat Reader}). Niestety, system \LaTeX{} nie wspiera tworzenia dostępnych plików \texttt{pdf} (zgodnych ze standardami PDF/UA, WCAG 2.0/2.1/2.2).
-
-Szablon pracy dyplomowej nie wiąże się bezpośrednio z tzw.\ ,,Kartą tematu pracy dyplomowej''. Karty tematów są syntetycznymi opisami, które podlegają oficjalnej procedurze zgłaszania, zatwierdzania i wybierania (finalizowanej dokonaniem wpisu studenta na kurs ,,Praca dyplomowa''). Formalnie zawartość kart tematów prac dyplomowych regulowana jest zarządzeniami odpowiedniego Dziekana. Przystępując do redakcji pracy dyplomowej z wykorzystaniem niniejszego szablonu należy pamiętać o obowiązku zachowania zgodności prezentowanych treści z zawartością odpowiedniej karty tematu (merytorycznie musi się wszystko zgadzać).
-
-Zasadniczo tematy prac inżynierskich wiążą się z wykonaniem jakiegoś konkretnego dzieła (produktu). Formułując cel używa się zwrotów:
-budowa, implementacja, projekt, przeprowadzenia itp. Rolą dyplomanta (na kierunku informatyka) jest dostarczenie dzieła (przynajmniej w~formie prototypu, spełniającego podstawowe wymagania funkcjonalne). Niniejszy szablon pozwolić ma na opisanie tego dzieła.
-
-Nieco inaczej jest w przypadku tematów prac magisterskich. Tutaj temat wraz z opisem celu i zakresu wyznaczać mają jakiś kierunek badań czy analiz. Od razu nie wiadomo przecież, do czego się dojdzie. A jeśli byłoby wiadomo, to nie byłoby sensu robić badań.  Na tym właśnie polega "piękno" pracy badawczej. 
-Zwykle więc podczas formułowania tematów i opisów tego typu prac stosuje się słowa: badanie, analiza, przegląd, charakterystyka itp. Rolą magistranta jest eksploracja wyznaczonego kierunku, dobre uwarunkowanie analizowanych problemów, przeprowadzenie badań, dostarczenie odpowiedzi. Niniejszy szablon w tym przypadku posłużyć ma za ramy, dzięki którym praca może przyjąć formę dokumentu naukowego.
-
-Po kompilacji wynikowy dokument \texttt{Dyplom.pdf} należy załadować do systemu APD USOS (\url{https://apd.usos.pwr.edu.pl/}) celem weryfikacji antyplagiatowej i dalszego procesowania. System ten zmienia nazwę załadowanemu plikowi na taką, w której ukryty jest kod wydziału, kod kierunku, typ pracy i jeszcze parę innych danych. Nazwa ta przyjmuje, przykładowo, następującą postać: \texttt{W4N\_\#\#\#\#\#\#\_W04-ITE-INZ\_W04-ITEP-000P-OSIW7.pdf}, gdzie \texttt{\#\#\#\#\#\#} to miejsce na numer indeksu dyplomanta. Z tej racji trudno przewidzieć, jak ostatecznie należy się odwoływać do pliku zarejestrowanego w systemie. Jest to o tyle istotne, iż podczas składania prac dyplomowych wciąż stosowaną praktyką jest dołączanie płyty CD/DVD z jej wynikami (zawierającej dokumentem \texttt{pdf} z tekstem pracy, jak również kodami źródłowymi stworzonego dzieła, instalatorami itp.). Proszę zajrzeć do dodatku \ref{chap:opis-plyty} po dodatkowe wyjaśnienia.
-
-\section{Układ dokumentu}
-W rozdziale pierwszym przedstawiono w zarysie czym jest i czego dotyczy niniejszy dokument (jest to szablon, który można zastosować podczas redagowania pracy dyplomowej inżynierskiej bądź magisterskiej). W rozdziale drugim opisano sposób pracy z szablonem. W kolejnym, trzecim rozdziale, przedstawiono zalecenia dotyczące formatowania dokumentu. Rozdział ten pełni rolę czysto informacyjną (dostarczony szablon zapewnia uzyskanie opisanego tam formatowania).
-W rozdziale czwartym zwrócono uwagę na redakcję pracy dyplomowej (od strony edytorskiej i merytorycznej).
-Rozdział piąty poświęcono na uwagi techniczne. Ostatni, szósty rozdział, przeznaczono na kilka słów podsumowania oraz ,,lorem ipsum'' -- wygenerowany tekst, pełniący rolę ,,wypełniacza'', wykorzystany w celach poglądowych (jak dzielić dokument na sekcje).
+\section{Układ pracy}
+W rozdziale pierwszym przedstawiono ....
+W rozdziale drugim opisano ....
+W kolejnym, trzecim rozdziale, przedstawiono ....
+W rozdziale czwartym zwrócono uwagę na ....
+Ostatni, piąty rozdział, przeznaczono na podsumowanie.
 Pracy towarzyszy przykładowy wykaz literatury oraz przykładowe dwa dodatki. 
 
