@@ -16,4 +16,8 @@ robovm {
 	archs = "arm64"
 }
 
+dependencies {
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.1'
+}
+
 eclipse.project.name = appName + "-ios"

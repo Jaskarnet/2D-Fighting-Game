@@ -1,16 +1,22 @@
 package com.mygdx.entities;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public abstract class Entity {
     private int x;
     private int y;
-    private Texture texture;
+    private TextureRegion textureRegion;
 
-    Entity(int x, int y, Texture texture) {
+    Entity(int x, int y, TextureRegion textureRegion) {
         this.x = x;
         this.y = y;
-        this.texture = texture;
+        this.textureRegion = textureRegion;
+    }
+
+    Entity(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 
     abstract public void update();
@@ -23,8 +29,8 @@ public abstract class Entity {
         return y;
     }
 
-    public Texture getTexture() {
-        return texture;
+    public TextureRegion getTextureRegion() {
+        return textureRegion;
     }
 
     public void setX(int x) {
@@ -35,7 +41,7 @@ public abstract class Entity {
         this.y = y;
     }
 
-    public void setTexture(Texture texture) {
-        this.texture = texture;
+    public void setTextureRegion(TextureRegion textureRegion) {
+        this.textureRegion = textureRegion;
     }
 }
