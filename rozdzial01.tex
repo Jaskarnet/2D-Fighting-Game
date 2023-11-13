@@ -8,29 +8,24 @@ Pojawiający się w angielskiej nazwie grupy termin \emph{Fighting Games} wskazu
 
 Wskazane powyżej fakty dotyczące kultury bijatyk, jak również budowany od dziecka sentymentem do gier stanowiły kluczowy powód do zdefiniowana oraz wyboru przez autora tematu niniejszej pracy dyplomowej. Temat ten zakłada zaprojektować grę z gatunku bijatyk, przy założeniu, że oferować ona będzie prostą, dwuwymiarową wizualizację sceny oraz proste sterowanie. Gra powinna umożliwiać prowadzenie rozgrywek online, w związku z czym konieczne będzie opracowanie jej interfejsu sieciowego. Przykładem tego rodzaju gry jest FOOTSIES: \url{https://store.steampowered.com/app/1344740/FOOTSIES_Rollback_Edition/}. 
 
-
-
 % TO DO: można tutaj opisać tę grę nieco szerzej, dodajaś zrzuty ekranu oraz opisy "ciosów". Chodzi o to, by było wiadomo, jak wygląda bijatyka 2D.
-W grze FOOTSIES, gracz kontroluje swoją postać i rywalizuje z przeciwnym graczem. Celem rundy jest powalenie przeciwnika. Gracz, któremu uda się to osiągnąć, wygrywa daną rundę. Cały proces powtarza się od nowa, aż jeden z graczy zdobędzie trzy rundy, co oznacza zwycięstwo w całej grze.
+Gracz uczestniczący w grze FOOTSIES kontroluje reprezentującą go postać (awatara), rywalizując z innym graczem (z jego awatarem) w kolejnych rundach. Celem danej rundy jest powalenie przeciwnika. Kto tego dokona, wygrywa daną rundę. Wygranie trzech rund oznacza zwycięstwo w całej grze (i jej zakończenie).
 
-Gracz ma różne możliwości ruchu, które pozwalają mu kontrolować swoją postać. Przede wszystkim może przemieszczać się po planszy, poruszając się w stronę przeciwnika lub cofać się. Warto zaznaczyć, że druga opcja powoduje, że postać blokuje nadchodzące ataki, zużywając przy tym punkt bloku. Gdy już nie mamy punktów bloku, nasza postać nie jest w stanie zablokować ataków i staje się bezbronna.
+Gracze mają możliwość wykonywania różnych ruchów. Mogą na przykład przemieszczać awatara po planszy, poruszając nim w stronę przeciwnika lub cofając go. Warto zaznaczyć, że cofanie pozwala zablokować nadchodzące ataki. Odbywa się to jednak kosztem utraty punktów bloku. Wyzerowanie konta punktów bloku sprawia, że dana postać awatara staje się bezbronna.
 
-Jeśli chodzi o ataki, mamy do dyspozycji dwa główne rodzaje: ataki normalne i ataki kończące. Atak normalny jest stosunkowo szybki, co może okazać się przydatne, jako że podczas animacji jakiegokolwiek ataku nie możemy blokować. Służy on głównie do testowania przeciwnika i zmniejszania jego punktów bloku. Każdy normalny atak ma kontynuację w postaci ataku kończącego. Jeśli uda nam się trafić przeciwnika atakiem kończącym, przewracamy go, co oznacza wygraną rundy. Ataki kończące są znacznie wolniejsze i odsłaniają naszą postać na odpowiedź przeciwnika, ponieważ ma on wystarczająco dużo czasu, aby zadać nam pewny atak kończący. Do tego dochodzą dodatkowe właściwości poszczególnych ciosów jak np. niewrażliwość na ciosy przeciwnika podczas animacji.
+Jeśli chodzi o ataki, to wyróżnia się ich dwa główne: ataki normalne i ataki kończące. Atak normalny jest stosunkowo szybki, co może okazać się przydatne, jako że podczas animacji jakiegokolwiek ataku nie możemy blokować. Służy on głównie do testowania przeciwnika i zmniejszania jego punktów bloku. Każdy normalny atak ma kontynuację w postaci ataku kończącego. Jeśli uda się trafić przeciwnika atakiem kończącym, przeciwnik przewraca się, a to oznacza zwycięstwo w rundzie. Ataki kończące są znacznie wolniejsze i odsłaniają postać atakującego na odpowiedź przeciwnika (jest wystarczająco dużo czasu, aby przeciwnik zadał kontrujący atak kończący). Do tego dochodzą dodatkowe właściwości poszczególnych ciosów, jak np.\ niewrażliwość na ciosy przeciwnika podczas animacji.
 
-Cała mechanika tworzy interesujące strategie. Dotyczą one próby zmylenia przeciwnika i skłonienia go do podjęcia złego ruchu, zazwyczaj poprzez stworzenie sytuacji, która wskazuje jakbyś zamierzał zrobić jedno, a potem zrobienie czegoś innego.
-
-Przykładowo, Whiff punishing to jeden z aspektów taktyki polegającej na kontrolowaniu odległości w trakcie walki. Konkretnie oznacza on skaranie przeciwnika za nie trafienie swojego ataku. Idea wykorzystująca tą taktykę może polegać na zbliżeniu się do przeciwnika w taki sposób, aby zachęcić go do podjęcia ataku, a następnie szybko się cofnąć, obserwując, jak przeciwnik popełnia błąd i skontrować go.
-
-
+Cała mechanika gry pozwala na wdrożenie interesujących strategii. Mogą one obejmować próby zmylenia przeciwnika i skłonienia go do podjęcia złego ruchu, zazwyczaj poprzez stworzenie sytuacji, która wskazuje na zamiar zrobienia jakiegoś konkretnego ruchu, gdy faktycznie w planach atakującego jest coś innego. Przykładowo, \emph{whiff punishing} to jeden z elementów taktyki polegającej na kontrolowaniu odległości w trakcie walki. Konkretnie oznacza on skaranie przeciwnika za chybienie podczas swojego ataku. Idea wykorzystująca tę taktykę może polegać na zbliżeniu się do przeciwnika w taki sposób, aby zachęcić go do podjęcia ataku, a następnie szybko się cofnąć, obserwując, jak przeciwnik popełnia błąd i skontrować go. 
+% TO DO: przypominam (na przyszłość), że do każdego rysunku musi istnieć w tekście jakiś opis oraz referencja
+Na rysunku~\ref{fig:footsies} pokazano zrzut ekranu gry FOOTSIES z oznaczeniami głównych elementów gry. Przykład ten pozwolić ma na zorientowanie się, o czym będzie niniejsza praca. Dokładniejszy opis jej celu i~zakresu podano w kolejnym podrozdziale.
 \begin{figure}
 	\centering
-		\includegraphics[width=0.7\linewidth]{rys01/footsies}
-	\caption{Zrzut ekranu z gry Footsies z zaznaczonymi głównymi elementami gry: 1 - postać którą steruje gracz, 2 - licznik punktów bloku, 3 - licznik wygranych rund}
+		\includegraphics[width=0.64\linewidth]{rys01/footsies}
+	\caption{Zrzut ekranu z gry FOOTSIES z zaznaczonymi głównymi elementami gry: 1 - postać którą steruje gracz, 2 - licznik punktów bloku, 3 - licznik wygranych rund}
 	\label{fig:footsies}
 \end{figure}
 
 
-Na przykładzie gry FOOTSIES można zorientować się, o czym będzie niniejsza praca. Dokładniejszy opis jej celu i zakresu podano w kolejnym podrozdziale.
 
 \section{Cel i zakres pracy}
 Celem niniejszego projektu jest opracowanie oraz pełna implementacja dwuwymiarowej gry zręcznościowej, zaliczającej się do kategorii bijatyk. Gra ta ma umożliwiać rywalizację pomiędzy graczami w trybie online, przy wykorzystaniu uproszczonych rozwiązań w zakresie sterowania, grafiki i mechaniki walki.
