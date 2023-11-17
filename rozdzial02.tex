@@ -1,2 +1,20 @@
 \chapter{Założenia projektowe}
-\section{......}
+\section{Projekt gry}
+
+Aby wyróżnić projekt od innych gier z gatunku bijatyk 2D, wprowadzone zostaną mechaniki z gatunku bijatyk 3D takie jak dłuższe i płynniejsze animacje. Charakterystyczne dla gry będzie ujednolicenie postaci, którymi sterują gracze. Każda z postaci będzie miała 3 punkty zdrowia, a zwycięstwo w rundzie będzie osiągane poprzez zredukowanie zdrowia przeciwnika do zera. W przypadku trzykrotnego powodzenia tego procesu, gracz wygrywa całą grę. 
+
+Postacie będą miały do dyspozycji trzy różne wysokości ciosów: high (cios wysoki), mid (cios wyprowadzony w środkową część ciała) oraz low (cios niski). Wysokość ciosu wpływa na to w jakim stanie można go zablokować lub nawet pod nim kucnąć. Cios high można zablokować stojąc lub uniknąć, kucając. Cios mid można zablokować w pozycji stojącej, jednak trafi, gdy postać kucnie. Natomiast cios low trafi stojącego przeciwnika, ale można go zablokować, kucając. Dodatkowo, każdy cios będzie charakteryzować się inną szybkością. Atak high będzie najszybszy, mid zajmie środkową pozycję, natomiast cios low będzie najwolniejszy. Każdy atak zadaje określoną ilość obrażeń (high - 3 obr., mid - 2 obr., low - 1 obr.). Dodatkowo każdy cios będzie powodował inną animację u przeciwnika na bloku (tzw. \emph{blockstun}) od której będzie zależało jak będzie wyglądała sytuacja po zablokowanym ataku. Po zablokowaniu ataku high, atakujący znajduje się w lepszej pozycji, gdyż \emph{blockstun} trwa na tyle długo, że atakujący będzie mógł szybciej odzyskać kontrolę nad postacią. W przypadku ataku mid, sytuacja odwraca się, a po zablokowaniu obrońca znajduje się w lepszej pozycji. Sytuacja po zablokowaniu ciosu low jest szczególnie dynamiczna, ponieważ blokujący ma wystarczająco dużo czasu, aby zareagować ciosem high, co równa się z wygraniem rundy (tzw. \emph{block punishment}).
+
+Wszystkie kluczowe informacje na temat ciosów postaci znajdują się w tabeli ~\ref{tab:ataki}. Wartości szybkości ruchów i sytuacji zarówno na trafieniu i na bloku są podawane w "klatkach", które są równoznaczne z 1/60 sekundy (np. jeżeli sytuacja na trafieniu wynosi +2 oznacza to że postać atakującego po trafieniu będzie mogła wrócić do kontroli nad swoją postacią o 2/60 sekundy szybciej niż przeciwnik).
+
+\begin{table}[htb] \small
+\centering
+\caption{Atrybuty ataków dostępnych dla postaci}
+\label{tab:ataki}
+\begin{tabularx}{\linewidth}{|c|X|X|X|X|} \hline\
+Wysokość ataku & Szybkość ataku & Obrażenia & Sytuacja na bloku & Sytuacja na trafieniu \\ \hline\hline
+\texttt{high} & 15 & 3 & +1 & nie dotyczy \\ \hline
+\texttt{mid} & 18 & 2 & -2 & +2\\ \hline
+\texttt{low} & 21 & 1 & -15 & +2\\ \hline
+\end{tabularx}
+\end{table}
