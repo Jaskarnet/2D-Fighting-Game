@@ -5,9 +5,9 @@ apply plugin: "java"
 
 sourceCompatibility = 1.8
 sourceSets.main.java.srcDirs = [ "src/" ]
-sourceSets.main.resources.srcDirs = ["../core/assets"]
+sourceSets.main.resources.srcDirs = ["../assets"]
 
-mainClassName = "com.mygdx.game.desktop.DesktopLauncher"
+mainClassName = "com.mygdx.game.DesktopLauncher"
 def osName = System.getProperty('os.name').toLowerCase(Locale.ROOT)
 project.ext.assetsDir = new File("../core/assets")
 
@@ -29,6 +29,7 @@ task debug(dependsOn: classes, type: JavaExec) {
 }
 
 task dist(type: Jar) {
+    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
     manifest {
         attributes 'Main-Class': project.mainClassName
     }

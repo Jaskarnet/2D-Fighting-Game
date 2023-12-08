@@ -3,6 +3,7 @@ package com.mygdx.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -28,6 +29,9 @@ public class MainMenuScreen implements Screen {
     public MainMenuScreen(FightingGame game) {
         this.game = game;
         this.stage = new Stage(new ScreenViewport());
+        FileHandle fileHandle = Gdx.files.internal("uiskin.json");
+        String fullPath = fileHandle.file().getAbsolutePath();
+        System.out.println("Full path to uiskin.json: " + fullPath);
         this.skin = new Skin(Gdx.files.internal("uiskin.json"));
 
         createUI();
