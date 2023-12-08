@@ -3,6 +3,7 @@ plugins {
 }
 apply plugin: "java"
 
+
 sourceCompatibility = 1.8
 sourceSets.main.java.srcDirs = [ "src/" ]
 sourceSets.main.resources.srcDirs = ["../assets"]
@@ -11,24 +12,26 @@ mainClassName = "com.mygdx.game.DesktopLauncher"
 def osName = System.getProperty('os.name').toLowerCase(Locale.ROOT)
 project.ext.assetsDir = new File("../core/assets")
 
-task runGame(dependsOn: classes, type: JavaExec) {
+tasks.register('runGame', JavaExec) {
+    dependsOn classes
     main = project.mainClassName
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
     workingDir = project.assetsDir
-    ignoreExitValue = true
+    ignoreExitValue = true as JavaExecSpec
 }
 
-task debug(dependsOn: classes, type: JavaExec) {
+tasks.register('debug', JavaExec) {
+    dependsOn classes
     main = project.mainClassName
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
     workingDir = project.assetsDir
-    ignoreExitValue = true
-    debug = true
+    ignoreExitValue = true as JavaExecSpec
+    debug = true as JavaExec
 }
 
-task dist(type: Jar) {
+tasks.register('dist', Jar) {
     duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
     manifest {
         attributes 'Main-Class': project.mainClassName
@@ -59,14 +62,14 @@ runtime {
                'jdk.unsupported']
     distDir = file(buildDir)
     jpackage {
-        //jpackageHome = '/usr/lib/jvm/open-jdk'
+        jpackageHome = 'C:\\Program Files\\Java\\jdk-17.0.1'
         mainJar = dist.archiveFileName.get()
         if (osName.contains('windows')) {
-            imageOptions = ["--icon", file("../icons/icon.ico")]
+            imageOptions = ["--icon", file("../icons/icon.ico")] as List<String>
         } else if (osName.contains('linux')) {
-            imageOptions = ["--icon", file("../icons/icon.png")]
+            imageOptions = ["--icon", file("../icons/icon.png")] as List<String>
         } else if (osName.contains('mac')) {
-            imageOptions = ["--icon", file("../icons/icon.icns")]
+            imageOptions = ["--icon", file("../icons/icon.icns")] as List<String>
         }
     }
 }

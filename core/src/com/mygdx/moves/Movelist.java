@@ -1,5 +1,6 @@
 package com.mygdx.moves;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mygdx.commands.Player;
@@ -18,7 +19,9 @@ public class Movelist {
     public Movelist(Player player) {
         int index = player.ordinal() + 1;
         if (index > 2) index = index - 2;
-        String moveInfoDirectory = "build/resources/main/moves/Fighter" + index + "/moveinfo";
+        //TODO: ERROR ON PURPOSE, try to change path to relative, maybe in similar way it is done in screens when texture is needed
+        String gdxPath = Gdx.files.internal("resources/main/moves/Fighter" + index + "/moveinfo");
+        String moveInfoDirectory = "resources/main/moves/Fighter" + index + "/moveinfo";
         movelist = new ArrayList<>();
 
         // Uzyskaj listę plików JSON w katalogu moveInfoDirectory
