@@ -1,0 +1,2579 @@
+{
+  "chosenFighterFolder" : "D:\\IntelliJ IDEA\\projects\\libGDX\\assets\\moves\\Fighter1",
+  "moveName" : "midAttack",
+  "spritesheetFilePath" : "D:\\IntelliJ IDEA\\projects\\libGDX\\assets\\moves\\Fighter1\\spritesheets\\006_midAttack.png",
+  "spriteDataList" : [ {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 28.0,
+        "minY" : 0.0,
+        "width" : 51.0,
+        "height" : 95.0,
+        "maxX" : 79.0,
+        "maxY" : 95.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 0
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 28.0,
+        "minY" : 0.0,
+        "width" : 50.0,
+        "height" : 96.0,
+        "maxX" : 78.0,
+        "maxY" : 96.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 1
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 24.0,
+        "minY" : 0.0,
+        "width" : 53.0,
+        "height" : 96.0,
+        "maxX" : 77.0,
+        "maxY" : 96.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 2
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 24.0,
+        "minY" : 0.0,
+        "width" : 53.0,
+        "height" : 94.0,
+        "maxX" : 77.0,
+        "maxY" : 94.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 3
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 23.0,
+        "minY" : 0.0,
+        "width" : 53.0,
+        "height" : 94.0,
+        "maxX" : 76.0,
+        "maxY" : 94.0
+      }
+    }, {
+      "box" : {
+        "minX" : 68.0,
+        "minY" : 0.0,
+        "width" : 21.0,
+        "height" : 13.0,
+        "maxX" : 89.0,
+        "maxY" : 13.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 4
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 34.0,
+        "minY" : 0.0,
+        "width" : 39.0,
+        "height" : 94.0,
+        "maxX" : 73.0,
+        "maxY" : 94.0
+      }
+    }, {
+      "box" : {
+        "minX" : 70.0,
+        "minY" : 0.0,
+        "width" : 21.0,
+        "height" : 19.0,
+        "maxX" : 91.0,
+        "maxY" : 19.0
+      }
+    }, {
+      "box" : {
+        "minX" : 17.0,
+        "minY" : 0.0,
+        "width" : 24.0,
+        "height" : 23.0,
+        "maxX" : 41.0,
+        "maxY" : 23.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 5
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 32.0,
+        "minY" : 0.0,
+        "width" : 45.0,
+        "height" : 94.0,
+        "maxX" : 77.0,
+        "maxY" : 94.0
+      }
+    }, {
+      "box" : {
+        "minX" : 71.0,
+        "minY" : 0.0,
+        "width" : 19.0,
+        "height" : 12.0,
+        "maxX" : 90.0,
+        "maxY" : 12.0
+      }
+    }, {
+      "box" : {
+        "minX" : 14.0,
+        "minY" : 0.0,
+        "width" : 25.0,
+        "height" : 23.0,
+        "maxX" : 39.0,
+        "maxY" : 23.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 6
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 39.0,
+        "minY" : 0.0,
+        "width" : 39.0,
+        "height" : 92.0,
+        "maxX" : 78.0,
+        "maxY" : 92.0
+      }
+    }, {
+      "box" : {
+        "minX" : 75.0,
+        "minY" : 0.0,
+        "width" : 13.0,
+        "height" : 8.0,
+        "maxX" : 88.0,
+        "maxY" : 8.0
+      }
+    }, {
+      "box" : {
+        "minX" : 14.0,
+        "minY" : 0.0,
+        "width" : 33.0,
+        "height" : 23.0,
+        "maxX" : 47.0,
+        "maxY" : 23.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 7
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 39.0,
+        "minY" : 0.0,
+        "width" : 40.0,
+        "height" : 91.0,
+        "maxX" : 79.0,
+        "maxY" : 91.0
+      }
+    }, {
+      "box" : {
+        "minX" : 76.0,
+        "minY" : 0.0,
+        "width" : 12.0,
+        "height" : 6.0,
+        "maxX" : 88.0,
+        "maxY" : 6.0
+      }
+    }, {
+      "box" : {
+        "minX" : 17.0,
+        "minY" : 0.0,
+        "width" : 32.0,
+        "height" : 23.0,
+        "maxX" : 49.0,
+        "maxY" : 23.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 8
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 39.0,
+        "minY" : 0.0,
+        "width" : 46.0,
+        "height" : 93.0,
+        "maxX" : 85.0,
+        "maxY" : 93.0
+      }
+    }, {
+      "box" : {
+        "minX" : 17.0,
+        "minY" : 0.0,
+        "width" : 33.0,
+        "height" : 24.0,
+        "maxX" : 50.0,
+        "maxY" : 24.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 9
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 39.0,
+        "minY" : 0.0,
+        "width" : 38.0,
+        "height" : 96.0,
+        "maxX" : 77.0,
+        "maxY" : 96.0
+      }
+    }, {
+      "box" : {
+        "minX" : 73.0,
+        "minY" : 0.0,
+        "width" : 12.0,
+        "height" : 6.0,
+        "maxX" : 85.0,
+        "maxY" : 6.0
+      }
+    }, {
+      "box" : {
+        "minX" : 19.0,
+        "minY" : 0.0,
+        "width" : 30.0,
+        "height" : 25.0,
+        "maxX" : 49.0,
+        "maxY" : 25.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 10
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 40.0,
+        "minY" : 0.0,
+        "width" : 36.0,
+        "height" : 99.0,
+        "maxX" : 76.0,
+        "maxY" : 99.0
+      }
+    }, {
+      "box" : {
+        "minX" : 74.0,
+        "minY" : 0.0,
+        "width" : 11.0,
+        "height" : 6.0,
+        "maxX" : 85.0,
+        "maxY" : 6.0
+      }
+    }, {
+      "box" : {
+        "minX" : 17.0,
+        "minY" : 0.0,
+        "width" : 32.0,
+        "height" : 27.0,
+        "maxX" : 49.0,
+        "maxY" : 27.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 11
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 40.0,
+        "minY" : 0.0,
+        "width" : 40.0,
+        "height" : 97.0,
+        "maxX" : 80.0,
+        "maxY" : 97.0
+      }
+    }, {
+      "box" : {
+        "minX" : 14.0,
+        "minY" : 0.0,
+        "width" : 35.0,
+        "height" : 27.0,
+        "maxX" : 49.0,
+        "maxY" : 27.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 12
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 40.0,
+        "minY" : 0.0,
+        "width" : 34.0,
+        "height" : 97.0,
+        "maxX" : 74.0,
+        "maxY" : 97.0
+      }
+    }, {
+      "box" : {
+        "minX" : 18.0,
+        "minY" : 8.0,
+        "width" : 29.0,
+        "height" : 22.0,
+        "maxX" : 47.0,
+        "maxY" : 30.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 13
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 38.0,
+        "minY" : 0.0,
+        "width" : 39.0,
+        "height" : 98.0,
+        "maxX" : 77.0,
+        "maxY" : 98.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 14
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 31.0,
+        "minY" : 0.0,
+        "width" : 37.0,
+        "height" : 98.0,
+        "maxX" : 68.0,
+        "maxY" : 98.0
+      }
+    }, {
+      "box" : {
+        "minX" : 64.0,
+        "minY" : 16.0,
+        "width" : 26.0,
+        "height" : 30.0,
+        "maxX" : 90.0,
+        "maxY" : 46.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 15
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 24.0,
+        "minY" : 0.0,
+        "width" : 44.0,
+        "height" : 98.0,
+        "maxX" : 68.0,
+        "maxY" : 98.0
+      }
+    }, {
+      "box" : {
+        "minX" : 57.0,
+        "minY" : 35.0,
+        "width" : 40.0,
+        "height" : 16.0,
+        "maxX" : 97.0,
+        "maxY" : 51.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 16
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 26.0,
+        "minY" : 0.0,
+        "width" : 33.0,
+        "height" : 98.0,
+        "maxX" : 59.0,
+        "maxY" : 98.0
+      }
+    } ],
+    "hitboxes" : [ {
+      "box" : {
+        "minX" : 55.0,
+        "minY" : 37.0,
+        "width" : 41.0,
+        "height" : 22.0,
+        "maxX" : 96.0,
+        "maxY" : 59.0
+      }
+    } ],
+    "index" : 17
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 26.0,
+        "minY" : 0.0,
+        "width" : 33.0,
+        "height" : 98.0,
+        "maxX" : 59.0,
+        "maxY" : 98.0
+      }
+    }, {
+      "box" : {
+        "minX" : 58.0,
+        "minY" : 38.0,
+        "width" : 38.0,
+        "height" : 16.0,
+        "maxX" : 96.0,
+        "maxY" : 54.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 18
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 26.0,
+        "minY" : 0.0,
+        "width" : 33.0,
+        "height" : 98.0,
+        "maxX" : 59.0,
+        "maxY" : 98.0
+      }
+    }, {
+      "box" : {
+        "minX" : 58.0,
+        "minY" : 38.0,
+        "width" : 38.0,
+        "height" : 16.0,
+        "maxX" : 96.0,
+        "maxY" : 54.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 19
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 28.0,
+        "minY" : 0.0,
+        "width" : 33.0,
+        "height" : 98.0,
+        "maxX" : 61.0,
+        "maxY" : 98.0
+      }
+    }, {
+      "box" : {
+        "minX" : 60.0,
+        "minY" : 34.0,
+        "width" : 34.0,
+        "height" : 23.0,
+        "maxX" : 94.0,
+        "maxY" : 57.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 20
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 28.0,
+        "minY" : 0.0,
+        "width" : 33.0,
+        "height" : 98.0,
+        "maxX" : 61.0,
+        "maxY" : 98.0
+      }
+    }, {
+      "box" : {
+        "minX" : 59.0,
+        "minY" : 31.0,
+        "width" : 32.0,
+        "height" : 25.0,
+        "maxX" : 91.0,
+        "maxY" : 56.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 21
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 31.0,
+        "minY" : 0.0,
+        "width" : 36.0,
+        "height" : 98.0,
+        "maxX" : 67.0,
+        "maxY" : 98.0
+      }
+    }, {
+      "box" : {
+        "minX" : 66.0,
+        "minY" : 25.0,
+        "width" : 21.0,
+        "height" : 23.0,
+        "maxX" : 87.0,
+        "maxY" : 48.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 22
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 35.0,
+        "minY" : 0.0,
+        "width" : 27.0,
+        "height" : 99.0,
+        "maxX" : 62.0,
+        "maxY" : 99.0
+      }
+    }, {
+      "box" : {
+        "minX" : 61.0,
+        "minY" : 25.0,
+        "width" : 24.0,
+        "height" : 33.0,
+        "maxX" : 85.0,
+        "maxY" : 58.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 23
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 35.0,
+        "minY" : 0.0,
+        "width" : 31.0,
+        "height" : 98.0,
+        "maxX" : 66.0,
+        "maxY" : 98.0
+      }
+    }, {
+      "box" : {
+        "minX" : 64.0,
+        "minY" : 25.0,
+        "width" : 20.0,
+        "height" : 25.0,
+        "maxX" : 84.0,
+        "maxY" : 50.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 24
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 36.0,
+        "minY" : 0.0,
+        "width" : 33.0,
+        "height" : 97.0,
+        "maxX" : 69.0,
+        "maxY" : 97.0
+      }
+    }, {
+      "box" : {
+        "minX" : 69.0,
+        "minY" : 25.0,
+        "width" : 14.0,
+        "height" : 15.0,
+        "maxX" : 83.0,
+        "maxY" : 40.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 25
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 39.0,
+        "minY" : 0.0,
+        "width" : 32.0,
+        "height" : 97.0,
+        "maxX" : 71.0,
+        "maxY" : 97.0
+      }
+    }, {
+      "box" : {
+        "minX" : 69.0,
+        "minY" : 24.0,
+        "width" : 14.0,
+        "height" : 11.0,
+        "maxX" : 83.0,
+        "maxY" : 35.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 26
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 38.0,
+        "minY" : 0.0,
+        "width" : 30.0,
+        "height" : 98.0,
+        "maxX" : 68.0,
+        "maxY" : 98.0
+      }
+    }, {
+      "box" : {
+        "minX" : 64.0,
+        "minY" : 23.0,
+        "width" : 18.0,
+        "height" : 14.0,
+        "maxX" : 82.0,
+        "maxY" : 37.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 27
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 38.0,
+        "minY" : 0.0,
+        "width" : 34.0,
+        "height" : 97.0,
+        "maxX" : 72.0,
+        "maxY" : 97.0
+      }
+    }, {
+      "box" : {
+        "minX" : 67.0,
+        "minY" : 23.0,
+        "width" : 15.0,
+        "height" : 12.0,
+        "maxX" : 82.0,
+        "maxY" : 35.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 28
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 40.0,
+        "minY" : 0.0,
+        "width" : 35.0,
+        "height" : 98.0,
+        "maxX" : 75.0,
+        "maxY" : 98.0
+      }
+    }, {
+      "box" : {
+        "minX" : 74.0,
+        "minY" : 22.0,
+        "width" : 8.0,
+        "height" : 10.0,
+        "maxX" : 82.0,
+        "maxY" : 32.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 29
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 38.0,
+        "minY" : 0.0,
+        "width" : 36.0,
+        "height" : 99.0,
+        "maxX" : 74.0,
+        "maxY" : 99.0
+      }
+    }, {
+      "box" : {
+        "minX" : 74.0,
+        "minY" : 19.0,
+        "width" : 8.0,
+        "height" : 10.0,
+        "maxX" : 82.0,
+        "maxY" : 29.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 30
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 42.0,
+        "minY" : 0.0,
+        "width" : 32.0,
+        "height" : 98.0,
+        "maxX" : 74.0,
+        "maxY" : 98.0
+      }
+    }, {
+      "box" : {
+        "minX" : 73.0,
+        "minY" : 17.0,
+        "width" : 8.0,
+        "height" : 9.0,
+        "maxX" : 81.0,
+        "maxY" : 26.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 31
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 40.0,
+        "minY" : 0.0,
+        "width" : 35.0,
+        "height" : 98.0,
+        "maxX" : 75.0,
+        "maxY" : 98.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 32
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 42.0,
+        "minY" : 0.0,
+        "width" : 34.0,
+        "height" : 96.0,
+        "maxX" : 76.0,
+        "maxY" : 96.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 33
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 43.0,
+        "minY" : 0.0,
+        "width" : 31.0,
+        "height" : 99.0,
+        "maxX" : 74.0,
+        "maxY" : 99.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 34
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 41.0,
+        "minY" : 0.0,
+        "width" : 34.0,
+        "height" : 98.0,
+        "maxX" : 75.0,
+        "maxY" : 98.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 35
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 42.0,
+        "minY" : 0.0,
+        "width" : 34.0,
+        "height" : 99.0,
+        "maxX" : 76.0,
+        "maxY" : 99.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 36
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 42.0,
+        "minY" : 0.0,
+        "width" : 32.0,
+        "height" : 98.0,
+        "maxX" : 74.0,
+        "maxY" : 98.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 37
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 41.0,
+        "minY" : 0.0,
+        "width" : 34.0,
+        "height" : 98.0,
+        "maxX" : 75.0,
+        "maxY" : 98.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 38
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 42.0,
+        "minY" : 0.0,
+        "width" : 34.0,
+        "height" : 97.0,
+        "maxX" : 76.0,
+        "maxY" : 97.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 39
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 42.0,
+        "minY" : 0.0,
+        "width" : 34.0,
+        "height" : 97.0,
+        "maxX" : 76.0,
+        "maxY" : 97.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 40
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 42.0,
+        "minY" : 0.0,
+        "width" : 36.0,
+        "height" : 96.0,
+        "maxX" : 78.0,
+        "maxY" : 96.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 41
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 42.0,
+        "minY" : 0.0,
+        "width" : 36.0,
+        "height" : 96.0,
+        "maxX" : 78.0,
+        "maxY" : 96.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 42
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 39.0,
+        "minY" : 0.0,
+        "width" : 40.0,
+        "height" : 96.0,
+        "maxX" : 79.0,
+        "maxY" : 96.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 43
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 38.0,
+        "minY" : 0.0,
+        "width" : 41.0,
+        "height" : 95.0,
+        "maxX" : 79.0,
+        "maxY" : 95.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 44
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 38.0,
+        "minY" : 0.0,
+        "width" : 41.0,
+        "height" : 95.0,
+        "maxX" : 79.0,
+        "maxY" : 95.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 45
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 33.0,
+        "minY" : 0.0,
+        "width" : 45.0,
+        "height" : 95.0,
+        "maxX" : 78.0,
+        "maxY" : 95.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 46
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 37.0,
+        "minY" : 0.0,
+        "width" : 41.0,
+        "height" : 96.0,
+        "maxX" : 78.0,
+        "maxY" : 96.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 47
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 38.0,
+        "minY" : 0.0,
+        "width" : 37.0,
+        "height" : 96.0,
+        "maxX" : 75.0,
+        "maxY" : 96.0
+      }
+    }, {
+      "box" : {
+        "minX" : 74.0,
+        "minY" : 71.0,
+        "width" : 8.0,
+        "height" : 11.0,
+        "maxX" : 82.0,
+        "maxY" : 82.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 48
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 38.0,
+        "minY" : 0.0,
+        "width" : 32.0,
+        "height" : 95.0,
+        "maxX" : 70.0,
+        "maxY" : 95.0
+      }
+    }, {
+      "box" : {
+        "minX" : 68.0,
+        "minY" : 65.0,
+        "width" : 13.0,
+        "height" : 17.0,
+        "maxX" : 81.0,
+        "maxY" : 82.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 49
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 39.0,
+        "minY" : 0.0,
+        "width" : 31.0,
+        "height" : 97.0,
+        "maxX" : 70.0,
+        "maxY" : 97.0
+      }
+    }, {
+      "box" : {
+        "minX" : 68.0,
+        "minY" : 63.0,
+        "width" : 14.0,
+        "height" : 18.0,
+        "maxX" : 82.0,
+        "maxY" : 81.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 50
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 39.0,
+        "minY" : 0.0,
+        "width" : 29.0,
+        "height" : 95.0,
+        "maxX" : 68.0,
+        "maxY" : 95.0
+      }
+    }, {
+      "box" : {
+        "minX" : 67.0,
+        "minY" : 63.0,
+        "width" : 16.0,
+        "height" : 19.0,
+        "maxX" : 83.0,
+        "maxY" : 82.0
+      }
+    }, {
+      "box" : {
+        "minX" : 66.0,
+        "minY" : 0.0,
+        "width" : 9.0,
+        "height" : 6.0,
+        "maxX" : 75.0,
+        "maxY" : 6.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 51
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 39.0,
+        "minY" : 0.0,
+        "width" : 29.0,
+        "height" : 95.0,
+        "maxX" : 68.0,
+        "maxY" : 95.0
+      }
+    }, {
+      "box" : {
+        "minX" : 66.0,
+        "minY" : 64.0,
+        "width" : 16.0,
+        "height" : 18.0,
+        "maxX" : 82.0,
+        "maxY" : 82.0
+      }
+    }, {
+      "box" : {
+        "minX" : 66.0,
+        "minY" : 0.0,
+        "width" : 10.0,
+        "height" : 6.0,
+        "maxX" : 76.0,
+        "maxY" : 6.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 52
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 38.0,
+        "minY" : 0.0,
+        "width" : 30.0,
+        "height" : 96.0,
+        "maxX" : 68.0,
+        "maxY" : 96.0
+      }
+    }, {
+      "box" : {
+        "minX" : 67.0,
+        "minY" : 66.0,
+        "width" : 16.0,
+        "height" : 15.0,
+        "maxX" : 83.0,
+        "maxY" : 81.0
+      }
+    }, {
+      "box" : {
+        "minX" : 68.0,
+        "minY" : 0.0,
+        "width" : 9.0,
+        "height" : 5.0,
+        "maxX" : 77.0,
+        "maxY" : 5.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 53
+  }, {
+    "hurtboxes" : [ {
+      "box" : {
+        "minX" : 40.0,
+        "minY" : 0.0,
+        "width" : 28.0,
+        "height" : 96.0,
+        "maxX" : 68.0,
+        "maxY" : 96.0
+      }
+    }, {
+      "box" : {
+        "minX" : 67.0,
+        "minY" : 66.0,
+        "width" : 15.0,
+        "height" : 15.0,
+        "maxX" : 82.0,
+        "maxY" : 81.0
+      }
+    }, {
+      "box" : {
+        "minX" : 65.0,
+        "minY" : 0.0,
+        "width" : 12.0,
+        "height" : 6.0,
+        "maxX" : 77.0,
+        "maxY" : 6.0
+      }
+    }, {
+      "box" : {
+        "minX" : 30.0,
+        "minY" : 0.0,
+        "width" : 16.0,
+        "height" : 17.0,
+        "maxX" : 46.0,
+        "maxY" : 17.0
+      }
+    } ],
+    "hitboxes" : [ ],
+    "index" : 54
+  } ],
+  "frameRangeDataList" : [ {
+    "startFrame" : 1,
+    "endFrame" : 1,
+    "xAxisMovement" : 0,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 28.0,
+          "minY" : 0.0,
+          "width" : 51.0,
+          "height" : 95.0,
+          "maxX" : 79.0,
+          "maxY" : 95.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 0
+    }
+  }, {
+    "startFrame" : 2,
+    "endFrame" : 2,
+    "xAxisMovement" : 0,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 28.0,
+          "minY" : 0.0,
+          "width" : 50.0,
+          "height" : 96.0,
+          "maxX" : 78.0,
+          "maxY" : 96.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 1
+    }
+  }, {
+    "startFrame" : 3,
+    "endFrame" : 3,
+    "xAxisMovement" : 8,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 24.0,
+          "minY" : 0.0,
+          "width" : 53.0,
+          "height" : 96.0,
+          "maxX" : 77.0,
+          "maxY" : 96.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 2
+    }
+  }, {
+    "startFrame" : 4,
+    "endFrame" : 4,
+    "xAxisMovement" : 8,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 24.0,
+          "minY" : 0.0,
+          "width" : 53.0,
+          "height" : 94.0,
+          "maxX" : 77.0,
+          "maxY" : 94.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 3
+    }
+  }, {
+    "startFrame" : 5,
+    "endFrame" : 5,
+    "xAxisMovement" : 8,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 23.0,
+          "minY" : 0.0,
+          "width" : 53.0,
+          "height" : 94.0,
+          "maxX" : 76.0,
+          "maxY" : 94.0
+        }
+      }, {
+        "box" : {
+          "minX" : 68.0,
+          "minY" : 0.0,
+          "width" : 21.0,
+          "height" : 13.0,
+          "maxX" : 89.0,
+          "maxY" : 13.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 4
+    }
+  }, {
+    "startFrame" : 6,
+    "endFrame" : 6,
+    "xAxisMovement" : 8,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 34.0,
+          "minY" : 0.0,
+          "width" : 39.0,
+          "height" : 94.0,
+          "maxX" : 73.0,
+          "maxY" : 94.0
+        }
+      }, {
+        "box" : {
+          "minX" : 70.0,
+          "minY" : 0.0,
+          "width" : 21.0,
+          "height" : 19.0,
+          "maxX" : 91.0,
+          "maxY" : 19.0
+        }
+      }, {
+        "box" : {
+          "minX" : 17.0,
+          "minY" : 0.0,
+          "width" : 24.0,
+          "height" : 23.0,
+          "maxX" : 41.0,
+          "maxY" : 23.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 5
+    }
+  }, {
+    "startFrame" : 7,
+    "endFrame" : 7,
+    "xAxisMovement" : 8,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 32.0,
+          "minY" : 0.0,
+          "width" : 45.0,
+          "height" : 94.0,
+          "maxX" : 77.0,
+          "maxY" : 94.0
+        }
+      }, {
+        "box" : {
+          "minX" : 71.0,
+          "minY" : 0.0,
+          "width" : 19.0,
+          "height" : 12.0,
+          "maxX" : 90.0,
+          "maxY" : 12.0
+        }
+      }, {
+        "box" : {
+          "minX" : 14.0,
+          "minY" : 0.0,
+          "width" : 25.0,
+          "height" : 23.0,
+          "maxX" : 39.0,
+          "maxY" : 23.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 6
+    }
+  }, {
+    "startFrame" : 8,
+    "endFrame" : 8,
+    "xAxisMovement" : 8,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 39.0,
+          "minY" : 0.0,
+          "width" : 39.0,
+          "height" : 92.0,
+          "maxX" : 78.0,
+          "maxY" : 92.0
+        }
+      }, {
+        "box" : {
+          "minX" : 75.0,
+          "minY" : 0.0,
+          "width" : 13.0,
+          "height" : 8.0,
+          "maxX" : 88.0,
+          "maxY" : 8.0
+        }
+      }, {
+        "box" : {
+          "minX" : 14.0,
+          "minY" : 0.0,
+          "width" : 33.0,
+          "height" : 23.0,
+          "maxX" : 47.0,
+          "maxY" : 23.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 7
+    }
+  }, {
+    "startFrame" : 9,
+    "endFrame" : 9,
+    "xAxisMovement" : 8,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 39.0,
+          "minY" : 0.0,
+          "width" : 40.0,
+          "height" : 91.0,
+          "maxX" : 79.0,
+          "maxY" : 91.0
+        }
+      }, {
+        "box" : {
+          "minX" : 76.0,
+          "minY" : 0.0,
+          "width" : 12.0,
+          "height" : 6.0,
+          "maxX" : 88.0,
+          "maxY" : 6.0
+        }
+      }, {
+        "box" : {
+          "minX" : 17.0,
+          "minY" : 0.0,
+          "width" : 32.0,
+          "height" : 23.0,
+          "maxX" : 49.0,
+          "maxY" : 23.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 8
+    }
+  }, {
+    "startFrame" : 10,
+    "endFrame" : 10,
+    "xAxisMovement" : 8,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 39.0,
+          "minY" : 0.0,
+          "width" : 46.0,
+          "height" : 93.0,
+          "maxX" : 85.0,
+          "maxY" : 93.0
+        }
+      }, {
+        "box" : {
+          "minX" : 17.0,
+          "minY" : 0.0,
+          "width" : 33.0,
+          "height" : 24.0,
+          "maxX" : 50.0,
+          "maxY" : 24.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 9
+    }
+  }, {
+    "startFrame" : 11,
+    "endFrame" : 11,
+    "xAxisMovement" : 8,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 39.0,
+          "minY" : 0.0,
+          "width" : 38.0,
+          "height" : 96.0,
+          "maxX" : 77.0,
+          "maxY" : 96.0
+        }
+      }, {
+        "box" : {
+          "minX" : 73.0,
+          "minY" : 0.0,
+          "width" : 12.0,
+          "height" : 6.0,
+          "maxX" : 85.0,
+          "maxY" : 6.0
+        }
+      }, {
+        "box" : {
+          "minX" : 19.0,
+          "minY" : 0.0,
+          "width" : 30.0,
+          "height" : 25.0,
+          "maxX" : 49.0,
+          "maxY" : 25.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 10
+    }
+  }, {
+    "startFrame" : 12,
+    "endFrame" : 12,
+    "xAxisMovement" : 8,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 40.0,
+          "minY" : 0.0,
+          "width" : 36.0,
+          "height" : 99.0,
+          "maxX" : 76.0,
+          "maxY" : 99.0
+        }
+      }, {
+        "box" : {
+          "minX" : 74.0,
+          "minY" : 0.0,
+          "width" : 11.0,
+          "height" : 6.0,
+          "maxX" : 85.0,
+          "maxY" : 6.0
+        }
+      }, {
+        "box" : {
+          "minX" : 17.0,
+          "minY" : 0.0,
+          "width" : 32.0,
+          "height" : 27.0,
+          "maxX" : 49.0,
+          "maxY" : 27.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 11
+    }
+  }, {
+    "startFrame" : 13,
+    "endFrame" : 13,
+    "xAxisMovement" : 8,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 40.0,
+          "minY" : 0.0,
+          "width" : 40.0,
+          "height" : 97.0,
+          "maxX" : 80.0,
+          "maxY" : 97.0
+        }
+      }, {
+        "box" : {
+          "minX" : 14.0,
+          "minY" : 0.0,
+          "width" : 35.0,
+          "height" : 27.0,
+          "maxX" : 49.0,
+          "maxY" : 27.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 12
+    }
+  }, {
+    "startFrame" : 14,
+    "endFrame" : 14,
+    "xAxisMovement" : 8,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 40.0,
+          "minY" : 0.0,
+          "width" : 34.0,
+          "height" : 97.0,
+          "maxX" : 74.0,
+          "maxY" : 97.0
+        }
+      }, {
+        "box" : {
+          "minX" : 18.0,
+          "minY" : 8.0,
+          "width" : 29.0,
+          "height" : 22.0,
+          "maxX" : 47.0,
+          "maxY" : 30.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 13
+    }
+  }, {
+    "startFrame" : 15,
+    "endFrame" : 15,
+    "xAxisMovement" : 8,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 38.0,
+          "minY" : 0.0,
+          "width" : 39.0,
+          "height" : 98.0,
+          "maxX" : 77.0,
+          "maxY" : 98.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 14
+    }
+  }, {
+    "startFrame" : 16,
+    "endFrame" : 16,
+    "xAxisMovement" : 8,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 31.0,
+          "minY" : 0.0,
+          "width" : 37.0,
+          "height" : 98.0,
+          "maxX" : 68.0,
+          "maxY" : 98.0
+        }
+      }, {
+        "box" : {
+          "minX" : 64.0,
+          "minY" : 16.0,
+          "width" : 26.0,
+          "height" : 30.0,
+          "maxX" : 90.0,
+          "maxY" : 46.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 15
+    }
+  }, {
+    "startFrame" : 17,
+    "endFrame" : 17,
+    "xAxisMovement" : 10,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 24.0,
+          "minY" : 0.0,
+          "width" : 44.0,
+          "height" : 98.0,
+          "maxX" : 68.0,
+          "maxY" : 98.0
+        }
+      }, {
+        "box" : {
+          "minX" : 57.0,
+          "minY" : 35.0,
+          "width" : 40.0,
+          "height" : 16.0,
+          "maxX" : 97.0,
+          "maxY" : 51.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 16
+    }
+  }, {
+    "startFrame" : 18,
+    "endFrame" : 18,
+    "xAxisMovement" : 10,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 26.0,
+          "minY" : 0.0,
+          "width" : 33.0,
+          "height" : 98.0,
+          "maxX" : 59.0,
+          "maxY" : 98.0
+        }
+      } ],
+      "hitboxes" : [ {
+        "box" : {
+          "minX" : 55.0,
+          "minY" : 37.0,
+          "width" : 41.0,
+          "height" : 22.0,
+          "maxX" : 96.0,
+          "maxY" : 59.0
+        }
+      } ],
+      "index" : 17
+    }
+  }, {
+    "startFrame" : 19,
+    "endFrame" : 19,
+    "xAxisMovement" : 0,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 26.0,
+          "minY" : 0.0,
+          "width" : 33.0,
+          "height" : 98.0,
+          "maxX" : 59.0,
+          "maxY" : 98.0
+        }
+      }, {
+        "box" : {
+          "minX" : 58.0,
+          "minY" : 38.0,
+          "width" : 38.0,
+          "height" : 16.0,
+          "maxX" : 96.0,
+          "maxY" : 54.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 18
+    }
+  }, {
+    "startFrame" : 20,
+    "endFrame" : 20,
+    "xAxisMovement" : 0,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 26.0,
+          "minY" : 0.0,
+          "width" : 33.0,
+          "height" : 98.0,
+          "maxX" : 59.0,
+          "maxY" : 98.0
+        }
+      }, {
+        "box" : {
+          "minX" : 58.0,
+          "minY" : 38.0,
+          "width" : 38.0,
+          "height" : 16.0,
+          "maxX" : 96.0,
+          "maxY" : 54.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 19
+    }
+  }, {
+    "startFrame" : 21,
+    "endFrame" : 21,
+    "xAxisMovement" : 0,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 28.0,
+          "minY" : 0.0,
+          "width" : 33.0,
+          "height" : 98.0,
+          "maxX" : 61.0,
+          "maxY" : 98.0
+        }
+      }, {
+        "box" : {
+          "minX" : 60.0,
+          "minY" : 34.0,
+          "width" : 34.0,
+          "height" : 23.0,
+          "maxX" : 94.0,
+          "maxY" : 57.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 20
+    }
+  }, {
+    "startFrame" : 22,
+    "endFrame" : 22,
+    "xAxisMovement" : 0,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 28.0,
+          "minY" : 0.0,
+          "width" : 33.0,
+          "height" : 98.0,
+          "maxX" : 61.0,
+          "maxY" : 98.0
+        }
+      }, {
+        "box" : {
+          "minX" : 59.0,
+          "minY" : 31.0,
+          "width" : 32.0,
+          "height" : 25.0,
+          "maxX" : 91.0,
+          "maxY" : 56.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 21
+    }
+  }, {
+    "startFrame" : 23,
+    "endFrame" : 23,
+    "xAxisMovement" : 0,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 31.0,
+          "minY" : 0.0,
+          "width" : 36.0,
+          "height" : 98.0,
+          "maxX" : 67.0,
+          "maxY" : 98.0
+        }
+      }, {
+        "box" : {
+          "minX" : 66.0,
+          "minY" : 25.0,
+          "width" : 21.0,
+          "height" : 23.0,
+          "maxX" : 87.0,
+          "maxY" : 48.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 22
+    }
+  }, {
+    "startFrame" : 24,
+    "endFrame" : 24,
+    "xAxisMovement" : 0,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 35.0,
+          "minY" : 0.0,
+          "width" : 27.0,
+          "height" : 99.0,
+          "maxX" : 62.0,
+          "maxY" : 99.0
+        }
+      }, {
+        "box" : {
+          "minX" : 61.0,
+          "minY" : 25.0,
+          "width" : 24.0,
+          "height" : 33.0,
+          "maxX" : 85.0,
+          "maxY" : 58.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 23
+    }
+  }, {
+    "startFrame" : 25,
+    "endFrame" : 25,
+    "xAxisMovement" : 0,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 35.0,
+          "minY" : 0.0,
+          "width" : 31.0,
+          "height" : 98.0,
+          "maxX" : 66.0,
+          "maxY" : 98.0
+        }
+      }, {
+        "box" : {
+          "minX" : 64.0,
+          "minY" : 25.0,
+          "width" : 20.0,
+          "height" : 25.0,
+          "maxX" : 84.0,
+          "maxY" : 50.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 24
+    }
+  }, {
+    "startFrame" : 26,
+    "endFrame" : 26,
+    "xAxisMovement" : 0,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 36.0,
+          "minY" : 0.0,
+          "width" : 33.0,
+          "height" : 97.0,
+          "maxX" : 69.0,
+          "maxY" : 97.0
+        }
+      }, {
+        "box" : {
+          "minX" : 69.0,
+          "minY" : 25.0,
+          "width" : 14.0,
+          "height" : 15.0,
+          "maxX" : 83.0,
+          "maxY" : 40.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 25
+    }
+  }, {
+    "startFrame" : 27,
+    "endFrame" : 27,
+    "xAxisMovement" : 0,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 39.0,
+          "minY" : 0.0,
+          "width" : 32.0,
+          "height" : 97.0,
+          "maxX" : 71.0,
+          "maxY" : 97.0
+        }
+      }, {
+        "box" : {
+          "minX" : 69.0,
+          "minY" : 24.0,
+          "width" : 14.0,
+          "height" : 11.0,
+          "maxX" : 83.0,
+          "maxY" : 35.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 26
+    }
+  }, {
+    "startFrame" : 28,
+    "endFrame" : 28,
+    "xAxisMovement" : 0,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 38.0,
+          "minY" : 0.0,
+          "width" : 30.0,
+          "height" : 98.0,
+          "maxX" : 68.0,
+          "maxY" : 98.0
+        }
+      }, {
+        "box" : {
+          "minX" : 64.0,
+          "minY" : 23.0,
+          "width" : 18.0,
+          "height" : 14.0,
+          "maxX" : 82.0,
+          "maxY" : 37.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 27
+    }
+  }, {
+    "startFrame" : 29,
+    "endFrame" : 29,
+    "xAxisMovement" : 0,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 38.0,
+          "minY" : 0.0,
+          "width" : 34.0,
+          "height" : 97.0,
+          "maxX" : 72.0,
+          "maxY" : 97.0
+        }
+      }, {
+        "box" : {
+          "minX" : 67.0,
+          "minY" : 23.0,
+          "width" : 15.0,
+          "height" : 12.0,
+          "maxX" : 82.0,
+          "maxY" : 35.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 28
+    }
+  }, {
+    "startFrame" : 30,
+    "endFrame" : 30,
+    "xAxisMovement" : 0,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 40.0,
+          "minY" : 0.0,
+          "width" : 35.0,
+          "height" : 98.0,
+          "maxX" : 75.0,
+          "maxY" : 98.0
+        }
+      }, {
+        "box" : {
+          "minX" : 74.0,
+          "minY" : 22.0,
+          "width" : 8.0,
+          "height" : 10.0,
+          "maxX" : 82.0,
+          "maxY" : 32.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 29
+    }
+  }, {
+    "startFrame" : 31,
+    "endFrame" : 31,
+    "xAxisMovement" : 0,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 38.0,
+          "minY" : 0.0,
+          "width" : 36.0,
+          "height" : 99.0,
+          "maxX" : 74.0,
+          "maxY" : 99.0
+        }
+      }, {
+        "box" : {
+          "minX" : 74.0,
+          "minY" : 19.0,
+          "width" : 8.0,
+          "height" : 10.0,
+          "maxX" : 82.0,
+          "maxY" : 29.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 30
+    }
+  }, {
+    "startFrame" : 32,
+    "endFrame" : 32,
+    "xAxisMovement" : 0,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 42.0,
+          "minY" : 0.0,
+          "width" : 32.0,
+          "height" : 98.0,
+          "maxX" : 74.0,
+          "maxY" : 98.0
+        }
+      }, {
+        "box" : {
+          "minX" : 73.0,
+          "minY" : 17.0,
+          "width" : 8.0,
+          "height" : 9.0,
+          "maxX" : 81.0,
+          "maxY" : 26.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 31
+    }
+  }, {
+    "startFrame" : 33,
+    "endFrame" : 33,
+    "xAxisMovement" : 0,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 40.0,
+          "minY" : 0.0,
+          "width" : 35.0,
+          "height" : 98.0,
+          "maxX" : 75.0,
+          "maxY" : 98.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 32
+    }
+  }, {
+    "startFrame" : 34,
+    "endFrame" : 34,
+    "xAxisMovement" : 0,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 42.0,
+          "minY" : 0.0,
+          "width" : 34.0,
+          "height" : 96.0,
+          "maxX" : 76.0,
+          "maxY" : 96.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 33
+    }
+  }, {
+    "startFrame" : 35,
+    "endFrame" : 35,
+    "xAxisMovement" : 0,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 43.0,
+          "minY" : 0.0,
+          "width" : 31.0,
+          "height" : 99.0,
+          "maxX" : 74.0,
+          "maxY" : 99.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 34
+    }
+  }, {
+    "startFrame" : 36,
+    "endFrame" : 36,
+    "xAxisMovement" : 0,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 41.0,
+          "minY" : 0.0,
+          "width" : 34.0,
+          "height" : 98.0,
+          "maxX" : 75.0,
+          "maxY" : 98.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 35
+    }
+  }, {
+    "startFrame" : 37,
+    "endFrame" : 37,
+    "xAxisMovement" : 0,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 42.0,
+          "minY" : 0.0,
+          "width" : 34.0,
+          "height" : 99.0,
+          "maxX" : 76.0,
+          "maxY" : 99.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 36
+    }
+  }, {
+    "startFrame" : 38,
+    "endFrame" : 38,
+    "xAxisMovement" : 0,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 42.0,
+          "minY" : 0.0,
+          "width" : 32.0,
+          "height" : 98.0,
+          "maxX" : 74.0,
+          "maxY" : 98.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 37
+    }
+  }, {
+    "startFrame" : 39,
+    "endFrame" : 39,
+    "xAxisMovement" : 0,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 41.0,
+          "minY" : 0.0,
+          "width" : 34.0,
+          "height" : 98.0,
+          "maxX" : 75.0,
+          "maxY" : 98.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 38
+    }
+  }, {
+    "startFrame" : 40,
+    "endFrame" : 40,
+    "xAxisMovement" : 0,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 42.0,
+          "minY" : 0.0,
+          "width" : 34.0,
+          "height" : 97.0,
+          "maxX" : 76.0,
+          "maxY" : 97.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 39
+    }
+  }, {
+    "startFrame" : 41,
+    "endFrame" : 41,
+    "xAxisMovement" : 0,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 42.0,
+          "minY" : 0.0,
+          "width" : 34.0,
+          "height" : 97.0,
+          "maxX" : 76.0,
+          "maxY" : 97.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 40
+    }
+  }, {
+    "startFrame" : 42,
+    "endFrame" : 42,
+    "xAxisMovement" : 0,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 42.0,
+          "minY" : 0.0,
+          "width" : 36.0,
+          "height" : 96.0,
+          "maxX" : 78.0,
+          "maxY" : 96.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 41
+    }
+  }, {
+    "startFrame" : 43,
+    "endFrame" : 43,
+    "xAxisMovement" : 0,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 42.0,
+          "minY" : 0.0,
+          "width" : 36.0,
+          "height" : 96.0,
+          "maxX" : 78.0,
+          "maxY" : 96.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 42
+    }
+  }, {
+    "startFrame" : 44,
+    "endFrame" : 44,
+    "xAxisMovement" : 0,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 39.0,
+          "minY" : 0.0,
+          "width" : 40.0,
+          "height" : 96.0,
+          "maxX" : 79.0,
+          "maxY" : 96.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 43
+    }
+  }, {
+    "startFrame" : 45,
+    "endFrame" : 45,
+    "xAxisMovement" : 0,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 38.0,
+          "minY" : 0.0,
+          "width" : 41.0,
+          "height" : 95.0,
+          "maxX" : 79.0,
+          "maxY" : 95.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 44
+    }
+  }, {
+    "startFrame" : 46,
+    "endFrame" : 46,
+    "xAxisMovement" : 0,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 38.0,
+          "minY" : 0.0,
+          "width" : 41.0,
+          "height" : 95.0,
+          "maxX" : 79.0,
+          "maxY" : 95.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 45
+    }
+  }, {
+    "startFrame" : 47,
+    "endFrame" : 47,
+    "xAxisMovement" : 0,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 33.0,
+          "minY" : 0.0,
+          "width" : 45.0,
+          "height" : 95.0,
+          "maxX" : 78.0,
+          "maxY" : 95.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 46
+    }
+  }, {
+    "startFrame" : 48,
+    "endFrame" : 48,
+    "xAxisMovement" : 0,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 37.0,
+          "minY" : 0.0,
+          "width" : 41.0,
+          "height" : 96.0,
+          "maxX" : 78.0,
+          "maxY" : 96.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 47
+    }
+  }, {
+    "startFrame" : 49,
+    "endFrame" : 49,
+    "xAxisMovement" : 0,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 38.0,
+          "minY" : 0.0,
+          "width" : 37.0,
+          "height" : 96.0,
+          "maxX" : 75.0,
+          "maxY" : 96.0
+        }
+      }, {
+        "box" : {
+          "minX" : 74.0,
+          "minY" : 71.0,
+          "width" : 8.0,
+          "height" : 11.0,
+          "maxX" : 82.0,
+          "maxY" : 82.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 48
+    }
+  }, {
+    "startFrame" : 50,
+    "endFrame" : 50,
+    "xAxisMovement" : 0,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 38.0,
+          "minY" : 0.0,
+          "width" : 32.0,
+          "height" : 95.0,
+          "maxX" : 70.0,
+          "maxY" : 95.0
+        }
+      }, {
+        "box" : {
+          "minX" : 68.0,
+          "minY" : 65.0,
+          "width" : 13.0,
+          "height" : 17.0,
+          "maxX" : 81.0,
+          "maxY" : 82.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 49
+    }
+  }, {
+    "startFrame" : 51,
+    "endFrame" : 51,
+    "xAxisMovement" : 0,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 39.0,
+          "minY" : 0.0,
+          "width" : 31.0,
+          "height" : 97.0,
+          "maxX" : 70.0,
+          "maxY" : 97.0
+        }
+      }, {
+        "box" : {
+          "minX" : 68.0,
+          "minY" : 63.0,
+          "width" : 14.0,
+          "height" : 18.0,
+          "maxX" : 82.0,
+          "maxY" : 81.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 50
+    }
+  }, {
+    "startFrame" : 52,
+    "endFrame" : 52,
+    "xAxisMovement" : 0,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 39.0,
+          "minY" : 0.0,
+          "width" : 29.0,
+          "height" : 95.0,
+          "maxX" : 68.0,
+          "maxY" : 95.0
+        }
+      }, {
+        "box" : {
+          "minX" : 67.0,
+          "minY" : 63.0,
+          "width" : 16.0,
+          "height" : 19.0,
+          "maxX" : 83.0,
+          "maxY" : 82.0
+        }
+      }, {
+        "box" : {
+          "minX" : 66.0,
+          "minY" : 0.0,
+          "width" : 9.0,
+          "height" : 6.0,
+          "maxX" : 75.0,
+          "maxY" : 6.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 51
+    }
+  }, {
+    "startFrame" : 53,
+    "endFrame" : 53,
+    "xAxisMovement" : 0,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 39.0,
+          "minY" : 0.0,
+          "width" : 29.0,
+          "height" : 95.0,
+          "maxX" : 68.0,
+          "maxY" : 95.0
+        }
+      }, {
+        "box" : {
+          "minX" : 66.0,
+          "minY" : 64.0,
+          "width" : 16.0,
+          "height" : 18.0,
+          "maxX" : 82.0,
+          "maxY" : 82.0
+        }
+      }, {
+        "box" : {
+          "minX" : 66.0,
+          "minY" : 0.0,
+          "width" : 10.0,
+          "height" : 6.0,
+          "maxX" : 76.0,
+          "maxY" : 6.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 52
+    }
+  }, {
+    "startFrame" : 54,
+    "endFrame" : 54,
+    "xAxisMovement" : 0,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 38.0,
+          "minY" : 0.0,
+          "width" : 30.0,
+          "height" : 96.0,
+          "maxX" : 68.0,
+          "maxY" : 96.0
+        }
+      }, {
+        "box" : {
+          "minX" : 67.0,
+          "minY" : 66.0,
+          "width" : 16.0,
+          "height" : 15.0,
+          "maxX" : 83.0,
+          "maxY" : 81.0
+        }
+      }, {
+        "box" : {
+          "minX" : 68.0,
+          "minY" : 0.0,
+          "width" : 9.0,
+          "height" : 5.0,
+          "maxX" : 77.0,
+          "maxY" : 5.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 53
+    }
+  }, {
+    "startFrame" : 55,
+    "endFrame" : 55,
+    "xAxisMovement" : 0,
+    "yAxisMovement" : 0,
+    "spriteData" : {
+      "hurtboxes" : [ {
+        "box" : {
+          "minX" : 40.0,
+          "minY" : 0.0,
+          "width" : 28.0,
+          "height" : 96.0,
+          "maxX" : 68.0,
+          "maxY" : 96.0
+        }
+      }, {
+        "box" : {
+          "minX" : 67.0,
+          "minY" : 66.0,
+          "width" : 15.0,
+          "height" : 15.0,
+          "maxX" : 82.0,
+          "maxY" : 81.0
+        }
+      }, {
+        "box" : {
+          "minX" : 65.0,
+          "minY" : 0.0,
+          "width" : 12.0,
+          "height" : 6.0,
+          "maxX" : 77.0,
+          "maxY" : 6.0
+        }
+      }, {
+        "box" : {
+          "minX" : 30.0,
+          "minY" : 0.0,
+          "width" : 16.0,
+          "height" : 17.0,
+          "maxX" : 46.0,
+          "maxY" : 17.0
+        }
+      } ],
+      "hitboxes" : [ ],
+      "index" : 54
+    }
+  } ],
+  "fighterChosen" : true,
+  "moveNamed" : false
+}

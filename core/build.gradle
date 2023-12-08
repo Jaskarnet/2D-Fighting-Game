@@ -1,4 +1,8 @@
+
 sourceCompatibility = 1.7
+repositories {
+    mavenCentral()
+}
 dependencies {
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.15.2'
     implementation group: 'org.openjfx', name: 'javafx-controls', version: '17-ea+11'
@@ -9,6 +13,8 @@ dependencies {
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.15.2'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.14.2'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.14.2'
+    implementation group: 'com.esotericsoftware', name: 'kryo', version: '4.0.0'
+    implementation group: 'com.esotericsoftware', name: 'kryonet', version: '2.22.0-RC1'
 }
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 

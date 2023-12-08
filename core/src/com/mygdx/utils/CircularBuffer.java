@@ -23,7 +23,7 @@ public class CircularBuffer<T> {
 
         buffer[tail] = element;
         tail = (tail + 1) % buffer.length;
-        System.out.println("buffer.length: " + buffer.length + " size: " + size + " head: " + head + " tail: " + tail);
+        //System.out.println("buffer.length: " + buffer.length + " size: " + size + " head: " + head + " tail: " + tail);
     }
 
     public T get(int index) {

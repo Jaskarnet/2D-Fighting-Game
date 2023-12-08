@@ -4,18 +4,24 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.mygdx.entities.Fighter;
 import com.mygdx.entities.State;
+import com.mygdx.game.Multiplayer;
 import com.mygdx.moves.Move;
 import com.mygdx.utils.CircularBuffer;
+
+import java.util.Deque;
+import java.util.Queue;
+import java.util.concurrent.LinkedBlockingDeque;
 
 public class InputHandler {
     private Fighter fighter;
     private CircularBuffer<Command> commandHistory;
     private int commandHistorySize;
-    private int leftButton, rightButton, undoButton, downButton, attackButton;
+    private int forwardButton, backwardButton, undoButton, crouchButton, attackButton;
     private boolean recordingInput;
     private Player player;
+    private Multiplayer multiplayer;
 
-    public InputHandler(Fighter fighter, Player player, int leftButton, int rightButton, int downButton, int attackButton, int commandHistorySize) {
+    public InputHandler(Fighter fighter, Player player, int forwardButton, int backwardButton, int crouchButton, int attackButton, int commandHistorySize) {
         this.fighter = fighter;
         this.player = player;
         this.commandHistorySize = commandHistorySize;
@@ -24,83 +30,312 @@ public class InputHandler {
         for (int i = 0; i < commandHistorySize; i++) {
 
         }
-        this.leftButton = leftButton;
-        this.rightButton = rightButton;
-        this.downButton = downButton;
+        this.forwardButton = forwardButton;
+        this.backwardButton = backwardButton;
+        this.crouchButton = crouchButton;
         this.attackButton = attackButton;
         this.recordingInput = true;
     }
 
-    public Command handleInput() {
-        Command command;
-        int currentFrame = fighter.getCurrentFrame();
-        currentFrame++;
+    public InputHandler(Fighter fighter, Player player, int forwardButton, int backwardButton, int crouchButton, int attackButton, int commandHistorySize, Multiplayer multiplayer) {
+        this.fighter = fighter;
+        this.player = player;
+        this.commandHistorySize = commandHistorySize;
+        this.multiplayer = multiplayer;
+        commandHistory = new CircularBuffer<>(commandHistorySize);
 
-        if (Gdx.input.isKeyPressed(undoButton)) {
+        for (int i = 0; i < commandHistorySize; i++) {
+
+        }
+        this.forwardButton = forwardButton;
+        this.backwardButton = backwardButton;
+        this.crouchButton = crouchButton;
+        this.attackButton = attackButton;
+        this.recordingInput = true;
+    }
+
+    public InputHandler(Fighter fighter, Player player, int commandHistorySize, Multiplayer multiplayer) {
+        this.fighter = fighter;
+        this.player = player;
+        this.commandHistorySize = commandHistorySize;
+        commandHistory = new CircularBuffer<>(commandHistorySize);
+        this.multiplayer = multiplayer;
+        this.recordingInput = true;
+    }
+
+    public Command handleInput() {
+        int currentFrame = fighter.getCurrentFrame();
+        Command command = null;
+
+        // Online
+        if (player == Player.ONLINE_PLAYER1 || player == Player.ONLINE_PLAYER2) {
+            if (multiplayer.getCommandQueue().size() > 0) {
+                command = multiplayer.getCommandQueue().removeLast();
+                multiplayer.getCommandQueue().clear();
+                if (command instanceof HitStunCommand) {
+                    currentFrame = ((HitStunCommand) command).getCurrentFrame();
+                } else if (command instanceof BlockStunCommand) {
+                    currentFrame = ((BlockStunCommand) command).getCurrentFrame();
+                } else if (command instanceof AttackCommand) {
+                    currentFrame = ((AttackCommand) command).getCurrentFrame();
+                } else if (command instanceof DoNothingCommand) {
+                    currentFrame = ((DoNothingCommand) command).getCurrentFrame();
+                } else if (command instanceof CrouchCommand) {
+                    currentFrame = ((CrouchCommand) command).getCurrentFrame();
+                } else if (command instanceof MoveFighterCommand) {
+                    currentFrame = ((MoveFighterCommand) command).getCurrentFrame();
+                }
+
+                fighter.setCurrentFrame(currentFrame);
+                if (recordingInput) commandHistory.add(command);
+                return command;
+            }
+        }
+
+        currentFrame = fighter.getCurrentFrame() + 1;
+        /*if (Gdx.input.isKeyPressed(undoButton)) {
             recordingInput = false;
-            System.out.println(commandHistory.toString());
+            //System.out.println(commandHistory.toString());
             command = commandHistory.get(commandHistory.popCurrent());
             command.undo();
-            return CommandFactory.doNothingCommand();
+            return CommandFactory.doNothingCommand(fighter);
+        }*/
+
+        // GETTING_HIT_HIGH
+        if (fighter.isHitStunnedHigh()) {
+            if (fighter.getState() != State.HIT_STUNNED_HIGH) {
+                fighter.setCurrentFrame(0);
+                System.out.println(fighter.getPlayer() + " blockStun [" + fighter.getCurrentFrame() + "]");
+                command = CommandFactory.hitStunCommandHigh(fighter);
+                if (recordingInput) commandHistory.add(command);
+                return command;
+            } else if (fighter.getState() == State.HIT_STUNNED_HIGH && currentFrame >= fighter.getMovelist().getMove(State.HIT_STUNNED_HIGH.ordinal()).getFrameCount()) {
+                fighter.setHitStunnedHigh(false);
+            } else {
+                fighter.setCurrentFrame(currentFrame);
+                System.out.println(fighter.getPlayer() + " blockStun [" + fighter.getCurrentFrame() + "]");
+                command = CommandFactory.hitStunCommandHigh(fighter);
+                if (recordingInput) commandHistory.add(command);
+                return command;
+            }
         }
 
-        // DURING_ATTACK
+        // GETTING_HIT_MID
+        if (fighter.isHitStunnedMid()) {
+            if (fighter.getState() != State.HIT_STUNNED_MID) {
+                fighter.setCurrentFrame(0);
+                System.out.println(fighter.getPlayer() + " blockStun [" + fighter.getCurrentFrame() + "]");
+                command = CommandFactory.hitStunCommandMid(fighter);
+                if (recordingInput) commandHistory.add(command);
+                return command;
+            } else if (fighter.getState() == State.HIT_STUNNED_MID && currentFrame >= fighter.getMovelist().getMove(State.HIT_STUNNED_MID.ordinal()).getFrameCount()) {
+                fighter.setHitStunnedMid(false);
+            } else {
+                fighter.setCurrentFrame(currentFrame);
+                System.out.println(fighter.getPlayer() + " blockStun [" + fighter.getCurrentFrame() + "]");
+                command = CommandFactory.hitStunCommandMid(fighter);
+                if (recordingInput) commandHistory.add(command);
+                return command;
+            }
+        }
+
+        // GETTING_HIT_LOW
+        if (fighter.isHitStunnedLow()) {
+            if (fighter.getState() != State.HIT_STUNNED_LOW) {
+                fighter.setCurrentFrame(0);
+                System.out.println(fighter.getPlayer() + " blockStun [" + fighter.getCurrentFrame() + "]");
+                command = CommandFactory.hitStunCommandLow(fighter);
+                if (recordingInput) commandHistory.add(command);
+                return command;
+            } else if (fighter.getState() == State.HIT_STUNNED_LOW && currentFrame >= fighter.getMovelist().getMove(State.HIT_STUNNED_LOW.ordinal()).getFrameCount()) {
+                fighter.setHitStunnedLow(false);
+            } else {
+                fighter.setCurrentFrame(currentFrame);
+                System.out.println(fighter.getPlayer() + " blockStun [" + fighter.getCurrentFrame() + "]");
+                command = CommandFactory.hitStunCommandLow(fighter);
+                if (recordingInput) commandHistory.add(command);
+                return command;
+            }
+        }
+
+        // BLOCKING_HIGH
+        if (fighter.isBlockStunnedHigh()) {
+            if (fighter.getState() != State.BLOCK_STUNNED_HIGH) {
+                fighter.setCurrentFrame(0);
+                System.out.println(fighter.getPlayer() + " blockStun [" + fighter.getCurrentFrame() + "]");
+                command = CommandFactory.blockStunCommandHigh(fighter);
+                if (recordingInput) commandHistory.add(command);
+                return command;
+            } else if (fighter.getState() == State.BLOCK_STUNNED_HIGH && currentFrame >= fighter.getMovelist().getMove(State.BLOCK_STUNNED_HIGH.ordinal()).getFrameCount()) {
+                fighter.setBlockStunnedHigh(false);
+            } else {
+                fighter.setCurrentFrame(currentFrame);
+                System.out.println(fighter.getPlayer() + " blockStun [" + fighter.getCurrentFrame() + "]");
+                command = CommandFactory.blockStunCommandHigh(fighter);
+                if (recordingInput) commandHistory.add(command);
+                return command;
+            }
+        }
+
+        // BLOCKING_MID
+        if (fighter.isBlockStunnedMid()) {
+            if (fighter.getState() != State.BLOCK_STUNNED_MID) {
+                fighter.setCurrentFrame(0);
+                System.out.println(fighter.getPlayer() + " blockStun [" + fighter.getCurrentFrame() + "]");
+                command = CommandFactory.blockStunCommandMid(fighter);
+                if (recordingInput) commandHistory.add(command);
+                return command;
+            } else if (fighter.getState() == State.BLOCK_STUNNED_MID && currentFrame >= fighter.getMovelist().getMove(State.BLOCK_STUNNED_MID.ordinal()).getFrameCount()) {
+                fighter.setBlockStunnedMid(false);
+            } else {
+                fighter.setCurrentFrame(currentFrame);
+                System.out.println(fighter.getPlayer() + " blockStun [" + fighter.getCurrentFrame() + "]");
+                command = CommandFactory.blockStunCommandMid(fighter);
+                if (recordingInput) commandHistory.add(command);
+                return command;
+            }
+        }
+
+        // BLOCKING_LOW
+        if (fighter.isBlockStunnedLow()) {
+            if (fighter.getState() != State.BLOCK_STUNNED_LOW) {
+                fighter.setCurrentFrame(0);
+                System.out.println(fighter.getPlayer() + " blockStun [" + fighter.getCurrentFrame() + "]");
+                command = CommandFactory.blockStunCommandLow(fighter);
+                if (recordingInput) commandHistory.add(command);
+                return command;
+            } else if (fighter.getState() == State.BLOCK_STUNNED_LOW && currentFrame >= fighter.getMovelist().getMove(State.BLOCK_STUNNED_LOW.ordinal()).getFrameCount()) {
+                fighter.setBlockStunnedLow(false);
+            } else {
+                fighter.setCurrentFrame(currentFrame);
+                System.out.println(fighter.getPlayer() + " blockStun [" + fighter.getCurrentFrame() + "]");
+                command = CommandFactory.blockStunCommandLow(fighter);
+                if (recordingInput) commandHistory.add(command);
+                return command;
+            }
+        }
+
+        // ATTACK
         if (fighter.getState() == State.HIGH_ATTACK || fighter.getState() == State.MID_ATTACK || fighter.getState() == State.LOW_ATTACK) {
+            int frameCount = fighter.getMovelist().getMove(fighter.getState().ordinal()).getFrameCount();
+
             fighter.setCurrentFrame(currentFrame);
-            if (currentFrame < fighter.getMovelist().getMove(fighter.getState().ordinal()).getFrameCount()) {
+
+            if (currentFrame < frameCount) {
+                System.out.println(fighter.getPlayer() + " attack [" + fighter.getCurrentFrame() + "]");
                 if (fighter.getState() == State.HIGH_ATTACK) {
                     command = CommandFactory.AttackCommandHigh(fighter);
-                    if (recordingInput) commandHistory.add(command);
-                    return command;
                 } else if (fighter.getState() == State.MID_ATTACK) {
                     command = CommandFactory.AttackCommandMid(fighter);
-                    if (recordingInput) commandHistory.add(command);
-                    return command;
                 } else if (fighter.getState() == State.LOW_ATTACK) {
                     command = CommandFactory.AttackCommandLow(fighter);
-                    if (recordingInput) commandHistory.add(command);
-                    return command;
                 }
+
+                if (recordingInput) commandHistory.add(command);
+                return command;
             }
         }
 
-
-        // STARTING_ATTACK
         if (Gdx.input.isKeyPressed(attackButton)) {
             fighter.setCurrentFrame(0);
-            if (Gdx.input.isKeyPressed(rightButton) && player == Player.PLAYER1 || Gdx.input.isKeyPressed(leftButton) && player == Player.PLAYER2) {
-                command = CommandFactory.AttackCommandMid(fighter);
-                if (recordingInput) commandHistory.add(command);
-                return command;
-            } else if (Gdx.input.isKeyPressed(downButton)) {
-                command = CommandFactory.AttackCommandLow(fighter);
-                if (recordingInput) commandHistory.add(command);
-                return command;
-            } else {
+
+            System.out.println(fighter.getPlayer() + " attack [" + fighter.getCurrentFrame() + "]");
+            if (Gdx.input.isKeyPressed(forwardButton)) {
                 command = CommandFactory.AttackCommandHigh(fighter);
-                if (recordingInput) commandHistory.add(command);
-                return command;
+            } else if (Gdx.input.isKeyPressed(backwardButton)) {
+                command = CommandFactory.AttackCommandLow(fighter);
+            } else {
+                command = CommandFactory.AttackCommandMid(fighter);
             }
+
+            if (recordingInput) commandHistory.add(command);
+            return command;
         }
 
-        if (Gdx.input.isKeyPressed(leftButton) && Gdx.input.isKeyPressed(rightButton)) {
-            command = CommandFactory.doNothingCommand();
-            if (recordingInput) commandHistory.add(command);
-            return command;
-        } else if (Gdx.input.isKeyPressed(leftButton)) {
-            recordingInput = true;
-            command = CommandFactory.moveFighterCommandLeft(fighter, fighter.getX(), fighter.getY());
-            if (recordingInput) commandHistory.add(command);
-            return command;
-        } else if (Gdx.input.isKeyPressed(rightButton)) {
-            recordingInput = true;
-            command = CommandFactory.moveFighterCommandRight(fighter, fighter.getX(), fighter.getY());
+
+        // NEUTRAL
+        if (Gdx.input.isKeyPressed(forwardButton) && Gdx.input.isKeyPressed(backwardButton)) {
+            if (fighter.getState() != State.NEUTRAL || currentFrame >= fighter.getMovelist().getMove(State.NEUTRAL.ordinal()).getFrameCount()) {
+                fighter.setCurrentFrame(0);
+            } else {
+                fighter.setCurrentFrame(currentFrame);
+            }
+            command = CommandFactory.doNothingCommand(fighter);
             if (recordingInput) commandHistory.add(command);
             return command;
         }
-        command = CommandFactory.doNothingCommand();
+
+        // CROUCHING
+        if (Gdx.input.isKeyPressed(crouchButton)) {
+            if (fighter.getState() != State.CROUCHING || currentFrame >= fighter.getMovelist().getMove(State.CROUCHING.ordinal()).getFrameCount()) {
+                fighter.setCurrentFrame(0);
+            } else {
+                fighter.setCurrentFrame(currentFrame);
+            }
+            command = CommandFactory.crouchCommand(fighter);
+            if (recordingInput) commandHistory.add(command);
+            return command;
+        }
+
+        // GOING_BACKWARD
+        if (Gdx.input.isKeyPressed(backwardButton)) {
+            if (fighter.getState() != State.GOING_BACK || currentFrame >= fighter.getMovelist().getMove(State.GOING_BACK.ordinal()).getFrameCount()) {
+                fighter.setCurrentFrame(0);
+            } else {
+                fighter.setCurrentFrame(currentFrame);
+            }
+            command = CommandFactory.moveFighterCommandBackward(fighter);
+            if (recordingInput) commandHistory.add(command);
+            return command;
+        }
+
+        // GOING_FORWARD
+        if (Gdx.input.isKeyPressed(forwardButton)) {
+            if (fighter.getState() != State.GOING_FORWARD || currentFrame >= fighter.getMovelist().getMove(State.GOING_FORWARD.ordinal()).getFrameCount()) {
+                fighter.setCurrentFrame(0);
+            } else {
+                fighter.setCurrentFrame(currentFrame);
+            }
+            command = CommandFactory.moveFighterCommandForward(fighter);
+            if (recordingInput) commandHistory.add(command);
+            return command;
+        }
+
+        // NEUTRAL (NOT PRESSING ANYTHING)
+        fighter.setCurrentFrame(currentFrame);
+        if (currentFrame >= fighter.getMovelist().getMove(State.NEUTRAL.ordinal()).getFrameCount()) {
+            fighter.setCurrentFrame(0);
+        }
+        command = CommandFactory.doNothingCommand(fighter);
         if (recordingInput) commandHistory.add(command);
         return command;
+    }
+
+    private Command getMovementCommand() {
+        Command command;
+        if (Gdx.input.isKeyPressed(forwardButton) && Gdx.input.isKeyPressed(backwardButton)) {
+            command = CommandFactory.doNothingCommand(fighter);
+            if (recordingInput) commandHistory.add(command);
+            return command;
+        } else if (Gdx.input.isKeyPressed(crouchButton)) {
+            command = CommandFactory.crouchCommand(fighter);
+            if (recordingInput) commandHistory.add(command);
+            return command;
+        } else if (Gdx.input.isKeyPressed(forwardButton)) {
+            recordingInput = true;
+            command = CommandFactory.moveFighterCommandForward(fighter);
+            if (recordingInput) commandHistory.add(command);
+            return command;
+        } else if (Gdx.input.isKeyPressed(backwardButton)) {
+            recordingInput = true;
+            command = CommandFactory.moveFighterCommandBackward(fighter);
+            if (recordingInput) commandHistory.add(command);
+            return command;
+        } else {
+            command = CommandFactory.doNothingCommand(fighter);
+            if (recordingInput) commandHistory.add(command);
+            return command;
+        }
     }
 
     public Fighter getFighter() {
@@ -111,20 +346,20 @@ public class InputHandler {
         this.fighter = fighter;
     }
 
-    public int getLeftButton() {
-        return leftButton;
+    public int getForwardButton() {
+        return forwardButton;
     }
 
-    public void setLeftButton(int leftButton) {
-        this.leftButton = leftButton;
+    public void setForwardButton(int forwardButton) {
+        this.forwardButton = forwardButton;
     }
 
-    public int getRightButton() {
-        return rightButton;
+    public int getBackwardButton() {
+        return backwardButton;
     }
 
-    public void setRightButton(int rightButton) {
-        this.rightButton = rightButton;
+    public void setBackwardButton(int backwardButton) {
+        this.backwardButton = backwardButton;
     }
 
     public boolean isRecordingInput() {

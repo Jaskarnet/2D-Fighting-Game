@@ -1,26 +1,27 @@
 package com.mygdx.commands;
 
+import com.mygdx.entities.Entity;
 import com.mygdx.entities.Fighter;
 import com.mygdx.entities.State;
 import com.mygdx.moves.Frame;
 import com.mygdx.moves.Move;
 
 public class AttackCommand implements Command {
-    private Fighter fighter;
-    State stateBefore, state;
-    Move move;
-    Frame frame;
-    int currentFrame;
-    int xBefore, yBefore;
-    int x, y;
+    private int stateBeforeId, stateId;
+    private int moveId;
+    private int currentFrame;
+    private int xBefore, yBefore;
+    private int x, y;
+
+    public AttackCommand() {
+    }
 
     public AttackCommand(Fighter fighter, State state, Move move, int currentFrame) {
-        this.fighter = fighter;
-        this.stateBefore = fighter.getState();
-        this.state = state;
-        this.move = move;
+        this.stateBeforeId = fighter.getState().ordinal();
+        this.stateId = state.ordinal();
+        this.moveId = fighter.getMovelist().getMoveIndex(move);
         this.currentFrame = currentFrame;
-        this.frame = move.getFrame(currentFrame);
+        Frame frame = move.getFrame(currentFrame);
         this.x = fighter.getX() + frame.getXAxisMovement();
         this.y = fighter.getY() + frame.getYAxisMovement();
         this.xBefore = fighter.getX();
@@ -28,14 +29,60 @@ public class AttackCommand implements Command {
     }
 
     @Override
-    public void execute() {
-        fighter.setState(state);
-        fighter.moveTo(x, y);
+    public void execute(Entity entity) {
+        if (entity instanceof Fighter) {
+            Fighter fighter = (Fighter) entity;
+            fighter.setState(State.fromId(stateId));
+            fighter.moveTo(x, y);
+        }
     }
 
     @Override
-    public void undo() {
-        fighter.setState(stateBefore);
-        fighter.moveTo(xBefore, yBefore);
+    public void undo(Entity entity) {
+        if (entity instanceof Fighter) {
+            Fighter fighter = (Fighter) entity;
+            fighter.setState(State.fromId(stateBeforeId));
+            fighter.moveTo(xBefore, yBefore);
+        }
+    }
+
+    public int getXBefore() {
+        return xBefore;
+    }
+
+    public void setXBefore(int xBefore) {
+        this.xBefore = xBefore;
+    }
+
+    public int getYBefore() {
+        return yBefore;
+    }
+
+    public void setYBefore(int yBefore) {
+        this.yBefore = yBefore;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public int getCurrentFrame() {
+        return currentFrame;
+    }
+
+    public void setCurrentFrame(int currentFrame) {
+        this.currentFrame = currentFrame;
     }
 }

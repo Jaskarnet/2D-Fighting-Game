@@ -16,7 +16,9 @@ public class Movelist {
     private ArrayList<Move> movelist;
 
     public Movelist(Player player) {
-        String moveInfoDirectory = "moves/Fighter1/moveinfo";
+        int index = player.ordinal() + 1;
+        if (index > 2) index = index - 2;
+        String moveInfoDirectory = "build/resources/main/moves/Fighter" + index + "/moveinfo";
         movelist = new ArrayList<>();
 
         // Uzyskaj listę plików JSON w katalogu moveInfoDirectory
@@ -40,7 +42,7 @@ public class Movelist {
                     // Odczytaj nazwę pliku JSON i zbuduj odpowiednią ścieżkę do pliku PNG
                     String jsonFileName = file.getName();
                     String pngFileName = jsonFileName.replace(".json", ".png");
-                    String spriteSheetPath = "moves/Fighter1/spritesheets/" + pngFileName;
+                    String spriteSheetPath = "build/resources/main/moves/Fighter" + index + "/spritesheets/" + pngFileName;
 
                     List<FrameRangeData> frameRangeDataList = moveInfo.getFrameRangeDataList();
 
@@ -69,6 +71,10 @@ public class Movelist {
 
     public Move getMove(int index) {
         return movelist.get(index);
+    }
+
+    public int getMoveIndex(Move move) {
+        return movelist.indexOf(move);
     }
 
     public ArrayList<Move> getMovelist() {
