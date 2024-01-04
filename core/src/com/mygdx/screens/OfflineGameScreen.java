@@ -14,6 +14,8 @@ import com.mygdx.entities.Entity;
 import com.mygdx.entities.Fighter;
 import com.mygdx.game.FightingGame;
 import com.mygdx.game.GameState;
+import com.mygdx.utils.ImageFlipper;
+import com.mygdx.utils.json.MoveFileReader;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -66,7 +68,7 @@ public class OfflineGameScreen implements Screen {
         game.batch.end();
 
         //draw hitboxes/hurtboxes for testing
-        game.shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+/*        game.shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         for (Rectangle box : player1.getHurtboxes()) {
             game.shapeRenderer.setColor(Color.BLACK);
             game.shapeRenderer.rect(box.x, box.y, box.width, box.height);
@@ -83,7 +85,7 @@ public class OfflineGameScreen implements Screen {
             game.shapeRenderer.setColor(Color.RED);
             game.shapeRenderer.rect(box.x, box.y, box.width, box.height);
         }
-        game.shapeRenderer.end();
+        game.shapeRenderer.end();*/
     }
 
     @Override
