@@ -39,12 +39,30 @@ public class Collision {
                 if (hitbox1.overlaps(hitbox2)) {
                     fighter2.setHealth(fighter2.getHealth() - fighter1.getMovelist().getMove(state1.ordinal()).getDamage());
                     fighter1.setHealth(fighter2.getHealth() - fighter2.getMovelist().getMove(state1.ordinal()).getDamage());
-                    if (state1 == State.HIGH_ATTACK) fighter2.setHitStunnedHigh(true);
-                    if (state1 == State.MID_ATTACK) fighter2.setHitStunnedMid(true);
-                    if (state1 == State.LOW_ATTACK) fighter2.setHitStunnedLow(true);
-                    if (state2 == State.HIGH_ATTACK) fighter1.setHitStunnedHigh(true);
-                    if (state2 == State.MID_ATTACK) fighter1.setHitStunnedMid(true);
-                    if (state2 == State.LOW_ATTACK) fighter1.setHitStunnedLow(true);
+                    if (state1 == State.HIGH_ATTACK) {
+                        fighter2.setHitStunnedHigh(true);
+                        fighter2.setHealth(fighter2.getHealth() - 3);
+                    }
+                    if (state1 == State.MID_ATTACK) {
+                        fighter2.setHitStunnedMid(true);
+                        fighter2.setHealth(fighter2.getHealth() - 2);
+                    }
+                    if (state1 == State.LOW_ATTACK) {
+                        fighter2.setHitStunnedLow(true);
+                        fighter2.setHealth(fighter2.getHealth() - 1);
+                    }
+                    if (state2 == State.HIGH_ATTACK) {
+                        fighter1.setHitStunnedHigh(true);
+                        fighter1.setHealth(fighter1.getHealth() - 3);
+                    }
+                    if (state2 == State.MID_ATTACK) {
+                        fighter1.setHitStunnedMid(true);
+                        fighter1.setHealth(fighter1.getHealth() - 2);
+                    }
+                    if (state2 == State.LOW_ATTACK) {
+                        fighter1.setHitStunnedLow(true);
+                        fighter1.setHealth(fighter1.getHealth() - 1);
+                    }
                 }
             }
         }
@@ -55,9 +73,18 @@ public class Collision {
                 if (hitbox1.overlaps(hurtbox2)) {
 /*                    System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAA " + state1 + " " + state2 + " " + direction1 + " " + direction2);*/
                     if (state2 == State.HIGH_ATTACK || state2 == State.MID_ATTACK || state2 == State.LOW_ATTACK) {
-                        if (state1 == State.HIGH_ATTACK) fighter2.setHitStunnedHigh(true);
-                        if (state1 == State.MID_ATTACK) fighter2.setHitStunnedMid(true);
-                        if (state1 == State.LOW_ATTACK) fighter2.setHitStunnedLow(true);
+                        if (state1 == State.HIGH_ATTACK) {
+                            fighter2.setHitStunnedHigh(true);
+                            fighter2.setHealth(fighter2.getHealth() - 3);
+                        }
+                        if (state1 == State.MID_ATTACK) {
+                            fighter2.setHitStunnedMid(true);
+                            fighter2.setHealth(fighter2.getHealth() - 2);
+                        }
+                        if (state1 == State.LOW_ATTACK) {
+                            fighter2.setHitStunnedLow(true);
+                            fighter2.setHealth(fighter2.getHealth() - 1);
+                        }
                     }
                     else {
                         if (state1 == State.HIGH_ATTACK && state2 != State.CROUCHING && (direction2 == Direction.NEUTRAL || direction2 == Direction.RIGHT))
@@ -79,9 +106,18 @@ public class Collision {
             for (Rectangle hurtbox1 : hurtboxes1) {
                 if (hitbox2.overlaps(hurtbox1)) {
                     if (state1 == State.HIGH_ATTACK || state1 == State.MID_ATTACK || state1 == State.LOW_ATTACK) {
-                        if (state2 == State.HIGH_ATTACK) fighter1.setHitStunnedHigh(true);
-                        if (state2 == State.MID_ATTACK) fighter1.setHitStunnedMid(true);
-                        if (state2 == State.LOW_ATTACK) fighter1.setHitStunnedLow(true);
+                        if (state2 == State.HIGH_ATTACK) {
+                            fighter1.setHitStunnedHigh(true);
+                            fighter1.setHealth(fighter2.getHealth() - 3);
+                        }
+                        if (state2 == State.MID_ATTACK) {
+                            fighter1.setHitStunnedMid(true);
+                            fighter1.setHealth(fighter2.getHealth() - 2);
+                        }
+                        if (state2 == State.LOW_ATTACK) {
+                            fighter1.setHitStunnedLow(true);
+                            fighter1.setHealth(fighter2.getHealth() - 1);
+                        }
                     }
                     else {
                         if (state2 == State.HIGH_ATTACK && state1 != State.CROUCHING && (direction1 == Direction.NEUTRAL || direction1 == Direction.LEFT))

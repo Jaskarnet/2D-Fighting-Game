@@ -16,6 +16,10 @@ import java.net.*;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.concurrent.LinkedBlockingDeque;
+import org.bitlet.weupnp.GatewayDevice;
+import org.bitlet.weupnp.GatewayDiscover;
+import org.bitlet.weupnp.PortMappingEntry;
+
 
 public class Multiplayer {
 
@@ -35,6 +39,11 @@ public class Multiplayer {
 
     public void initializeServer() {
         serverPort = findFreePort();
+        if (openPortUPnP(serverPort)) {
+            System.out.println("UPnP: Port został otwarty");
+        } else {
+            System.out.println("UPnP: Nie udało się otworzyć portu, sprawdź konfigurację routera lub ustawienia firewalla");
+        }
         server = new Server();
         client = null;
         configureKryo(server.getKryo());
@@ -56,6 +65,7 @@ public class Multiplayer {
         });
 
         ipAddress = getPublicIpAddress();
+        System.out.println("IpAddress: " + ipAddress);
         try {
             server.bind(serverPort);
             server.start();
@@ -146,9 +156,11 @@ public class Multiplayer {
 
     public void stopServer() {
         if (server != null) {
+            // Usuń mapowanie portów za pomocą UPnP
+            removePortUPnP(serverPort);
             server.stop();
             server.close();
-            System.out.println("Server stopped");
+            System.out.println("Serwer zatrzymany");
         }
     }
 
@@ -241,6 +253,54 @@ public class Multiplayer {
             return null;
         }
     }
+
+    public boolean openPortUPnP(int port) {
+        try {
+            GatewayDiscover discover = new GatewayDiscover();
+            discover.discover();
+            GatewayDevice d = discover.getValidGateway();
+
+            if (d == null) {
+                System.out.println("Nie znaleziono bramy UPnP!");
+                return false;
+            }
+
+            System.out.println("Znaleziono brame UPnP: " + d.getModelName());
+
+            // Pobierz zewnętrzny adres IP
+            String externalIPAddress = d.getExternalIPAddress();
+            System.out.println("Zewnetrzny adres IP to: " + externalIPAddress);
+
+            // Utwórz mapowanie portów
+            boolean done = d.addPortMapping(port, port, d.getLocalAddress().getHostAddress(), "TCP", "KryoNet Game Server");
+
+            if (done) {
+                System.out.println("Port przekierowany: " + port);
+                return true;
+            } else {
+                System.out.println("Nie udalo się przekierować portu: " + port);
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean removePortUPnP(int port) {
+        try {
+            GatewayDiscover discover = new GatewayDiscover();
+            discover.discover();
+            GatewayDevice d = discover.getValidGateway();
+            if (d != null) {
+                return d.deletePortMapping(port, "TCP");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 
     public int getServerPort() {
         return serverPort;

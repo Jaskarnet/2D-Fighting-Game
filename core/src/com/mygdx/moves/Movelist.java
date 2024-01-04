@@ -1,6 +1,7 @@
 package com.mygdx.moves;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mygdx.commands.Player;
@@ -15,48 +16,41 @@ import java.util.List;
 
 public class Movelist {
     private ArrayList<Move> movelist;
+    private String moveInfoDirectory;
+    private String spriteSheetDirectory;
 
     public Movelist(Player player) {
         int index = player.ordinal() + 1;
         if (index > 2) index = index - 2;
-        //TODO: ERROR ON PURPOSE, try to change path to relative, maybe in similar way it is done in screens when texture is needed
-        String gdxPath = Gdx.files.internal("resources/main/moves/Fighter" + index + "/moveinfo");
-        String moveInfoDirectory = "resources/main/moves/Fighter" + index + "/moveinfo";
+
+        // Zdefiniuj ścieżki do katalogów
+        moveInfoDirectory = "moves/Fighter" + index + "/moveinfo/";
+        spriteSheetDirectory = "moves/Fighter" + index + "/spritesheets/";
+
         movelist = new ArrayList<>();
+        FileHandle assetsFile = Gdx.files.internal("assets.txt");
+        String[] assetList = assetsFile.readString().split("\n");
 
-        // Uzyskaj listę plików JSON w katalogu moveInfoDirectory
-        File folder = new File(moveInfoDirectory);
-        System.out.println("moveInfoDirectory absolute path: " + folder.getAbsolutePath());
-        File[] files = folder.listFiles(new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
-                return name.endsWith(".json");
+        for (String asset : assetList) {
+            if (asset.startsWith(moveInfoDirectory) && asset.endsWith(".json")) {
+                processAsset(asset);
             }
-        });
+        }
+    }
 
-        if (files != null) {
-            ObjectMapper objectMapper = new ObjectMapper();
+    private void processAsset(String asset) {
+        FileHandle file = Gdx.files.internal(asset);
+        try {
+            TempData moveInfo = new ObjectMapper().readValue(file.read(), TempData.class);
+            String jsonFileName = file.name();
+            String pngFileName = jsonFileName.replace(".json", ".png");
+            String spriteSheetPath = spriteSheetDirectory + pngFileName;
 
-            for (File file : files) {
-                try {
-                    // Wczytaj JSON z pliku
-                    TempData moveInfo = objectMapper.readValue(file, TempData.class);
-
-                    // Odczytaj nazwę pliku JSON i zbuduj odpowiednią ścieżkę do pliku PNG
-                    String jsonFileName = file.getName();
-                    String pngFileName = jsonFileName.replace(".json", ".png");
-                    String spriteSheetPath = "build/resources/main/moves/Fighter" + index + "/spritesheets/" + pngFileName;
-
-                    List<FrameRangeData> frameRangeDataList = moveInfo.getFrameRangeDataList();
-
-                    // Utwórz nowy ruch na podstawie wczytanych danych i dodaj go do listy ruchów
-                    Move move = createMoveFromFrameRangeDataList(frameRangeDataList, spriteSheetPath);
-                    movelist.add(move);
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            List<FrameRangeData> frameRangeDataList = moveInfo.getFrameRangeDataList();
+            Move move = createMoveFromFrameRangeDataList(frameRangeDataList, spriteSheetPath);
+            movelist.add(move);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

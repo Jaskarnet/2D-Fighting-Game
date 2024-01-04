@@ -29,9 +29,11 @@ public class Fighter extends Entity {
     Movelist movelist;
     Player player;
     Multiplayer multiplayer;
+    int roundsWon;
 
     public Fighter(int x, int y, Player player, int backwardButton, int forwardButton, int crouchButton, int attackButton, int commandHistorySize) {
         super(x, y);
+        this.roundsWon = 0;
         inputHandler = new InputHandler(this, player, forwardButton, backwardButton, crouchButton, attackButton, commandHistorySize);
         this.player = player;
         health = 3;
@@ -116,7 +118,8 @@ public class Fighter extends Entity {
         command.execute(this);
 
         // TODO: add if statement for checking if gameState is online_game
-        if (player == Player.PLAYER1 || player == Player.PLAYER2) multiplayer.sendCommand(command);
+        if (multiplayer != null && (player == Player.PLAYER1 || player == Player.PLAYER2)) multiplayer.sendCommand(command);
+        //if (player == Player.PLAYER1 || player == Player.PLAYER2) multiplayer.sendCommand(command);
         updateAnimation();
     }
 
