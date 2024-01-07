@@ -19,140 +19,66 @@ public class Collision {
     }
 
     public void update() {
-        List<Rectangle> hurtboxes1 = fighter1.getHurtboxes();
         List<Rectangle> hitboxes1 = fighter1.getHitboxes();
-        List<Rectangle> hurtboxes2 = fighter2.getHurtboxes();
         List<Rectangle> hitboxes2 = fighter2.getHitboxes();
-        //System.out.println("fighter1: " + fighter1.getInputHandler().getCommandHistory().getSize() + " commandHistorySize: " + fighter1.getInputHandler().getCommandHistory().getSize());
-        //System.out.println("fighter2: " + fighter2.getInputHandler().getCommandHistory().getSize() + " commandHistorySize: " + fighter2.getInputHandler().getCommandHistory().getSize());
+        List<Rectangle> hurtboxes1 = fighter1.getHurtboxes();
+        List<Rectangle> hurtboxes2 = fighter2.getHurtboxes();
+
+        // Check for collisions
+        State fighter1State = checkHitboxHurtboxCollisions(hitboxes2, hurtboxes1, fighter2, fighter1);
+        State fighter2State = checkHitboxHurtboxCollisions(hitboxes1, hurtboxes2, fighter1, fighter2);
+        resolveHurtboxHurtboxCollisions(hurtboxes1, hurtboxes2);
+        applyStates(fighter1State, fighter2State);
+
+        // Check health and update state
+        checkHealthAndSetState();
+    }
+
+    public static Direction getDirection(Command command) {
+        if (command instanceof MoveFighterCommand) {
+            int xBefore = ((MoveFighterCommand) command).getXBefore();
+            int x = ((MoveFighterCommand) command).getX();
+            return (xBefore < x) ? Direction.RIGHT : Direction.LEFT;
+        }
+        return Direction.NEUTRAL;
+    }
+
+    //returns defender state to be applied after collision
+    private State checkHitboxHurtboxCollisions(List<Rectangle> hitboxes, List<Rectangle> hurtboxes, Fighter attacker, Fighter defender) {
+        for (Rectangle hitbox : hitboxes) {
+            for (Rectangle hurtbox : hurtboxes) {
+                if (hitbox.overlaps(hurtbox)) {
+                    return processAttack(attacker, defender);
+                }
+            }
+        }
+        return null;
+    }
+
+    private State processAttack(Fighter attacker, Fighter defender) {
+        int attState = attacker.getState().getId();
+        int defState = defender.getState().getId();
+        if (attState == State.HIGH_ATTACK.getId()) {
+            if (defState >= 2 && defState != 3) return State.HIT_STUNNED_HIGH;
+            else if (defState == 3) return null;
+            else return State.BLOCK_STUNNED_HIGH;
+        } else if (attState == State.MID_ATTACK.getId()) {
+            if (defState >= 2) return State.HIT_STUNNED_MID;
+            else return State.BLOCK_STUNNED_MID;
+        } else if (attState == State.LOW_ATTACK.getId()) {
+            if (defState != 3) return State.HIT_STUNNED_LOW;
+            else return State.BLOCK_STUNNED_LOW;
+        }
+        return null;
+    }
+
+    private void resolveHurtboxHurtboxCollisions(List<Rectangle> hurtboxes1, List<Rectangle> hurtboxes2) {
         Command command1 = fighter1.getInputHandler().getCommandHistory().get(fighter1.getInputHandler().getCommandHistory().getSize() - 1);
         Command command2 = fighter2.getInputHandler().getCommandHistory().get(fighter2.getInputHandler().getCommandHistory().getSize() - 1);
         Direction direction1 = getDirection(command1);
         Direction direction2 = getDirection(command2);
         State state1 = fighter1.getState();
         State state2 = fighter2.getState();
-
-
-        // HITBOX1 X HITBOX2
-        for (Rectangle hitbox1 : hitboxes1) {
-            for (Rectangle hitbox2 : hitboxes2) {
-                if (hitbox1.overlaps(hitbox2)) {
-                    fighter2.setHealth(fighter2.getHealth() - fighter1.getMovelist().getMove(state1.ordinal()).getDamage());
-                    fighter1.setHealth(fighter2.getHealth() - fighter2.getMovelist().getMove(state1.ordinal()).getDamage());
-                    if (state1 == State.HIGH_ATTACK) {
-                        fighter2.setHitStunnedHigh(true);
-                        fighter2.setHealth(fighter2.getHealth() - 3);
-                    }
-                    if (state1 == State.MID_ATTACK) {
-                        fighter2.setHitStunnedMid(true);
-                        fighter2.setHealth(fighter2.getHealth() - 2);
-                    }
-                    if (state1 == State.LOW_ATTACK) {
-                        fighter2.setHitStunnedLow(true);
-                        fighter2.setHealth(fighter2.getHealth() - 1);
-                    }
-                    if (state2 == State.HIGH_ATTACK) {
-                        fighter1.setHitStunnedHigh(true);
-                        fighter1.setHealth(fighter1.getHealth() - 3);
-                    }
-                    if (state2 == State.MID_ATTACK) {
-                        fighter1.setHitStunnedMid(true);
-                        fighter1.setHealth(fighter1.getHealth() - 2);
-                    }
-                    if (state2 == State.LOW_ATTACK) {
-                        fighter1.setHitStunnedLow(true);
-                        fighter1.setHealth(fighter1.getHealth() - 1);
-                    }
-                }
-            }
-        }
-
-        // HITBOX1 X HURTBOX2
-        for (Rectangle hitbox1 : hitboxes1) {
-            for (Rectangle hurtbox2 : hurtboxes2) {
-                if (hitbox1.overlaps(hurtbox2)) {
-/*                    System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAA " + state1 + " " + state2 + " " + direction1 + " " + direction2);*/
-                    if (state2 == State.HIGH_ATTACK || state2 == State.MID_ATTACK || state2 == State.LOW_ATTACK) {
-                        if (state1 == State.HIGH_ATTACK) {
-                            fighter2.setHitStunnedHigh(true);
-                            fighter2.setHealth(fighter2.getHealth() - 3);
-                        }
-                        if (state1 == State.MID_ATTACK) {
-                            fighter2.setHitStunnedMid(true);
-                            fighter2.setHealth(fighter2.getHealth() - 2);
-                        }
-                        if (state1 == State.LOW_ATTACK) {
-                            fighter2.setHitStunnedLow(true);
-                            fighter2.setHealth(fighter2.getHealth() - 1);
-                        }
-                    }
-                    else {
-                        if (state1 == State.HIGH_ATTACK && state2 != State.CROUCHING && (direction2 == Direction.NEUTRAL || direction2 == Direction.RIGHT))
-                            fighter2.setBlockStunnedHigh(true);
-                        else if (state1 == State.HIGH_ATTACK && state2 != State.CROUCHING) fighter2.setHitStunnedHigh(true);
-                        if (state1 == State.MID_ATTACK && state2 != State.CROUCHING && (direction2 == Direction.NEUTRAL || direction2 == Direction.RIGHT))
-                            fighter2.setBlockStunnedMid(true);
-                        else if (state1 == State.MID_ATTACK) fighter2.setHitStunnedMid(true);
-                        if (state1 == State.LOW_ATTACK && state2 == State.CROUCHING && (direction2 == Direction.NEUTRAL || direction2 == Direction.RIGHT))
-                            fighter2.setBlockStunnedLow(true);
-                        else if (state1 == State.LOW_ATTACK) fighter2.setHitStunnedLow(true);
-                    }
-                }
-            }
-        }
-
-        // HURTBOX1 X HITBOX2
-        for (Rectangle hitbox2 : hitboxes2) {
-            for (Rectangle hurtbox1 : hurtboxes1) {
-                if (hitbox2.overlaps(hurtbox1)) {
-                    if (state1 == State.HIGH_ATTACK || state1 == State.MID_ATTACK || state1 == State.LOW_ATTACK) {
-                        if (state2 == State.HIGH_ATTACK) {
-                            fighter1.setHitStunnedHigh(true);
-                            fighter1.setHealth(fighter2.getHealth() - 3);
-                        }
-                        if (state2 == State.MID_ATTACK) {
-                            fighter1.setHitStunnedMid(true);
-                            fighter1.setHealth(fighter2.getHealth() - 2);
-                        }
-                        if (state2 == State.LOW_ATTACK) {
-                            fighter1.setHitStunnedLow(true);
-                            fighter1.setHealth(fighter2.getHealth() - 1);
-                        }
-                    }
-                    else {
-                        if (state2 == State.HIGH_ATTACK && state1 != State.CROUCHING && (direction1 == Direction.NEUTRAL || direction1 == Direction.LEFT))
-                            fighter1.setBlockStunnedHigh(true);
-                        else if (state2 == State.HIGH_ATTACK && state1 != State.CROUCHING) fighter1.setHitStunnedHigh(true);
-                        if (state2 == State.MID_ATTACK && state1 != State.CROUCHING && (direction1 == Direction.NEUTRAL || direction1 == Direction.LEFT))
-                            fighter1.setBlockStunnedMid(true);
-                        else if (state2 == State.MID_ATTACK) fighter1.setHitStunnedMid(true);
-                        if (state2 == State.LOW_ATTACK && state1 == State.CROUCHING && (direction1 == Direction.NEUTRAL || direction1 == Direction.LEFT))
-                            fighter1.setBlockStunnedLow(true);
-                        else if (state2 == State.LOW_ATTACK) fighter1.setHitStunnedLow(true);
-                    }
-                }
-            }
-        }
-
-
-/*        for (Rectangle hitbox1 : hitboxes1) {
-            for (Rectangle hurtbox2 : hurtboxes2) {
-                if (hitbox1.overlaps(hurtbox2)) {
-
-                }
-            }
-        }
-
-        for (Rectangle hitbox2 : hitboxes2) {
-            for (Rectangle hurtbox1 : hurtboxes1) {
-                if (hitbox2.overlaps(hurtbox1)) {
-
-                }
-            }
-        }*/
-
-
-        // HURTBOX1 X HURTBOX2
         for (Rectangle hurtbox1 : hurtboxes1) {
             for (Rectangle hurtbox2 : hurtboxes2) {
                 if (hurtbox1.overlaps(hurtbox2)) {
@@ -183,17 +109,52 @@ public class Collision {
                 }
             }
         }
-
     }
 
-    public static Direction getDirection(Command command) {
-        if (command instanceof MoveFighterCommand) {
-            int xBefore = ((MoveFighterCommand) command).getXBefore();
-            int x = ((MoveFighterCommand) command).getX();
-            return (xBefore < x) ? Direction.RIGHT : Direction.LEFT;
+    private void applyStates(State fighter1State, State fighter2State) {
+        int damage1 = getDamage(fighter1);
+        int damage2 = getDamage(fighter2);
+        if (fighter1State != null) {
+            applyState(fighter1State, damage2, fighter1);
         }
-        return Direction.NEUTRAL;
+        if (fighter2State != null) {
+            applyState(fighter2State, damage1, fighter2);
+        }
     }
 
+    private void applyState(State defenderState, int attackerDamage, Fighter defender) {
+        if (defenderState == State.BLOCK_STUNNED_HIGH) defender.setBlockStunnedHigh(true);
+        if (defenderState == State.BLOCK_STUNNED_MID) defender.setBlockStunnedMid(true);
+        if (defenderState == State.BLOCK_STUNNED_LOW) defender.setBlockStunnedLow(true);
+        if (defenderState == State.HIT_STUNNED_HIGH) {
+            defender.setHitStunnedHigh(true);
+            defender.setHealth(defender.getHealth() - attackerDamage);
+        }
+        if (defenderState == State.HIT_STUNNED_MID) {
+            defender.setHitStunnedMid(true);
+            defender.setHealth(defender.getHealth() - attackerDamage);
+        }
+        if (defenderState == State.HIT_STUNNED_LOW) {
+            defender.setHitStunnedLow(true);
+            defender.setHealth(defender.getHealth() - attackerDamage);
+        }
+    }
 
+    private int getDamage(Fighter fighter) {
+        return fighter.getMovelist().getMove(fighter.getState().getId()).getDamage();
+    }
+
+    private void checkHealthAndSetState() {
+        if (fighter1.getHealth() <= 0 && fighter1.getState() != State.HIT_STUNNED_HIGH) {
+            handleFighterDefeated(fighter1, fighter2);
+        }
+        if (fighter2.getHealth() <= 0 && fighter2.getState() != State.HIT_STUNNED_HIGH) {
+            handleFighterDefeated(fighter2, fighter1);
+        }
+    }
+
+    private void handleFighterDefeated(Fighter defeated, Fighter winner) {
+        defeated.setHitStunnedHigh(true);
+        winner.setRoundsWon(winner.getRoundsWon() + 1);
+    }
 }

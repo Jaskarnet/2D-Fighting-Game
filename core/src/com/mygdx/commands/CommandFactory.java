@@ -52,7 +52,7 @@ public class CommandFactory {
         return new HitStunCommand(fighter, State.HIT_STUNNED_LOW, fighter.getMovelist().getMove(State.HIT_STUNNED_LOW.ordinal()), fighter.getCurrentFrame());
     }
 
-    static DoNothingCommand doNothingCommand(Fighter fighter) {
+    public static DoNothingCommand doNothingCommand(Fighter fighter) {
         return new DoNothingCommand(fighter, State.NEUTRAL, fighter.getMovelist().getMove(State.NEUTRAL.ordinal()), fighter.getCurrentFrame());
     }
 }

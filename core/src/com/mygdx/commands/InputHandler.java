@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.mygdx.entities.Fighter;
 import com.mygdx.entities.State;
+import com.mygdx.game.GameState;
 import com.mygdx.game.Multiplayer;
 import com.mygdx.moves.Move;
 import com.mygdx.utils.CircularBuffer;
@@ -20,6 +21,7 @@ public class InputHandler {
     private boolean recordingInput;
     private Player player;
     private Multiplayer multiplayer;
+
 
     public InputHandler(Fighter fighter, Player player, int forwardButton, int backwardButton, int crouchButton, int attackButton, int commandHistorySize) {
         this.fighter = fighter;
@@ -105,7 +107,6 @@ public class InputHandler {
         if (fighter.isHitStunnedHigh()) {
             if (fighter.getState() != State.HIT_STUNNED_HIGH) {
                 fighter.setCurrentFrame(0);
-                System.out.println(fighter.getPlayer() + " blockStun [" + fighter.getCurrentFrame() + "]");
                 command = CommandFactory.hitStunCommandHigh(fighter);
                 if (recordingInput) commandHistory.add(command);
                 return command;
@@ -113,7 +114,6 @@ public class InputHandler {
                 fighter.setHitStunnedHigh(false);
             } else {
                 fighter.setCurrentFrame(currentFrame);
-                System.out.println(fighter.getPlayer() + " blockStun [" + fighter.getCurrentFrame() + "]");
                 command = CommandFactory.hitStunCommandHigh(fighter);
                 if (recordingInput) commandHistory.add(command);
                 return command;
@@ -124,7 +124,6 @@ public class InputHandler {
         if (fighter.isHitStunnedMid()) {
             if (fighter.getState() != State.HIT_STUNNED_MID) {
                 fighter.setCurrentFrame(0);
-                System.out.println(fighter.getPlayer() + " blockStun [" + fighter.getCurrentFrame() + "]");
                 command = CommandFactory.hitStunCommandMid(fighter);
                 if (recordingInput) commandHistory.add(command);
                 return command;
@@ -132,7 +131,6 @@ public class InputHandler {
                 fighter.setHitStunnedMid(false);
             } else {
                 fighter.setCurrentFrame(currentFrame);
-                System.out.println(fighter.getPlayer() + " blockStun [" + fighter.getCurrentFrame() + "]");
                 command = CommandFactory.hitStunCommandMid(fighter);
                 if (recordingInput) commandHistory.add(command);
                 return command;
@@ -143,7 +141,6 @@ public class InputHandler {
         if (fighter.isHitStunnedLow()) {
             if (fighter.getState() != State.HIT_STUNNED_LOW) {
                 fighter.setCurrentFrame(0);
-                System.out.println(fighter.getPlayer() + " blockStun [" + fighter.getCurrentFrame() + "]");
                 command = CommandFactory.hitStunCommandLow(fighter);
                 if (recordingInput) commandHistory.add(command);
                 return command;
@@ -151,7 +148,6 @@ public class InputHandler {
                 fighter.setHitStunnedLow(false);
             } else {
                 fighter.setCurrentFrame(currentFrame);
-                System.out.println(fighter.getPlayer() + " blockStun [" + fighter.getCurrentFrame() + "]");
                 command = CommandFactory.hitStunCommandLow(fighter);
                 if (recordingInput) commandHistory.add(command);
                 return command;
@@ -162,7 +158,6 @@ public class InputHandler {
         if (fighter.isBlockStunnedHigh()) {
             if (fighter.getState() != State.BLOCK_STUNNED_HIGH) {
                 fighter.setCurrentFrame(0);
-                System.out.println(fighter.getPlayer() + " blockStun [" + fighter.getCurrentFrame() + "]");
                 command = CommandFactory.blockStunCommandHigh(fighter);
                 if (recordingInput) commandHistory.add(command);
                 return command;
@@ -170,7 +165,6 @@ public class InputHandler {
                 fighter.setBlockStunnedHigh(false);
             } else {
                 fighter.setCurrentFrame(currentFrame);
-                System.out.println(fighter.getPlayer() + " blockStun [" + fighter.getCurrentFrame() + "]");
                 command = CommandFactory.blockStunCommandHigh(fighter);
                 if (recordingInput) commandHistory.add(command);
                 return command;
@@ -181,7 +175,6 @@ public class InputHandler {
         if (fighter.isBlockStunnedMid()) {
             if (fighter.getState() != State.BLOCK_STUNNED_MID) {
                 fighter.setCurrentFrame(0);
-                System.out.println(fighter.getPlayer() + " blockStun [" + fighter.getCurrentFrame() + "]");
                 command = CommandFactory.blockStunCommandMid(fighter);
                 if (recordingInput) commandHistory.add(command);
                 return command;
@@ -189,7 +182,6 @@ public class InputHandler {
                 fighter.setBlockStunnedMid(false);
             } else {
                 fighter.setCurrentFrame(currentFrame);
-                System.out.println(fighter.getPlayer() + " blockStun [" + fighter.getCurrentFrame() + "]");
                 command = CommandFactory.blockStunCommandMid(fighter);
                 if (recordingInput) commandHistory.add(command);
                 return command;
@@ -200,7 +192,6 @@ public class InputHandler {
         if (fighter.isBlockStunnedLow()) {
             if (fighter.getState() != State.BLOCK_STUNNED_LOW) {
                 fighter.setCurrentFrame(0);
-                System.out.println(fighter.getPlayer() + " blockStun [" + fighter.getCurrentFrame() + "]");
                 command = CommandFactory.blockStunCommandLow(fighter);
                 if (recordingInput) commandHistory.add(command);
                 return command;
@@ -208,7 +199,6 @@ public class InputHandler {
                 fighter.setBlockStunnedLow(false);
             } else {
                 fighter.setCurrentFrame(currentFrame);
-                System.out.println(fighter.getPlayer() + " blockStun [" + fighter.getCurrentFrame() + "]");
                 command = CommandFactory.blockStunCommandLow(fighter);
                 if (recordingInput) commandHistory.add(command);
                 return command;
@@ -218,11 +208,8 @@ public class InputHandler {
         // ATTACK
         if (fighter.getState() == State.HIGH_ATTACK || fighter.getState() == State.MID_ATTACK || fighter.getState() == State.LOW_ATTACK) {
             int frameCount = fighter.getMovelist().getMove(fighter.getState().ordinal()).getFrameCount();
-
             fighter.setCurrentFrame(currentFrame);
-
             if (currentFrame < frameCount) {
-                System.out.println(fighter.getPlayer() + " attack [" + fighter.getCurrentFrame() + "]");
                 if (fighter.getState() == State.HIGH_ATTACK) {
                     command = CommandFactory.AttackCommandHigh(fighter);
                 } else if (fighter.getState() == State.MID_ATTACK) {
@@ -238,8 +225,6 @@ public class InputHandler {
 
         if (Gdx.input.isKeyPressed(attackButton)) {
             fighter.setCurrentFrame(0);
-
-            System.out.println(fighter.getPlayer() + " attack [" + fighter.getCurrentFrame() + "]");
             if (Gdx.input.isKeyPressed(forwardButton)) {
                 command = CommandFactory.AttackCommandHigh(fighter);
             } else if (Gdx.input.isKeyPressed(backwardButton)) {
@@ -247,7 +232,6 @@ public class InputHandler {
             } else {
                 command = CommandFactory.AttackCommandMid(fighter);
             }
-
             if (recordingInput) commandHistory.add(command);
             return command;
         }

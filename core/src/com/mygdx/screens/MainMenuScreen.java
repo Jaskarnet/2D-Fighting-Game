@@ -118,7 +118,9 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void hide() {
-        // Implement if needed
+        if (Gdx.input.getInputProcessor() == stage) {
+            Gdx.input.setInputProcessor(null);
+        }
     }
 
     @Override
