@@ -7,6 +7,7 @@ import com.esotericsoftware.kryonet.Server;
 import com.esotericsoftware.kryonet.Client;
 import com.mygdx.commands.*;
 import com.mygdx.entities.Fighter;
+import com.mygdx.screens.OnlineGameScreen;
 import com.mygdx.utils.CircularBuffer;
 
 import java.io.BufferedReader;
@@ -28,6 +29,12 @@ public class Multiplayer {
     private Client client;
     private int serverPort;
     private int connectedPort;
+    private boolean isAttemptingConnection = false;
+    private boolean isConnected = false;
+    private boolean startGame = false;
+    private String lastErrorMessage = null;
+    private int player1RoundsWon, player2RoundsWon;
+    private boolean player1IsHitStunned, player2IsHitStunned;
 
     String ipAddress;
     LinkedBlockingDeque<Command> commandQueue;
@@ -38,6 +45,7 @@ public class Multiplayer {
     }
 
     public void initializeServer() {
+        isAttemptingConnection = true;
         serverPort = findFreePort();
         if (openPortUPnP(serverPort)) {
             System.out.println("UPnP: Port został otwarty");
@@ -50,17 +58,20 @@ public class Multiplayer {
 
         server.addListener(new Listener() {
             @Override
+            public void connected(Connection connection) {
+                isConnected = true;
+                lastErrorMessage = null;
+            }
+            @Override
             public void received(Connection connection, Object object) {
-
-                if (object instanceof CreateHostClientCommand) {
-                    if (client == null) {
-                        System.out.println("SIEMA TU NOWY KLIENT");
-                        System.out.println("Received command from: " + connection.getRemoteAddressTCP());
-                        initializeClientForHost(object);
-                    }
-                } else if (object instanceof Command) {
+                if (object instanceof Command) {
                     handleCommand((Command) object);
                 }
+            }
+            @Override
+            public void disconnected(Connection connection) {
+                isConnected = false;
+                lastErrorMessage = "Disconnected";
             }
         });
 
@@ -71,21 +82,48 @@ public class Multiplayer {
             server.start();
             System.out.println(" Server started on serverPort: " + serverPort);
         } catch (IOException e) {
+            lastErrorMessage = "Connection error: " + e.getMessage();
             e.printStackTrace();
         }
     }
 
+    public void closeServer() {
+        if (server != null) {
+            server.stop();
+            server = null;
+            removePortUPnP(serverPort);
+            System.out.println("Serwer zostal zamkniety.");
+        }
+    }
+
+
     public void initializeClient(String ipAddress, int port) {
+        isAttemptingConnection = true;
         client = new Client();
         configureKryo(client.getKryo());
 
         client.addListener(new Listener() {
             @Override
+            public void connected(Connection connection) {
+                isConnected = true;
+                lastErrorMessage = null;
+            }
+            @Override
             public void received(Connection connection, Object object) {
+                if (object instanceof SetHighStunCommand) {
+                    player1IsHitStunned = true;
 
-                if (object instanceof Command) {
+                }
+                else if (object instanceof StartGameCommand) {
+                    startGame = true;
+                } else if (object instanceof Command) {
                     handleCommand((Command) object);
                 }
+            }
+            @Override
+            public void disconnected(Connection connection) {
+                isConnected = false;
+                lastErrorMessage = "disconnected";
             }
         });
 
@@ -96,7 +134,16 @@ public class Multiplayer {
             this.ipAddress = ipAddress;
             //sendCreateHostClientCommand(encodeIpAndPort(ipAddress, serverPort));
         } catch (IOException e) {
+            lastErrorMessage = "Connection error: " + e.getMessage();
             e.printStackTrace();
+        }
+    }
+
+    public void closeClient() {
+        if (client != null) {
+            client.stop();
+            client = null;
+            System.out.println("Klient zostal zamkniety.");
         }
     }
 
@@ -109,7 +156,7 @@ public class Multiplayer {
         client.sendTCP(command);
     }
 
-    public void initializeClientForHost(Object object) {
+/*    public void initializeClientForHost(Object object) {
         // Odczytaj zakodowany adres IP i port
         String[] decodedInviteLink = decodeIpAndPort(((CreateHostClientCommand) object).getInviteCode());
         String ipAddress = decodedInviteLink[0];
@@ -117,7 +164,7 @@ public class Multiplayer {
         System.out.println("Klient hosta probuje sie polaczyc z " + ipAddress + "/" + portNumber);
         // Inicjalizuj klienta i połącz go z serwerem gracza, który dołącza
         initializeClient(ipAddress, portNumber);
-    }
+    }*/
 
     private void configureKryo(Kryo kryo) {
         kryo.register(InputHandler.class);
@@ -134,6 +181,7 @@ public class Multiplayer {
         kryo.register(DoNothingCommand.class);
         kryo.register(HitStunCommand.class);
         kryo.register(CreateHostClientCommand.class);
+        kryo.register(StartGameCommand.class);
     }
 
     private int findFreePort() {
@@ -217,14 +265,13 @@ public class Multiplayer {
 
 
     private void handleCommand(Command command) {
-        System.out.println("Received command: " + command);
         commandQueue.add(command);
     }
 
     public void sendCommand(Command command) {
         if (server != null) {
             server.sendToAllTCP(command);
-        } else {
+        } else if (client != null) {
             client.sendTCP(command);
         }
 
@@ -326,4 +373,26 @@ public class Multiplayer {
         this.commandQueue = commandQueue;
     }
 
+    public Server getServer() {
+        return server;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public boolean isConnected() {
+        return isConnected;
+    }
+    public boolean isAttemptingConnection() {
+        return isAttemptingConnection;
+    }
+
+    public String getLastErrorMessage() {
+        return lastErrorMessage;
+    }
+
+    public boolean getStartGame() {
+        return startGame;
+    }
 }

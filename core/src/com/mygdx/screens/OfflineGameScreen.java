@@ -87,10 +87,10 @@ public class OfflineGameScreen implements Screen {
             winnerMessage = "Draw!";
             isWinnerMessageActive = true;
         } else if (player1.getRoundsWon() >= 3 && player2.getState() == State.HIT_STUNNED_HIGH) {
-            winnerMessage = "Player1 wins!";
+            winnerMessage = "Player 1 wins!";
             isWinnerMessageActive = true;
         } else if (player2.getRoundsWon() >= 3 && player1.getState() == State.HIT_STUNNED_HIGH) {
-            winnerMessage = "Player2 wins!";
+            winnerMessage = "Player 2 wins!";
             isWinnerMessageActive = true;
         } else if (player1.getState() == State.HIT_STUNNED_HIGH || player2.getState() == State.HIT_STUNNED_HIGH) {
             winnerMessage = String.format("%d - %d", player1.getRoundsWon(), player2.getRoundsWon());
@@ -104,7 +104,10 @@ public class OfflineGameScreen implements Screen {
             if (winnerMessageTime <= 0) {
                 isWinnerMessageActive = false;
                 winnerMessageTime = 2.0f;
-                if (player1.getRoundsWon() >= 3 || player2.getRoundsWon() >= 3) game.setScreen(new MainMenuScreen(game));
+                if (player1.getRoundsWon() >= 3 || player2.getRoundsWon() >= 3) {
+                    dispose();
+                    game.setScreen(new MainMenuScreen(game));
+                }
                 else startNewRound();
             }
         }
@@ -245,6 +248,7 @@ public class OfflineGameScreen implements Screen {
 
     @Override
     public void dispose() {
+        System.out.println("~dispose(OfflineGameScreen)");
         backgroundTexture.dispose();
         countdownFont.dispose();
     }

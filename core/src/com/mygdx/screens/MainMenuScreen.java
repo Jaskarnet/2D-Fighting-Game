@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -14,40 +16,60 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.FightingGame;
 import com.mygdx.screens.HostOnlineGameScreen;
 import com.mygdx.screens.OfflineGameScreen;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 
 public class MainMenuScreen implements Screen {
 
     private final FightingGame game;
     private final Stage stage;
     private final Skin skin;
-
+    private Texture backgroundTexture;
     private TextButton playOfflineButton;
     private TextButton hostOnlineGameButton;
     private TextButton joinOnlineGameButton;
     private TextButton exitButton;
+    BitmapFont font;
 
     public MainMenuScreen(FightingGame game) {
+        backgroundTexture = new Texture(Gdx.files.internal("sunset.jpg"));
         this.game = game;
         this.stage = new Stage(new ScreenViewport());
         FileHandle fileHandle = Gdx.files.internal("uiskin.json");
         String fullPath = fileHandle.file().getAbsolutePath();
         System.out.println("Full path to uiskin.json: " + fullPath);
         this.skin = new Skin(Gdx.files.internal("uiskin.json"));
+        this.font = new BitmapFont();
+        font.getData().setScale(2f);
 
         createUI();
     }
 
     private void createUI() {
-        playOfflineButton = new TextButton("Play Offline", skin);
-        hostOnlineGameButton = new TextButton("Host Online Game", skin);
-        joinOnlineGameButton = new TextButton("Join Online Game", skin);
-        exitButton = new TextButton("Exit", skin);
+        TextButtonStyle buttonStyle = new TextButtonStyle();
+        buttonStyle.font = font;
+        buttonStyle.up = skin.getDrawable("default-round"); // Użyj dostępnych grafik z pliku uiskin.json
+        buttonStyle.down = skin.getDrawable("default-round-down"); // Możesz użyć innych grafik, jeśli chcesz
+
+        playOfflineButton = new TextButton("Play Offline", buttonStyle);
+        hostOnlineGameButton = new TextButton("Host Online Game", buttonStyle);
+        joinOnlineGameButton = new TextButton("Join Online Game", buttonStyle);
+        exitButton = new TextButton("Exit", buttonStyle);
+
+        float buttonWidth = 300f;
+        float buttonHeight = 60f;
+
+        playOfflineButton.setSize(buttonWidth, buttonHeight);
+        hostOnlineGameButton.setSize(buttonWidth, buttonHeight);
+        joinOnlineGameButton.setSize(buttonWidth, buttonHeight);
+        exitButton.setSize(buttonWidth, buttonHeight);
 
         // Set button listeners
         playOfflineButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Play Offline button clicked!");
+                dispose();
                 game.setScreen(new OfflineGameScreen(game));
             }
         });
@@ -56,6 +78,7 @@ public class MainMenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Host Online Game button clicked!");
+                dispose();
                 game.setScreen(new HostOnlineGameScreen(game));
             }
         });
@@ -64,6 +87,7 @@ public class MainMenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Join Online Game button clicked!");
+                dispose();
                 game.setScreen(new JoinOnlineGameScreen(game));
             }
         });
@@ -72,6 +96,7 @@ public class MainMenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Exit button clicked!");
+                dispose();
                 Gdx.app.exit(); // Close the application
             }
         });
@@ -80,11 +105,10 @@ public class MainMenuScreen implements Screen {
         Table table = new Table();
         table.setFillParent(true);
         table.defaults().pad(10);
-        table.add(playOfflineButton).row();
-        table.add(hostOnlineGameButton).row();
-        table.add(joinOnlineGameButton).row();
-        table.add(exitButton).row();
-
+        table.add(playOfflineButton).size(buttonWidth, buttonHeight).padBottom(10).row();
+        table.add(hostOnlineGameButton).size(buttonWidth, buttonHeight).padBottom(10).row();
+        table.add(joinOnlineGameButton).size(buttonWidth, buttonHeight).padBottom(10).row();
+        table.add(exitButton).size(buttonWidth, buttonHeight).row();
         stage.addActor(table);
     }
 
@@ -96,7 +120,9 @@ public class MainMenuScreen implements Screen {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(1, (float) 0.54, 0, 1);
-
+        game.batch.begin();
+        game.batch.draw(backgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        game.batch.end();
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
     }
@@ -125,7 +151,9 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void dispose() {
-        stage.dispose();
-        skin.dispose();
+        System.out.println("~dispose(MainMenuGameScreen)");
+        backgroundTexture.dispose();
+        if (stage != null) stage.dispose();
+        if (skin != null) skin.dispose();
     }
 }

@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.mygdx.commands.Player;
+import com.mygdx.commands.StartGameCommand;
 import com.mygdx.entities.Fighter;
 import com.mygdx.game.FightingGame;
 import com.mygdx.game.Multiplayer;
@@ -34,6 +35,8 @@ public class HostOnlineGameScreen implements Screen {
     private TextButton returnButton;
     private TextButton copyButton;
     private Fighter player1, player2;
+    private Label connectedPlayerLabel;
+    private TextButton startGameButton;
 
 
     public HostOnlineGameScreen(FightingGame game) {
@@ -54,16 +57,23 @@ public class HostOnlineGameScreen implements Screen {
         table.setFillParent(true);
         stage.addActor(table);
 
+
+
         // Create labels and buttons
         messageLabel = new Label("Share this code with your friend:", skin);
         encodedIpLabel = new Label("", skin);
         returnButton = new TextButton("Return to Main Menu", skin);
         copyButton = new TextButton("Copy", skin);
+        connectedPlayerLabel = new Label("No players connected", skin);
+        startGameButton = new TextButton("Start Game", skin);
+        startGameButton.setDisabled(true);
 
         // Add labels and buttons to the table
         table.add(messageLabel).expandX().top().padTop(20).row();
         table.add(encodedIpLabel).expandX().top().padTop(10).row();
         table.add(copyButton).padTop(10).row();
+        table.add(connectedPlayerLabel).padTop(20).row();
+        table.add(startGameButton).padTop(20).row();
         table.add(returnButton).padTop(30).row();
 
         // Set label alignments
@@ -82,7 +92,19 @@ public class HostOnlineGameScreen implements Screen {
         returnButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new OnlineGameScreen(game, multiplayer, player1, player2));
+                dispose();
+                game.setScreen(new MainMenuScreen(game));
+            }
+        });
+
+        startGameButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (!startGameButton.isDisabled()) {
+                    multiplayer.sendCommand(new StartGameCommand());
+                    // Możesz również tutaj przejść do ekranu gry dla hosta
+                    game.setScreen(new OnlineGameScreen(game, multiplayer, player1, player2));
+                }
             }
         });
 
@@ -102,6 +124,11 @@ public class HostOnlineGameScreen implements Screen {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(1, (float) 0.54, 0, 1);
+        if (multiplayer.isConnected()) {
+            // Get the address of the connected client
+            connectedPlayerLabel.setText("Player joined.");
+            startGameButton.setDisabled(false); // Make the start game button clickable
+        }
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
     }
@@ -128,7 +155,11 @@ public class HostOnlineGameScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        System.out.println("~dispose(HostOnlineGameScreen)");
+        if (multiplayer != null) {
+            multiplayer.closeServer();
+        }
         stage.dispose();
+        skin.dispose();
     }
 }

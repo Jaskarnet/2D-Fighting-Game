@@ -127,7 +127,6 @@ public class Collision {
         if (defenderState == State.BLOCK_STUNNED_MID) defender.setBlockStunnedMid(true);
         if (defenderState == State.BLOCK_STUNNED_LOW) defender.setBlockStunnedLow(true);
         if (defenderState == State.HIT_STUNNED_HIGH) {
-            defender.setHitStunnedHigh(true);
             defender.setHealth(defender.getHealth() - attackerDamage);
         }
         if (defenderState == State.HIT_STUNNED_MID) {
@@ -154,7 +153,9 @@ public class Collision {
     }
 
     private void handleFighterDefeated(Fighter defeated, Fighter winner) {
-        defeated.setHitStunnedHigh(true);
-        winner.setRoundsWon(winner.getRoundsWon() + 1);
+        if (!defeated.isHitStunnedHigh()) {
+            defeated.setHitStunnedHigh(true);
+            winner.setRoundsWon(winner.getRoundsWon() + 1);
+        }
     }
 }

@@ -72,8 +72,7 @@ public class InputHandler {
         // Online
         if (player == Player.ONLINE_PLAYER1 || player == Player.ONLINE_PLAYER2) {
             if (multiplayer.getCommandQueue().size() > 0) {
-                command = multiplayer.getCommandQueue().removeLast();
-                multiplayer.getCommandQueue().clear();
+                command = multiplayer.getCommandQueue().getLast();
                 if (command instanceof HitStunCommand) {
                     currentFrame = ((HitStunCommand) command).getCurrentFrame();
                 } else if (command instanceof BlockStunCommand) {

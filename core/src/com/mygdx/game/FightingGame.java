@@ -25,6 +25,8 @@ public class FightingGame extends Game {
 
     @Override
     public void dispose() {
+        System.out.println("~dispose(FightingGame)");
+        this.getScreen().dispose();
         batch.dispose();
         shapeRenderer.dispose();
     }

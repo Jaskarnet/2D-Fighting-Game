@@ -58,6 +58,8 @@ public class Fighter extends Entity {
 
     public Fighter(int x, int y, Player player, int backwardButton, int forwardButton, int crouchButton, int attackButton, int commandHistorySize, Multiplayer multiplayer) {
         super(x, y);
+        this.initialX = x;
+        this.initialY = y;
         this.multiplayer = multiplayer;
         inputHandler = new InputHandler(this, player, forwardButton, backwardButton, crouchButton, attackButton, commandHistorySize, multiplayer);
         this.player = player;
@@ -80,6 +82,8 @@ public class Fighter extends Entity {
 
     public Fighter(int x, int y, Player player, int commandHistorySize, Multiplayer multiplayer) {
         super(x, y);
+        this.initialX = x;
+        this.initialY = y;
         inputHandler = new InputHandler(this, player, commandHistorySize, multiplayer);
         this.player = player;
         this.multiplayer = multiplayer;
@@ -167,6 +171,7 @@ public class Fighter extends Entity {
         hitboxes = movelist.getMove(0).getFrame(0).getHitboxes();
         state = State.NEUTRAL;
         setTextureRegion(movelist.getMove(state.ordinal()).getFrame(currentFrame).getSprite());
+        if (multiplayer != null && (player == Player.PLAYER1 || player == Player.PLAYER2)) multiplayer.sendCommand(new MoveFighterCommand(this, State.NEUTRAL, movelist.getMove(0), 0));
     }
 
     private List<Rectangle> adjustBoxesForFighterPosition(List<Rectangle> boxes) {

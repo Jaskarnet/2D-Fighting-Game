@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.commands.Player;
 import com.mygdx.entities.Fighter;
@@ -26,6 +27,7 @@ public class JoinOnlineGameScreen implements Screen {
     private TextButton connectButton;
     private TextButton returnButton;
     private Fighter player1, player2;
+    private Label connectionStatusLabel;
 
     public JoinOnlineGameScreen(FightingGame game) {
         this.game = game;
@@ -47,11 +49,13 @@ public class JoinOnlineGameScreen implements Screen {
         inviteCodeField = new TextField("", skin);
         connectButton = new TextButton("Connect", skin);
         returnButton = new TextButton("Return to Main Menu", skin);
+        connectionStatusLabel = new Label("", skin);
 
         // Add UI elements to the table
         table.add(inviteCodeField).padBottom(10).row();
         table.add(connectButton).padBottom(10).row();
         table.add(returnButton).padBottom(10).row();
+        table.add(connectionStatusLabel).padBottom(10).row();
 
         // Add click listener to the connect button
         connectButton.addListener(new ClickListener() {
@@ -65,7 +69,7 @@ public class JoinOnlineGameScreen implements Screen {
         returnButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                multiplayer.stopServer();
+                dispose();
                 game.setScreen(new MainMenuScreen(game));
             }
         });
@@ -76,14 +80,21 @@ public class JoinOnlineGameScreen implements Screen {
 
     private void connectToServer() {
         String[] decodedInviteLink = multiplayer.decodeIpAndPort(inviteCodeField.getText());
-        String ipAddress = decodedInviteLink[0];
-        int portNumber = Integer.parseInt(decodedInviteLink[1]);
+        if (decodedInviteLink != null) {
+            String ipAddress = decodedInviteLink[0];
+            int portNumber = Integer.parseInt(decodedInviteLink[1]);
 
-        // Now you have the IP address as a string and port number as an integer
-        System.out.println("IP Address: " + ipAddress);
-        System.out.println("Port Number: " + portNumber);
-        multiplayer.initializeClient(ipAddress, portNumber);
-        game.setScreen(new OnlineGameScreen(game, multiplayer, player1, player2));
+            // Now you have the IP address as a string and port number as an integer
+            System.out.println("IP Address: " + ipAddress);
+            System.out.println("Port Number: " + portNumber);
+            try {
+                multiplayer.initializeClient(ipAddress, portNumber);
+            } catch (Exception e) {
+                connectionStatusLabel.setText("Connection error: " + e.getMessage());
+                e.printStackTrace();
+            }
+            //game.setScreen(new OnlineGameScreen(game, multiplayer, player1, player2));
+        }
     }
 
     @Override
@@ -92,6 +103,21 @@ public class JoinOnlineGameScreen implements Screen {
 
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
+        if (multiplayer.isAttemptingConnection()) {
+            // Sprawdź, czy połączenie się udało lub wystąpił błąd
+            if (multiplayer.getLastErrorMessage() != null) {
+                connectionStatusLabel.setText(multiplayer.getLastErrorMessage());
+            } else if (multiplayer.isConnected()) {
+                connectionStatusLabel.setText("Successfully connected. Waiting for host to start the game.");
+            } else {
+                connectionStatusLabel.setText("Connecting...");
+            }
+        }
+        if (multiplayer.getStartGame()) {
+            stage.dispose();
+            skin.dispose();
+            game.setScreen(new OnlineGameScreen(game, multiplayer, player1, player2));
+        }
     }
 
     @Override
@@ -116,7 +142,11 @@ public class JoinOnlineGameScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        System.out.println("~dispose(JoinOnlineGameScreen)");
+        if (multiplayer != null) {
+            multiplayer.closeClient();
+        }
         stage.dispose();
+        skin.dispose();
     }
 }
