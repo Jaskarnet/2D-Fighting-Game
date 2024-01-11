@@ -362,6 +362,15 @@
         "maxX" : 69.0,
         "maxY" : 96.0
       }
+    }, {
+      "box" : {
+        "minX" : 5.0,
+        "minY" : 7.0,
+        "width" : 36.0,
+        "height" : 31.0,
+        "maxX" : 41.0,
+        "maxY" : 38.0
+      }
     } ],
     "hitboxes" : [ {
       "box" : {
@@ -1517,6 +1526,15 @@
           "height" : 96.0,
           "maxX" : 69.0,
           "maxY" : 96.0
+        }
+      }, {
+        "box" : {
+          "minX" : 5.0,
+          "minY" : 7.0,
+          "width" : 36.0,
+          "height" : 31.0,
+          "maxX" : 41.0,
+          "maxY" : 38.0
         }
       } ],
       "hitboxes" : [ {

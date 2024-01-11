@@ -1,10 +1,7 @@
 package com.mygdx.engine;
 
 import com.badlogic.gdx.math.Rectangle;
-import com.mygdx.commands.AttackCommand;
-import com.mygdx.commands.Command;
-import com.mygdx.commands.Direction;
-import com.mygdx.commands.MoveFighterCommand;
+import com.mygdx.commands.*;
 import com.mygdx.entities.Fighter;
 import com.mygdx.entities.State;
 
@@ -84,25 +81,25 @@ public class Collision {
                 if (hurtbox1.overlaps(hurtbox2)) {
                     //System.out.println(direction1 + " " + direction2);
                     if (direction1 == Direction.RIGHT && direction2 == Direction.LEFT) {
-                        fighter1.moveTo(((MoveFighterCommand) command1).getXBefore(), fighter1.getY());
-                        fighter2.moveTo(((MoveFighterCommand) command2).getXBefore(), fighter2.getY());
+                        if (fighter1.getPlayer() == Player.PLAYER1) fighter1.moveTo(((MoveFighterCommand) command1).getXBefore(), fighter1.getY());
+                        if (fighter2.getPlayer() == Player.PLAYER2) fighter2.moveTo(((MoveFighterCommand) command2).getXBefore(), fighter2.getY());
                     } else if (direction1 == Direction.RIGHT && direction2 == Direction.NEUTRAL) {
-                        fighter2.moveTo(fighter2.getX() + 5, fighter2.getY());
+                        if (fighter2.getPlayer() == Player.PLAYER2) fighter2.moveTo(fighter2.getX() + 5, fighter2.getY());
                     } else if (direction1 == Direction.NEUTRAL && direction2 == Direction.LEFT) {
-                        fighter1.moveTo(fighter1.getX() - 5, fighter1.getY());
+                        if (fighter2.getPlayer() == Player.PLAYER1) fighter1.moveTo(fighter1.getX() - 5, fighter1.getY());
                     } else if (state1 == State.HIGH_ATTACK || state1 == State.MID_ATTACK || state1 == State.LOW_ATTACK) {
                         if (state2 == State.HIGH_ATTACK || state2 == State.MID_ATTACK || state2 == State.LOW_ATTACK || state2 == State.GOING_FORWARD) {
-                            fighter1.moveTo(((AttackCommand) command1).getXBefore(), fighter1.getY());
-                            fighter2.moveTo(((AttackCommand) command2).getXBefore(), fighter2.getY());
+                            if (fighter1.getPlayer() == Player.PLAYER1) fighter1.moveTo(((AttackCommand) command1).getXBefore(), fighter1.getY());
+                            if (fighter2.getPlayer() == Player.PLAYER2) fighter2.moveTo(((AttackCommand) command2).getXBefore(), fighter2.getY());
                         } else {
-                            fighter2.moveTo(fighter2.getX() + 5, fighter2.getY());
+                            if (fighter2.getPlayer() == Player.PLAYER2) fighter2.moveTo(fighter2.getX() + 5, fighter2.getY());
                         }
                     } else if (state2 == State.HIGH_ATTACK || state2 == State.MID_ATTACK || state2 == State.LOW_ATTACK) {
                         if (state1 == State.HIGH_ATTACK || state1 == State.MID_ATTACK || state1 == State.LOW_ATTACK || state1 == State.GOING_FORWARD) {
-                            fighter2.moveTo(((AttackCommand) command2).getXBefore(), fighter2.getY());
-                            fighter1.moveTo(((AttackCommand) command1).getXBefore(), fighter1.getY());
+                            if (fighter2.getPlayer() == Player.PLAYER2) fighter2.moveTo(((AttackCommand) command2).getXBefore(), fighter2.getY());
+                            if (fighter1.getPlayer() == Player.PLAYER1) fighter1.moveTo(((AttackCommand) command1).getXBefore(), fighter1.getY());
                         } else {
-                            fighter1.moveTo(fighter1.getX() - 3, fighter1.getY());
+                            if (fighter1.getPlayer() == Player.PLAYER1) fighter1.moveTo(fighter1.getX() - 3, fighter1.getY());
                         }
                     }
 
@@ -115,10 +112,10 @@ public class Collision {
         int damage1 = getDamage(fighter1);
         int damage2 = getDamage(fighter2);
         if (fighter1State != null) {
-            applyState(fighter1State, damage2, fighter1);
+            if (fighter1.getPlayer() == Player.PLAYER1) applyState(fighter1State, damage2, fighter1);
         }
         if (fighter2State != null) {
-            applyState(fighter2State, damage1, fighter2);
+            if (fighter2.getPlayer() == Player.PLAYER2) applyState(fighter2State, damage1, fighter2);
         }
     }
 
@@ -154,8 +151,7 @@ public class Collision {
 
     private void handleFighterDefeated(Fighter defeated, Fighter winner) {
         if (!defeated.isHitStunnedHigh()) {
-            defeated.setHitStunnedHigh(true);
-            winner.setRoundsWon(winner.getRoundsWon() + 1);
+            if (defeated.getPlayer() == Player.PLAYER1 || defeated.getPlayer() == Player.PLAYER2) defeated.setHitStunnedHigh(true);
         }
     }
 }

@@ -12,6 +12,7 @@ public class HitStunCommand implements Command {
     private int currentFrame;
     private int xBefore, yBefore;
     private int x, y;
+    private int health;
 
     public HitStunCommand() {
     }
@@ -26,6 +27,7 @@ public class HitStunCommand implements Command {
         this.y = fighter.getY() + frame.getYAxisMovement();
         this.xBefore = fighter.getX();
         this.yBefore = fighter.getY();
+        this.health = fighter.getHealth();
     }
 
     @Override
@@ -34,6 +36,7 @@ public class HitStunCommand implements Command {
             Fighter fighter = (Fighter) entity;
             fighter.setState(State.fromId(stateId));
             fighter.moveTo(x, y);
+            fighter.setHealth(health);
         }
     }
 

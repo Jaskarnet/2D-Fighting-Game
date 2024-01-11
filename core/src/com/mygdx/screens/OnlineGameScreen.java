@@ -65,14 +65,15 @@ public class OnlineGameScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        clearScreen();
+        updateEntities();
+        renderGame();
+
         checkWinCondition();
         updateCountdown(delta);
         updateFightMessage(delta);
         updateWinnerMessage(delta);
 
-        clearScreen();
-        updateEntities();
-        renderGame();
 
         drawCountdown();
         drawFightMessage();
@@ -80,6 +81,7 @@ public class OnlineGameScreen implements Screen {
         //drawHitboxesAndHurtboxes();
     }
 
+    //TODO: Nie dziala aktualnie liczenie wygranych rund w trybie offline
     private void checkWinCondition() {
         System.out.println("[" + frameCount++ + "] player1(" + player1.getState() +") HP: " + player1.getHealth() + " R: " + player1.getRoundsWon() + " | player2(" + player2.getState() +") HP: " + player2.getHealth() + " R: " + player2.getRoundsWon());
         if (player1.getRoundsWon() >= 3 && player2.getRoundsWon() >= 3 && player1.getState() == State.HIT_STUNNED_HIGH && player2.getState() == State.HIT_STUNNED_HIGH) {
@@ -94,6 +96,8 @@ public class OnlineGameScreen implements Screen {
             else winnerMessage = "You lose!";
             isWinnerMessageActive = true;
         } else if (player1.getState() == State.HIT_STUNNED_HIGH || player2.getState() == State.HIT_STUNNED_HIGH) {
+            if (player1.getState() == State.HIT_STUNNED_HIGH && winnerMessageTime == 2.0f) player2.setRoundsWon(player2.getRoundsWon() + 1);
+            if (player2.getState() == State.HIT_STUNNED_HIGH && winnerMessageTime == 2.0f) player1.setRoundsWon(player1.getRoundsWon() + 1);
             winnerMessage = String.format("%d - %d", player1.getRoundsWon(), player2.getRoundsWon());
             isWinnerMessageActive = true;
         }

@@ -19,13 +19,37 @@ public class Frame {
     List<Rectangle> hitboxes;
 
 
-    public Frame(Texture spriteSheet, int sprite, int xAxisMovement, int yAxisMovement, List<Box> hurtboxes, List<Box> hitboxes) {
-        this.sprite = new TextureRegion(spriteSheet, 0, 300 * sprite, 300, 300);
+    public Frame(Texture spriteSheet, int spriteIndex, int xAxisMovement, int yAxisMovement, List<Box> hurtboxes, List<Box> hitboxes) {
+        int spriteWidth = 300;
+        int spriteHeight = 300;
+        int textureWidth = spriteSheet.getWidth();
+        int textureHeight = spriteSheet.getHeight();
+        int columns = textureWidth / spriteWidth; // assuming the width of the spritesheet is divisible by 300
+
+        // Check if the spriteSheet's file path contains 'Fighter2'
+        boolean isFighter2 = spriteSheet.toString().contains("Fighter2");
+
+        // Calculate x, y coordinate for TextureRegion based on spriteIndex
+        int x, y;
+        if (isFighter2) {
+            // For Fighter2, calculate x from the right side of the spritesheet
+            int row = spriteIndex / columns;
+            int column = columns - 1 - (spriteIndex % columns); // Reversed column index for Fighter2
+            x = column * spriteWidth;
+            y = row * spriteHeight;
+        } else {
+            // For other fighters, calculate x from the left side of the spritesheet
+            x = (spriteIndex % columns) * spriteWidth;
+            y = (spriteIndex / columns) * spriteHeight;
+        }
+
+        this.sprite = new TextureRegion(spriteSheet, x, y, spriteWidth, spriteHeight);
         this.xAxisMovement = xAxisMovement;
         this.yAxisMovement = yAxisMovement;
         this.hurtboxes = boxListToRectangleList(hurtboxes);
         this.hitboxes = boxListToRectangleList(hitboxes);
     }
+
 
     private List<Rectangle> boxListToRectangleList(List<Box> boxes) {
         List<Rectangle> newBoxes = new ArrayList<>();

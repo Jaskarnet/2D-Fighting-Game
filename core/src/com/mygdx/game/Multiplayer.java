@@ -112,7 +112,6 @@ public class Multiplayer {
             public void received(Connection connection, Object object) {
                 if (object instanceof SetHighStunCommand) {
                     player1IsHitStunned = true;
-
                 }
                 else if (object instanceof StartGameCommand) {
                     startGame = true;
