@@ -9,7 +9,7 @@ import com.mygdx.screens.MainMenuScreen;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-		config.setTitle("SuperElectricCat");
+		config.setTitle("Sunset Showdown");
 		config.setWindowedMode(FightingGame.WIDTH, FightingGame.HEIGHT);
 		//config.useVsync(true);
 		config.setForegroundFPS(60);

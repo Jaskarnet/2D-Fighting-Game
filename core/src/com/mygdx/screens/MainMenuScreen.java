@@ -32,7 +32,7 @@ public class MainMenuScreen implements Screen {
     BitmapFont font;
 
     public MainMenuScreen(FightingGame game) {
-        backgroundTexture = new Texture(Gdx.files.internal("sunset.jpg"));
+        backgroundTexture = new Texture(Gdx.files.internal("background.jpg"));
         this.game = game;
         this.stage = new Stage(new ScreenViewport());
         FileHandle fileHandle = Gdx.files.internal("uiskin.json");
@@ -48,8 +48,8 @@ public class MainMenuScreen implements Screen {
     private void createUI() {
         TextButtonStyle buttonStyle = new TextButtonStyle();
         buttonStyle.font = font;
-        buttonStyle.up = skin.getDrawable("default-round"); // Użyj dostępnych grafik z pliku uiskin.json
-        buttonStyle.down = skin.getDrawable("default-round-down"); // Możesz użyć innych grafik, jeśli chcesz
+        buttonStyle.up = skin.getDrawable("default-round");
+        buttonStyle.down = skin.getDrawable("default-round-down");
 
         playOfflineButton = new TextButton("Play Offline", buttonStyle);
         hostOnlineGameButton = new TextButton("Host Online Game", buttonStyle);
@@ -96,13 +96,13 @@ public class MainMenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Exit button clicked!");
-                dispose();
                 Gdx.app.exit(); // Close the application
             }
         });
 
         // Add buttons to the stage
         Table table = new Table();
+        table.left();
         table.setFillParent(true);
         table.defaults().pad(10);
         table.add(playOfflineButton).size(buttonWidth, buttonHeight).padBottom(10).row();
@@ -153,7 +153,7 @@ public class MainMenuScreen implements Screen {
     public void dispose() {
         System.out.println("~dispose(MainMenuGameScreen)");
         backgroundTexture.dispose();
-        if (stage != null) stage.dispose();
-        if (skin != null) skin.dispose();
+        stage.dispose();
+        skin.dispose();
     }
 }

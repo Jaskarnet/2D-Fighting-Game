@@ -1,5 +1,7 @@
 package com.mygdx.engine;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Rectangle;
 import com.mygdx.commands.*;
 import com.mygdx.entities.Fighter;
@@ -9,10 +11,14 @@ import java.util.List;
 
 public class Collision {
     Fighter fighter1, fighter2;
+    private Sound punch1, punch2, punch3, death;
 
     public Collision(Fighter fighter1, Fighter fighter2) {
         this.fighter1 = fighter1;
         this.fighter2 = fighter2;
+        punch1 = Gdx.audio.newSound(Gdx.files.internal("punch1.mp3"));
+        punch2 = Gdx.audio.newSound(Gdx.files.internal("punch2.mp3"));
+        death = Gdx.audio.newSound(Gdx.files.internal("death.mp3"));
     }
 
     public void update() {
@@ -86,7 +92,7 @@ public class Collision {
                     } else if (direction1 == Direction.RIGHT && direction2 == Direction.NEUTRAL) {
                         if (fighter2.getPlayer() == Player.PLAYER2) fighter2.moveTo(fighter2.getX() + 5, fighter2.getY());
                     } else if (direction1 == Direction.NEUTRAL && direction2 == Direction.LEFT) {
-                        if (fighter2.getPlayer() == Player.PLAYER1) fighter1.moveTo(fighter1.getX() - 5, fighter1.getY());
+                        if (fighter1.getPlayer() == Player.PLAYER1) fighter1.moveTo(fighter1.getX() - 5, fighter1.getY());
                     } else if (state1 == State.HIGH_ATTACK || state1 == State.MID_ATTACK || state1 == State.LOW_ATTACK) {
                         if (state2 == State.HIGH_ATTACK || state2 == State.MID_ATTACK || state2 == State.LOW_ATTACK || state2 == State.GOING_FORWARD) {
                             if (fighter1.getPlayer() == Player.PLAYER1) fighter1.moveTo(((AttackCommand) command1).getXBefore(), fighter1.getY());
@@ -120,19 +126,31 @@ public class Collision {
     }
 
     private void applyState(State defenderState, int attackerDamage, Fighter defender) {
-        if (defenderState == State.BLOCK_STUNNED_HIGH) defender.setBlockStunnedHigh(true);
-        if (defenderState == State.BLOCK_STUNNED_MID) defender.setBlockStunnedMid(true);
-        if (defenderState == State.BLOCK_STUNNED_LOW) defender.setBlockStunnedLow(true);
+        if (defenderState == State.BLOCK_STUNNED_HIGH) {
+            defender.setBlockStunnedHigh(true);
+            punch1.play(10);
+        }
+        if (defenderState == State.BLOCK_STUNNED_MID) {
+            defender.setBlockStunnedMid(true);
+            punch1.play(2);
+        }
+        if (defenderState == State.BLOCK_STUNNED_LOW) {
+            defender.setBlockStunnedLow(true);
+            punch1.play(2);
+        }
         if (defenderState == State.HIT_STUNNED_HIGH) {
             defender.setHealth(defender.getHealth() - attackerDamage);
+            punch2.play();
         }
         if (defenderState == State.HIT_STUNNED_MID) {
             defender.setHitStunnedMid(true);
             defender.setHealth(defender.getHealth() - attackerDamage);
+            punch2.play();
         }
         if (defenderState == State.HIT_STUNNED_LOW) {
             defender.setHitStunnedLow(true);
             defender.setHealth(defender.getHealth() - attackerDamage);
+            punch2.play();
         }
     }
 
@@ -152,6 +170,7 @@ public class Collision {
     private void handleFighterDefeated(Fighter defeated, Fighter winner) {
         if (!defeated.isHitStunnedHigh()) {
             if (defeated.getPlayer() == Player.PLAYER1 || defeated.getPlayer() == Player.PLAYER2) defeated.setHitStunnedHigh(true);
+            death.play();
         }
     }
 }

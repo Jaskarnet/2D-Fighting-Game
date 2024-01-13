@@ -22,7 +22,7 @@ public class Fighter extends Entity {
     int initialX, initialY;
     InputHandler inputHandler;
     State state;
-    int health;
+    int health, maxHealth;
     private int currentFrame;
     boolean isBlockStunnedHigh, isBlockStunnedMid, isBlockStunnedLow;
     boolean isHitStunnedHigh, isHitStunnedMid, isHitStunnedLow;
@@ -40,6 +40,7 @@ public class Fighter extends Entity {
         inputHandler = new InputHandler(this, player, forwardButton, backwardButton, crouchButton, attackButton, commandHistorySize);
         this.player = player;
         health = 3;
+        maxHealth = 3;
         this.isBlockStunnedHigh = false;
         this.isBlockStunnedMid = false;
         this.isBlockStunnedLow = false;
@@ -188,7 +189,13 @@ public class Fighter extends Entity {
     }
 
     public void setHealth(int health) {
-        this.health = health;
+        if (health < 0) {
+            this.health = 0;
+        } else if (health > 3) {
+            this.health = 3;
+        } else {
+            this.health = health;
+        }
     }
 
     public InputHandler getInputHandler() {
@@ -309,5 +316,9 @@ public class Fighter extends Entity {
 
     public void setRoundsWon(int roundsWon) {
         this.roundsWon = roundsWon;
+    }
+
+    public float getMaxHealth() {
+        return maxHealth;
     }
 }
