@@ -43,7 +43,7 @@ public class HostOnlineGameScreen implements Screen {
         this.game = game;
         multiplayer = new Multiplayer(game);
         multiplayer.initializeServer();
-        player1 = new Fighter(250, 20, Player.PLAYER1, Input.Keys.A, Input.Keys.D, Input.Keys.S, Input.Keys.R, 600, multiplayer);
+        player1 = new Fighter(250, 20, Player.PLAYER1, Input.Keys.A, Input.Keys.D, Input.Keys.S, Input.Keys.F, 600, multiplayer);
         player2 = new Fighter(650, 20, Player.ONLINE_PLAYER2, 600, multiplayer);
     }
 

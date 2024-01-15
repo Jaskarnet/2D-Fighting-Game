@@ -32,7 +32,7 @@ public class OfflineGameScreen implements Screen {
     private Fighter player1, player2;
     private Collision collision;
     private GameState gameState;
-    private Texture backgroundTexture;
+    private Texture backgroundTexture, p1Movelist, p2Movelist;
     private float countdownTime = 5f;
     private boolean isCountdownActive = true;
     private float fightMessageTime = 0.5f;
@@ -52,6 +52,11 @@ public class OfflineGameScreen implements Screen {
     private Music gameMusic;
     private Sound soundThree, soundTwo, soundOne, punch1, punch2, punch3;
     private boolean oneSound = true, twoSound = true, threeSound = true, punch1Sound = false, punch2Sound = false, punch3Sound = false;
+    private int frameIndex = 1;
+    private float timeAccumulator = 0f;
+    private static final float FRAME_DURATION = 1.0f;
+    private static final int MAX_FRAMES = 71;
+    private ArrayList<Texture> frameTextures = new ArrayList<Texture>();
 
 
 
@@ -63,14 +68,16 @@ public class OfflineGameScreen implements Screen {
         moveFileReader.copyAndReverseMoveInfo("moves/Fighter1/moveinfo", "moves/Fighter2/moveinfo");
         ImageFlipper.flipImagesHorizontally("moves/Fighter1/spritesheets", "moves/Fighter2/spritesheets");*/
 
-        player1 = new Fighter(250, 20, Player.PLAYER1, Input.Keys.A, Input.Keys.D, Input.Keys.S, Input.Keys.R, 600);
+        player1 = new Fighter(250, 20, Player.PLAYER1, Input.Keys.A, Input.Keys.D, Input.Keys.S, Input.Keys.F, 600);
         player2 = new Fighter(650, 20, Player.PLAYER2, Input.Keys.RIGHT, Input.Keys.LEFT, Input.Keys.DOWN, Input.Keys.CONTROL_RIGHT, 600);
 
         entities = new ArrayList<>();
         entities.add(player1);
         entities.add(player2);
         collision = new Collision(player1, player2);
-        backgroundTexture = new Texture(Gdx.files.internal("sunset.jpg"));
+        backgroundTexture = new Texture(Gdx.files.internal("sunsetmid.jpg"));
+        p1Movelist = new Texture(Gdx.files.internal("p1movelist.png"));
+        p2Movelist = new Texture(Gdx.files.internal("p2movelist.png"));
         countdownFont = new BitmapFont();
         countdownFont.setColor(Color.WHITE);
         countdownFont.getData().setScale(10);
@@ -82,6 +89,28 @@ public class OfflineGameScreen implements Screen {
         soundThree = Gdx.audio.newSound(Gdx.files.internal("three.mp3"));
         soundTwo = Gdx.audio.newSound(Gdx.files.internal("two.mp3"));
         soundOne = Gdx.audio.newSound(Gdx.files.internal("one.mp3"));
+        for (int i = 1; i <= MAX_FRAMES; i++) {
+            String framePath = "sunset/" + String.format("%04d.jpg", i);
+            frameTextures.add(new Texture(Gdx.files.internal(framePath)));
+        }
+        backgroundTexture = frameTextures.get(0);
+    }
+
+    private void updateBackground(float delta) {
+        timeAccumulator += delta;
+
+        if (timeAccumulator >= FRAME_DURATION) {
+            timeAccumulator -= FRAME_DURATION; // Reset the accumulator
+
+            // Set the current background to the next frame
+            frameIndex++;
+            if (frameIndex >= MAX_FRAMES) {
+                frameIndex = MAX_FRAMES; // Reset to the last frame if it goes over
+            }
+
+            // Assuming frameTextures contains all your sunset images
+            backgroundTexture = frameTextures.get(frameIndex - 1);
+        }
     }
 
     @Override
@@ -91,7 +120,9 @@ public class OfflineGameScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        updateBackground(delta);
         checkWinCondition();
+
         updateRoundWonAnimation(delta);
         updateCountdown(delta);
         updateFightMessage(delta);
@@ -167,6 +198,7 @@ public class OfflineGameScreen implements Screen {
         player2DepleteHealth = player2.getMaxHealth();
         player1RoundsWon = player1.getRoundsWon();
         player2RoundsWon = player2.getRoundsWon();
+
         isCountdownActive = true;
     }
 
@@ -226,6 +258,8 @@ public class OfflineGameScreen implements Screen {
     private void renderGame() {
         game.batch.begin();
         game.batch.draw(backgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        game.batch.draw(p1Movelist, 40, Gdx.graphics.getHeight() - 60 - 300, 200, 300);
+        game.batch.draw(p2Movelist, Gdx.graphics.getWidth() - 40 - 200, Gdx.graphics.getHeight() - 60 - 300, 200, 300);
         for (Entity entity : entities) {
             game.batch.draw(entity.getTextureRegion(), entity.getX(), entity.getY());
         }
@@ -319,7 +353,7 @@ public class OfflineGameScreen implements Screen {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
         // Constants for the round counters
-        float counterDiameter = 15; // The diameter of the round counter circles
+        float counterDiameter = 20; // The diameter of the round counter circles
         float counterMargin = 8; // The margin between the circles
         float counterYPosition = Gdx.graphics.getHeight() - healthBarHeight - healthBarTopMargin - counterDiameter;
         float borderThickness = 2; // Thickness of the border around the counters
@@ -487,5 +521,8 @@ public class OfflineGameScreen implements Screen {
         if (soundThree != null) soundThree.dispose();
         if (soundTwo != null) soundTwo.dispose();
         if (soundOne != null) soundOne.dispose();
+        for (Texture frame : frameTextures) {
+            frame.dispose();
+        }
     }
 }

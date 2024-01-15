@@ -3,13 +3,19 @@ package com.mygdx.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -30,6 +36,8 @@ public class MainMenuScreen implements Screen {
     private TextButton joinOnlineGameButton;
     private TextButton exitButton;
     BitmapFont font;
+    private Music gameMusic;
+    private Sound hoverSound;
 
     public MainMenuScreen(FightingGame game) {
         backgroundTexture = new Texture(Gdx.files.internal("background.jpg"));
@@ -41,23 +49,45 @@ public class MainMenuScreen implements Screen {
         this.skin = new Skin(Gdx.files.internal("uiskin.json"));
         this.font = new BitmapFont();
         font.getData().setScale(2f);
-
+        gameMusic = Gdx.audio.newMusic(Gdx.files.internal("dreamscape.mp3"));
+        gameMusic.setLooping(true);
+        gameMusic.setVolume(0.2f);
+        hoverSound = Gdx.audio.newSound(Gdx.files.internal("hover.mp3"));
         createUI();
     }
 
     private void createUI() {
-        TextButtonStyle buttonStyle = new TextButtonStyle();
-        buttonStyle.font = font;
-        buttonStyle.up = skin.getDrawable("default-round");
-        buttonStyle.down = skin.getDrawable("default-round-down");
+        TextButtonStyle playOfflineStyle = new TextButtonStyle();
+        playOfflineStyle.font = font;
+        playOfflineStyle.up = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Buttons/Play offline/default.png"))));
+        playOfflineStyle.down = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Buttons/Play offline/clicked.png"))));
+        playOfflineStyle.over = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Buttons/Play offline/hover.png"))));
 
-        playOfflineButton = new TextButton("Play Offline", buttonStyle);
-        hostOnlineGameButton = new TextButton("Host Online Game", buttonStyle);
-        joinOnlineGameButton = new TextButton("Join Online Game", buttonStyle);
-        exitButton = new TextButton("Exit", buttonStyle);
+        TextButtonStyle hostOnlineStyle = new TextButtonStyle();
+        hostOnlineStyle.font = font;
+        hostOnlineStyle.up = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Buttons/Host online game/default.png"))));
+        hostOnlineStyle.down = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Buttons/Host online game/clicked.png"))));
+        hostOnlineStyle.over = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Buttons/Host online game/hover.png"))));
 
-        float buttonWidth = 300f;
-        float buttonHeight = 60f;
+        TextButtonStyle joinOnlineStyle = new TextButtonStyle();
+        joinOnlineStyle.font = font;
+        joinOnlineStyle.up = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Buttons/Join online game/default.png"))));
+        joinOnlineStyle.down = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Buttons/Join online game/clicked.png"))));
+        joinOnlineStyle.over = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Buttons/Join online game/hover.png"))));
+
+        TextButtonStyle exitStyle = new TextButtonStyle();
+        exitStyle.font = font;
+        exitStyle.up = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Buttons/Exit/default.png"))));
+        exitStyle.down = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Buttons/Exit/clicked.png"))));
+        exitStyle.over = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Buttons/Exit/hover.png"))));
+
+        playOfflineButton = new TextButton("", playOfflineStyle);
+        hostOnlineGameButton = new TextButton("", hostOnlineStyle);
+        joinOnlineGameButton = new TextButton("", joinOnlineStyle);
+        exitButton = new TextButton("", exitStyle);
+
+        float buttonWidth = 400f;
+        float buttonHeight = 80f;
 
         playOfflineButton.setSize(buttonWidth, buttonHeight);
         hostOnlineGameButton.setSize(buttonWidth, buttonHeight);
@@ -100,9 +130,21 @@ public class MainMenuScreen implements Screen {
             }
         });
 
+        ClickListener hoverSoundListener = new ClickListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                if (pointer == -1) { // -1 pointer means the mouse entered without a touch down
+                    hoverSound.play(0.3f); // Set the volume as needed
+                }
+            }
+        };
+        playOfflineButton.addListener(hoverSoundListener);
+        hostOnlineGameButton.addListener(hoverSoundListener);
+        joinOnlineGameButton.addListener(hoverSoundListener);
+        exitButton.addListener(hoverSoundListener);
         // Add buttons to the stage
         Table table = new Table();
-        table.left();
+        table.right();
         table.setFillParent(true);
         table.defaults().pad(10);
         table.add(playOfflineButton).size(buttonWidth, buttonHeight).padBottom(10).row();
@@ -115,6 +157,7 @@ public class MainMenuScreen implements Screen {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
+        gameMusic.play();
     }
 
     @Override
@@ -152,6 +195,7 @@ public class MainMenuScreen implements Screen {
     @Override
     public void dispose() {
         System.out.println("~dispose(MainMenuGameScreen)");
+        if (gameMusic != null) gameMusic.dispose();
         backgroundTexture.dispose();
         stage.dispose();
         skin.dispose();
