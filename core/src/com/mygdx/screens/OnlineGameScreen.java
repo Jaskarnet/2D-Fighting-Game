@@ -91,6 +91,7 @@ public class OnlineGameScreen implements Screen {
         punch1 = game.assetManager.manager.get(GameAssetManager.punch1SoundPath, Sound.class);
         punch2 = game.assetManager.manager.get(GameAssetManager.punch2SoundPath, Sound.class);
         death = game.assetManager.manager.get(GameAssetManager.deathSoundPath, Sound.class);
+        isPunch1Playing = isPunch2Playing = isDeathPlaying = false;
 
         // Ustawienia czcionki
         countdownFont = game.assetManager.manager.get(GameAssetManager.fontPath, BitmapFont.class);
@@ -294,20 +295,28 @@ public class OnlineGameScreen implements Screen {
             walkSound2.stop();
             isWalkSoundPlaying2 = false;
         }
-        if (game.player1.getState() == State.BLOCK_STUNNED_HIGH || game.player2.getState() == State.BLOCK_STUNNED_HIGH) {
-            System.out.println("play punch1");
+        if (!isPunch1Playing && (game.player1.getState() == State.BLOCK_STUNNED_HIGH || game.player1.getState() == State.BLOCK_STUNNED_MID || game.player1.getState() == State.BLOCK_STUNNED_LOW || game.player2.getState() == State.BLOCK_STUNNED_HIGH || game.player2.getState() == State.BLOCK_STUNNED_MID || game.player2.getState() == State.BLOCK_STUNNED_LOW)) {
             punch1.play();
-        } else if (game.player1.getState() == State.BLOCK_STUNNED_MID || game.player2.getState() == State.BLOCK_STUNNED_MID) {
-            punch1.play();
-        } else if (game.player1.getState() == State.BLOCK_STUNNED_LOW || game.player2.getState() == State.BLOCK_STUNNED_LOW) {
-            punch1.play();
-        } else if (game.player1.getState() == State.HIT_STUNNED_HIGH || game.player2.getState() == State.HIT_STUNNED_HIGH) {
+            System.out.println("Punch1 play");
+            isPunch1Playing = true;
+        } else if (isPunch1Playing && !(game.player1.getState() == State.BLOCK_STUNNED_HIGH || game.player1.getState() == State.BLOCK_STUNNED_MID || game.player1.getState() == State.BLOCK_STUNNED_LOW || game.player2.getState() == State.BLOCK_STUNNED_HIGH || game.player2.getState() == State.BLOCK_STUNNED_MID || game.player2.getState() == State.BLOCK_STUNNED_LOW)) {
+            isPunch1Playing = false;
+        }
+
+        if (!isPunch2Playing && (game.player1.getState() == State.HIT_STUNNED_HIGH || game.player1.getState() == State.HIT_STUNNED_MID || game.player1.getState() == State.HIT_STUNNED_LOW || game.player2.getState() == State.HIT_STUNNED_HIGH || game.player2.getState() == State.HIT_STUNNED_MID || game.player2.getState() == State.HIT_STUNNED_LOW)) {
             punch2.play(0.8f);
+            System.out.println("Punch2 play");
+            isPunch2Playing = true;
+        } else if (isPunch2Playing && !(game.player1.getState() == State.HIT_STUNNED_HIGH || game.player1.getState() == State.HIT_STUNNED_MID || game.player1.getState() == State.HIT_STUNNED_LOW || game.player2.getState() == State.HIT_STUNNED_HIGH || game.player2.getState() == State.HIT_STUNNED_MID || game.player2.getState() == State.HIT_STUNNED_LOW)) {
+            isPunch2Playing = isDeathPlaying = false;
+        }
+
+        if (!isDeathPlaying && (game.player1.getState() == State.HIT_STUNNED_HIGH || game.player2.getState() == State.HIT_STUNNED_HIGH)) {
             death.play();
-        } else if (game.player1.getState() == State.HIT_STUNNED_MID || game.player2.getState() == State.HIT_STUNNED_MID) {
-            punch2.play(0.8f);
-        } else if (game.player1.getState() == State.HIT_STUNNED_LOW || game.player2.getState() == State.HIT_STUNNED_LOW) {
-            punch2.play(0.8f);
+            System.out.println("Death play");
+            isDeathPlaying = true;
+        } else if (isDeathPlaying && !(game.player1.getState() == State.HIT_STUNNED_HIGH || game.player2.getState() == State.HIT_STUNNED_HIGH)) {
+            isDeathPlaying = false;
         }
     }
 
