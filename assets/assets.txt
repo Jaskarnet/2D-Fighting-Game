@@ -1,7 +1,23 @@
-badlogic.jpg
+background.jpg
+Buttons/Exit/clicked.png
+Buttons/Exit/default.png
+Buttons/Exit/hover.png
+Buttons/Host online game/clicked.png
+Buttons/Host online game/default.png
+Buttons/Host online game/hover.png
+Buttons/Join online game/clicked.png
+Buttons/Join online game/default.png
+Buttons/Join online game/hover.png
+Buttons/Play offline/clicked.png
+Buttons/Play offline/default.png
+Buttons/Play offline/hover.png
+death.mp3
 default.fnt
+default.png
+dreamscape.mp3
 FighterP1.png
 FighterP2.png
+hover.mp3
 moves/Fighter1/moveinfo/001_idle.json
 moves/Fighter1/moveinfo/002_moveBackward.json
 moves/Fighter1/moveinfo/003_moveForward.json
@@ -54,7 +70,89 @@ moves/Fighter2/spritesheets/010_blockStunLow.png
 moves/Fighter2/spritesheets/011_hitStunHigh.png
 moves/Fighter2/spritesheets/012_hitStunMid.png
 moves/Fighter2/spritesheets/013_hitStunLow.png
+one.mp3
+p1movelist.png
+p2movelist.png
 placeholder.png
+punch1.mp3
+punch2.mp3
+risk.mp3
+sunset/0000.jpg
+sunset/0001.jpg
+sunset/0002.jpg
+sunset/0003.jpg
+sunset/0004.jpg
+sunset/0005.jpg
+sunset/0006.jpg
+sunset/0007.jpg
+sunset/0008.jpg
+sunset/0009.jpg
+sunset/0010.jpg
+sunset/0011.jpg
+sunset/0012.jpg
+sunset/0013.jpg
+sunset/0014.jpg
+sunset/0015.jpg
+sunset/0016.jpg
+sunset/0017.jpg
+sunset/0018.jpg
+sunset/0019.jpg
+sunset/0020.jpg
+sunset/0021.jpg
+sunset/0022.jpg
+sunset/0023.jpg
+sunset/0024.jpg
+sunset/0025.jpg
+sunset/0026.jpg
+sunset/0027.jpg
+sunset/0028.jpg
+sunset/0029.jpg
+sunset/0030.jpg
+sunset/0031.jpg
+sunset/0032.jpg
+sunset/0033.jpg
+sunset/0034.jpg
+sunset/0035.jpg
+sunset/0036.jpg
+sunset/0037.jpg
+sunset/0038.jpg
+sunset/0039.jpg
+sunset/0040.jpg
+sunset/0041.jpg
+sunset/0042.jpg
+sunset/0043.jpg
+sunset/0044.jpg
+sunset/0045.jpg
+sunset/0046.jpg
+sunset/0047.jpg
+sunset/0048.jpg
+sunset/0049.jpg
+sunset/0050.jpg
+sunset/0051.jpg
+sunset/0052.jpg
+sunset/0053.jpg
+sunset/0054.jpg
+sunset/0055.jpg
+sunset/0056.jpg
+sunset/0057.jpg
+sunset/0058.jpg
+sunset/0059.jpg
+sunset/0060.jpg
+sunset/0061.jpg
+sunset/0062.jpg
+sunset/0063.jpg
+sunset/0064.jpg
+sunset/0065.jpg
+sunset/0066.jpg
+sunset/0067.jpg
+sunset/0068.jpg
+sunset/0069.jpg
+sunset/0070.jpg
+sunset/0071.jpg
+three.mp3
+two.mp3
 uiskin.atlas
 uiskin.json
 uiskin.png
+walk1.mp3
+walk2.mp3

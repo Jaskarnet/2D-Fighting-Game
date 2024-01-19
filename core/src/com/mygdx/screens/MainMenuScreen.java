@@ -157,7 +157,9 @@ public class MainMenuScreen implements Screen {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
+        gameMusic.setVolume(0.2f);
         gameMusic.play();
+
     }
 
     @Override

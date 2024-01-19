@@ -28,6 +28,7 @@ public class LoadingScreen implements Screen {
     private float barHeight = 25;
     private float barX = Gdx.graphics.getWidth() * 0.1f;
     private float barY = Gdx.graphics.getHeight() * 0.1f;
+    private int lastLogIndex = 0;
 
     List<String> tips = Arrays.asList(
             "Remember, each character has only 3 health points. Every attack counts!",
@@ -92,12 +93,26 @@ public class LoadingScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         drawProgressBar();
         drawTip();
+        drawLoadingLog();
         if (game.assetManager.manager.update()) {
             game.player1 = new Fighter(250, 20, Player.PLAYER1, Input.Keys.A, Input.Keys.D, Input.Keys.S, Input.Keys.F, 600, game.assetManager.manager);
             game.player2 = new Fighter(650, 20, Player.PLAYER2, Input.Keys.RIGHT, Input.Keys.LEFT, Input.Keys.DOWN, Input.Keys.CONTROL_RIGHT, 600, game.assetManager.manager);
             dispose();
             game.setScreen(new MainMenuScreen(game));
         }
+    }
+
+    private void drawLoadingLog() {
+        batch.begin();
+        // Get the current log messages
+        List<String> messages = game.assetManager.loadingMessages;
+        for (int i = lastLogIndex; i < messages.size(); i++) {
+            // Render each new message to the screen
+            font.draw(batch, messages.get(i), 10, Gdx.graphics.getHeight() - 20 * (i + 1));
+            // Update lastLogIndex so we don't render the same message twice
+            lastLogIndex = i + 1;
+        }
+        batch.end();
     }
 
     @Override

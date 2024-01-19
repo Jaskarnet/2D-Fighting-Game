@@ -62,6 +62,8 @@ public class OnlineGameScreen implements Screen {
     private boolean isWalkSoundPlaying1;
     private Sound walkSound2;
     private boolean isWalkSoundPlaying2;
+    private Sound punch1, punch2, death;
+    private boolean isPunch1Playing, isPunch2Playing, isDeathPlaying;
 
 
 
@@ -86,6 +88,9 @@ public class OnlineGameScreen implements Screen {
         walkSound1 = game.assetManager.manager.get(GameAssetManager.walk1SoundPath, Sound.class);
         walkSound2 = game.assetManager.manager.get(GameAssetManager.walk2SoundPath, Sound.class);
         isWalkSoundPlaying1 = false;
+        punch1 = game.assetManager.manager.get(GameAssetManager.punch1SoundPath, Sound.class);
+        punch2 = game.assetManager.manager.get(GameAssetManager.punch2SoundPath, Sound.class);
+        death = game.assetManager.manager.get(GameAssetManager.deathSoundPath, Sound.class);
 
         // Ustawienia czcionki
         countdownFont = game.assetManager.manager.get(GameAssetManager.fontPath, BitmapFont.class);
@@ -269,6 +274,7 @@ public class OnlineGameScreen implements Screen {
             }
             collision.update();
         }
+
         if (!isWalkSoundPlaying1 && (game.player1.getState() == State.GOING_BACK || game.player1.getState() == State.GOING_FORWARD)) {
             System.out.println(game.player1.getPlayer() + "play");
             walkSound1.loop();
@@ -278,6 +284,7 @@ public class OnlineGameScreen implements Screen {
             walkSound1.stop();
             isWalkSoundPlaying1 = false;
         }
+
         if (!isWalkSoundPlaying2 && (game.player2.getState() == State.GOING_BACK || game.player2.getState() == State.GOING_FORWARD)) {
             System.out.println(game.player2.getPlayer() + "play");
             walkSound2.loop();
@@ -286,6 +293,21 @@ public class OnlineGameScreen implements Screen {
             System.out.println(game.player2.getPlayer() + "stop");
             walkSound2.stop();
             isWalkSoundPlaying2 = false;
+        }
+        if (game.player1.getState() == State.BLOCK_STUNNED_HIGH || game.player2.getState() == State.BLOCK_STUNNED_HIGH) {
+            System.out.println("play punch1");
+            punch1.play();
+        } else if (game.player1.getState() == State.BLOCK_STUNNED_MID || game.player2.getState() == State.BLOCK_STUNNED_MID) {
+            punch1.play();
+        } else if (game.player1.getState() == State.BLOCK_STUNNED_LOW || game.player2.getState() == State.BLOCK_STUNNED_LOW) {
+            punch1.play();
+        } else if (game.player1.getState() == State.HIT_STUNNED_HIGH || game.player2.getState() == State.HIT_STUNNED_HIGH) {
+            punch2.play(0.8f);
+            death.play();
+        } else if (game.player1.getState() == State.HIT_STUNNED_MID || game.player2.getState() == State.HIT_STUNNED_MID) {
+            punch2.play(0.8f);
+        } else if (game.player1.getState() == State.HIT_STUNNED_LOW || game.player2.getState() == State.HIT_STUNNED_LOW) {
+            punch2.play(0.8f);
         }
     }
 

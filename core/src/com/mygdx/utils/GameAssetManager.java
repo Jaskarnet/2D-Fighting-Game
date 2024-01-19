@@ -6,11 +6,16 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
+import java.util.ArrayList;
+import java.util.Scanner;
+
 public class GameAssetManager {
     public final AssetManager manager = new AssetManager();
+    public ArrayList<String> loadingMessages = new ArrayList<String>();
 
     //main menu
     public static final String backgroundImagePath = "background.jpg";
@@ -40,9 +45,42 @@ public class GameAssetManager {
     public static final String oneSoundPath = "one.mp3";
     public static final String walk1SoundPath = "walk1.mp3";
     public static final String walk2SoundPath = "walk2.mp3";
-
+    public static final String punch1SoundPath = "punch1.mp3";
+    public static final String punch2SoundPath = "punch2.mp3";
+    public static final String deathSoundPath = "death.mp3";
 
     public void loadAssets() {
+        // Read the asset list from assets.txt
+        FileHandle file = Gdx.files.internal("assets.txt");
+        Scanner scanner = new Scanner(file.readString());
+        while (scanner.hasNextLine()) {
+            String path = scanner.nextLine().replace("\r", "").trim(); // Remove CR and trailing spaces
+            Class<?> type = getAssetType(path);
+            if (type != null) {
+                manager.load(path, type);
+            }
+        }
+        scanner.close();
+    }
+
+    private Class<?> getAssetType(String path) {
+        if (path.endsWith(".png") || path.endsWith(".jpg")) {
+            return Texture.class;
+        } else if (path.endsWith(".mp3")) {
+            if (path.contains("risk") || path.contains("dreamscape")) return Music.class;
+            else return Sound.class;
+        } else if (path.endsWith(".fnt")) {
+            return BitmapFont.class;
+        } else if (path.endsWith(".atlas")) {
+            return TextureAtlas.class;
+        } else if (path.endsWith(".json") && path.contains("uiskin")) {
+            return Skin.class;
+        }
+        // Add other file types as necessary
+        return null;
+    }
+
+/*    public void loadAssets() {
         //main menu
         manager.load(backgroundImagePath, Texture.class);
         manager.load(mainMenuMusicPath, Music.class);
@@ -73,14 +111,17 @@ public class GameAssetManager {
         manager.load(oneSoundPath, Sound.class);
         manager.load(walk1SoundPath, Sound.class);
         manager.load(walk2SoundPath, Sound.class);
-    }
+    }*/
 
     private void loadAllTexturesInDirectory(String directoryPath) {
         FileHandle dirHandle = Gdx.files.internal(directoryPath);
+        loadingMessages.add("directoryPath: " + Gdx.files.internal(directoryPath).file().getAbsolutePath());
         for (FileHandle entry : dirHandle.list()) {
             if (entry.extension().equals("png") || entry.extension().equals("jpg")) {
                 manager.load(directoryPath + "/" + entry.name(), Texture.class);
             }
+            String fullPath = directoryPath + "/" + entry.name();
+            loadingMessages.add("Loading asset at path: " + Gdx.files.internal(fullPath).file().getAbsolutePath());
         }
     }
 

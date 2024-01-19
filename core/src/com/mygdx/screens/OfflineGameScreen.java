@@ -1,15 +1,12 @@
 package com.mygdx.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -21,8 +18,6 @@ import com.mygdx.entities.State;
 import com.mygdx.game.FightingGame;
 import com.mygdx.game.GameState;
 import com.mygdx.utils.GameAssetManager;
-import com.mygdx.utils.ImageFlipper;
-import com.mygdx.utils.json.MoveFileReader;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 
 import java.util.ArrayList;
@@ -62,6 +57,8 @@ public class OfflineGameScreen implements Screen {
     private boolean isWalkSoundPlaying1;
     private Sound walkSound2;
     private boolean isWalkSoundPlaying2;
+    private Sound punch1, punch2, death;
+    private boolean isPunch1Playing, isPunch2Playing, isDeathPlaying;
 
 
 
@@ -90,7 +87,10 @@ public class OfflineGameScreen implements Screen {
         walkSound1 = game.assetManager.manager.get(GameAssetManager.walk1SoundPath, Sound.class);
         walkSound2 = game.assetManager.manager.get(GameAssetManager.walk2SoundPath, Sound.class);
         isWalkSoundPlaying1 = false;
-
+        punch1 = game.assetManager.manager.get(GameAssetManager.punch1SoundPath, Sound.class);
+        punch2 = game.assetManager.manager.get(GameAssetManager.punch2SoundPath, Sound.class);
+        death = game.assetManager.manager.get(GameAssetManager.deathSoundPath, Sound.class);
+        isPunch1Playing = isPunch2Playing = isDeathPlaying = false;
         // Ustawienia czcionki
         countdownFont = game.assetManager.manager.get(GameAssetManager.fontPath, BitmapFont.class);
         countdownFont.setColor(Color.WHITE);
@@ -288,6 +288,30 @@ public class OfflineGameScreen implements Screen {
             System.out.println(game.player2.getPlayer() + "stop");
             walkSound2.stop();
             isWalkSoundPlaying2 = false;
+        }
+
+        if (!isPunch1Playing && (game.player1.getState() == State.BLOCK_STUNNED_HIGH || game.player1.getState() == State.BLOCK_STUNNED_MID || game.player1.getState() == State.BLOCK_STUNNED_LOW || game.player2.getState() == State.BLOCK_STUNNED_HIGH || game.player2.getState() == State.BLOCK_STUNNED_MID || game.player2.getState() == State.BLOCK_STUNNED_LOW)) {
+            punch1.play();
+            System.out.println("Punch1 play");
+            isPunch1Playing = true;
+        } else if (isPunch1Playing && !(game.player1.getState() == State.BLOCK_STUNNED_HIGH || game.player1.getState() == State.BLOCK_STUNNED_MID || game.player1.getState() == State.BLOCK_STUNNED_LOW || game.player2.getState() == State.BLOCK_STUNNED_HIGH || game.player2.getState() == State.BLOCK_STUNNED_MID || game.player2.getState() == State.BLOCK_STUNNED_LOW)) {
+            isPunch1Playing = false;
+        }
+
+        if (!isPunch2Playing && (game.player1.getState() == State.HIT_STUNNED_HIGH || game.player1.getState() == State.HIT_STUNNED_MID || game.player1.getState() == State.HIT_STUNNED_LOW || game.player2.getState() == State.HIT_STUNNED_HIGH || game.player2.getState() == State.HIT_STUNNED_MID || game.player2.getState() == State.HIT_STUNNED_LOW)) {
+            punch2.play(0.8f);
+            System.out.println("Punch2 play");
+            isPunch2Playing = true;
+        } else if (isPunch2Playing && !(game.player1.getState() == State.HIT_STUNNED_HIGH || game.player1.getState() == State.HIT_STUNNED_MID || game.player1.getState() == State.HIT_STUNNED_LOW || game.player2.getState() == State.HIT_STUNNED_HIGH || game.player2.getState() == State.HIT_STUNNED_MID || game.player2.getState() == State.HIT_STUNNED_LOW)) {
+            isPunch2Playing = isDeathPlaying = false;
+        }
+
+        if (!isDeathPlaying && (game.player1.getState() == State.HIT_STUNNED_HIGH || game.player2.getState() == State.HIT_STUNNED_HIGH)) {
+            death.play();
+            System.out.println("Death play");
+            isDeathPlaying = true;
+        } else if (isDeathPlaying && !(game.player1.getState() == State.HIT_STUNNED_HIGH || game.player2.getState() == State.HIT_STUNNED_HIGH)) {
+            isDeathPlaying = false;
         }
     }
 

@@ -35,7 +35,11 @@ public class Movelist {
         String[] assetList = assetsFile.readString().split("\n");
 
         for (String asset : assetList) {
+            asset = asset.replace("\r","");
+            System.out.println(moveInfoDirectory + "(...)" + ".json");
+            System.out.println(asset);
             if (asset.startsWith(moveInfoDirectory) && asset.endsWith(".json")) {
+                System.out.println("git");
                 processAsset(asset);
             }
         }

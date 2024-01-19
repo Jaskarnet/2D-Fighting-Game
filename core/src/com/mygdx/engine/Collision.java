@@ -11,14 +11,10 @@ import java.util.List;
 
 public class Collision {
     Fighter fighter1, fighter2;
-    private Sound punch1, punch2, punch3, death;
 
     public Collision(Fighter fighter1, Fighter fighter2) {
         this.fighter1 = fighter1;
         this.fighter2 = fighter2;
-        punch1 = Gdx.audio.newSound(Gdx.files.internal("punch1.mp3"));
-        punch2 = Gdx.audio.newSound(Gdx.files.internal("punch2.mp3"));
-        death = Gdx.audio.newSound(Gdx.files.internal("death.mp3"));
     }
 
     public void update() {
@@ -129,29 +125,23 @@ public class Collision {
     private void applyState(State defenderState, int attackerDamage, Fighter defender) {
         if (defenderState == State.BLOCK_STUNNED_HIGH) {
             defender.setBlockStunnedHigh(true);
-            punch1.play(10);
         }
         if (defenderState == State.BLOCK_STUNNED_MID) {
             defender.setBlockStunnedMid(true);
-            punch1.play(2);
         }
         if (defenderState == State.BLOCK_STUNNED_LOW) {
             defender.setBlockStunnedLow(true);
-            punch1.play(2);
         }
         if (defenderState == State.HIT_STUNNED_HIGH) {
             defender.setHealth(defender.getHealth() - attackerDamage);
-            punch2.play();
         }
         if (defenderState == State.HIT_STUNNED_MID) {
             defender.setHitStunnedMid(true);
             defender.setHealth(defender.getHealth() - attackerDamage);
-            punch2.play();
         }
         if (defenderState == State.HIT_STUNNED_LOW) {
             defender.setHitStunnedLow(true);
             defender.setHealth(defender.getHealth() - attackerDamage);
-            punch2.play();
         }
     }
 
@@ -171,7 +161,6 @@ public class Collision {
     private void handleFighterDefeated(Fighter defeated, Fighter winner) {
         if (!defeated.isHitStunnedHigh()) {
             if (defeated.getPlayer() == Player.PLAYER1 || defeated.getPlayer() == Player.PLAYER2) defeated.setHitStunnedHigh(true);
-            death.play();
         }
     }
 }
