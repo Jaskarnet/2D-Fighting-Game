@@ -24,6 +24,7 @@ import com.mygdx.screens.HostOnlineGameScreen;
 import com.mygdx.screens.OfflineGameScreen;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.mygdx.utils.GameAssetManager;
 
 public class MainMenuScreen implements Screen {
 
@@ -40,46 +41,45 @@ public class MainMenuScreen implements Screen {
     private Sound hoverSound;
 
     public MainMenuScreen(FightingGame game) {
-        backgroundTexture = new Texture(Gdx.files.internal("background.jpg"));
         this.game = game;
         this.stage = new Stage(new ScreenViewport());
-        FileHandle fileHandle = Gdx.files.internal("uiskin.json");
-        String fullPath = fileHandle.file().getAbsolutePath();
-        System.out.println("Full path to uiskin.json: " + fullPath);
-        this.skin = new Skin(Gdx.files.internal("uiskin.json"));
-        this.font = new BitmapFont();
-        font.getData().setScale(2f);
-        gameMusic = Gdx.audio.newMusic(Gdx.files.internal("dreamscape.mp3"));
-        gameMusic.setLooping(true);
-        gameMusic.setVolume(0.2f);
-        hoverSound = Gdx.audio.newSound(Gdx.files.internal("hover.mp3"));
-        createUI();
+
+        // Pobieranie zasobów z GameAssetManager
+        GameAssetManager assetManager = game.assetManager;
+        backgroundTexture = assetManager.manager.get(GameAssetManager.backgroundImagePath, Texture.class);
+        gameMusic = assetManager.manager.get(GameAssetManager.mainMenuMusicPath, Music.class);
+        hoverSound = assetManager.manager.get(GameAssetManager.hoverSoundPath, Sound.class);
+        skin = assetManager.manager.get(GameAssetManager.skinPath, Skin.class);
+        font = assetManager.manager.get(GameAssetManager.fontPath, BitmapFont.class);
+
+        createUI(assetManager);
     }
 
-    private void createUI() {
+    private void createUI(GameAssetManager assetManager) {
+
         TextButtonStyle playOfflineStyle = new TextButtonStyle();
         playOfflineStyle.font = font;
-        playOfflineStyle.up = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Buttons/Play offline/default.png"))));
-        playOfflineStyle.down = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Buttons/Play offline/clicked.png"))));
-        playOfflineStyle.over = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Buttons/Play offline/hover.png"))));
+        playOfflineStyle.up = new TextureRegionDrawable(new TextureRegion(assetManager.manager.get(GameAssetManager.playOfflineButtonUpPath, Texture.class)));
+        playOfflineStyle.down = new TextureRegionDrawable(new TextureRegion(assetManager.manager.get(GameAssetManager.playOfflineButtonDownPath, Texture.class)));
+        playOfflineStyle.over = new TextureRegionDrawable(new TextureRegion(assetManager.manager.get(GameAssetManager.playOfflineButtonOverPath, Texture.class)));
 
         TextButtonStyle hostOnlineStyle = new TextButtonStyle();
         hostOnlineStyle.font = font;
-        hostOnlineStyle.up = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Buttons/Host online game/default.png"))));
-        hostOnlineStyle.down = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Buttons/Host online game/clicked.png"))));
-        hostOnlineStyle.over = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Buttons/Host online game/hover.png"))));
+        hostOnlineStyle.up = new TextureRegionDrawable(new TextureRegion(assetManager.manager.get(GameAssetManager.hostOnlineButtonUpPath, Texture.class)));
+        hostOnlineStyle.down = new TextureRegionDrawable(new TextureRegion(assetManager.manager.get(GameAssetManager.hostOnlineButtonDownPath, Texture.class)));
+        hostOnlineStyle.over = new TextureRegionDrawable(new TextureRegion(assetManager.manager.get(GameAssetManager.hostOnlineButtonOverPath, Texture.class)));
 
         TextButtonStyle joinOnlineStyle = new TextButtonStyle();
         joinOnlineStyle.font = font;
-        joinOnlineStyle.up = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Buttons/Join online game/default.png"))));
-        joinOnlineStyle.down = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Buttons/Join online game/clicked.png"))));
-        joinOnlineStyle.over = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Buttons/Join online game/hover.png"))));
+        joinOnlineStyle.up = new TextureRegionDrawable(new TextureRegion(assetManager.manager.get(GameAssetManager.joinOnlineButtonUpPath, Texture.class)));
+        joinOnlineStyle.down = new TextureRegionDrawable(new TextureRegion(assetManager.manager.get(GameAssetManager.joinOnlineButtonDownPath, Texture.class)));
+        joinOnlineStyle.over = new TextureRegionDrawable(new TextureRegion(assetManager.manager.get(GameAssetManager.joinOnlineButtonOverPath, Texture.class)));
 
         TextButtonStyle exitStyle = new TextButtonStyle();
         exitStyle.font = font;
-        exitStyle.up = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Buttons/Exit/default.png"))));
-        exitStyle.down = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Buttons/Exit/clicked.png"))));
-        exitStyle.over = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Buttons/Exit/hover.png"))));
+        exitStyle.up = new TextureRegionDrawable(new TextureRegion(assetManager.manager.get(GameAssetManager.exitButtonUpPath, Texture.class)));
+        exitStyle.down = new TextureRegionDrawable(new TextureRegion(assetManager.manager.get(GameAssetManager.exitButtonDownPath, Texture.class)));
+        exitStyle.over = new TextureRegionDrawable(new TextureRegion(assetManager.manager.get(GameAssetManager.exitButtonOverPath, Texture.class)));
 
         playOfflineButton = new TextButton("", playOfflineStyle);
         hostOnlineGameButton = new TextButton("", hostOnlineStyle);
@@ -195,9 +195,7 @@ public class MainMenuScreen implements Screen {
     @Override
     public void dispose() {
         System.out.println("~dispose(MainMenuGameScreen)");
-        if (gameMusic != null) gameMusic.dispose();
-        backgroundTexture.dispose();
+        gameMusic.stop();
         stage.dispose();
-        skin.dispose();
     }
 }

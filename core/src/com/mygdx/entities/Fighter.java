@@ -1,5 +1,6 @@
 package com.mygdx.entities;
 
+import com.badlogic.gdx.assets.AssetManager;
 import com.esotericsoftware.kryo.Kryo;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -31,9 +32,11 @@ public class Fighter extends Entity {
     Player player;
     Multiplayer multiplayer;
     int roundsWon;
+    AssetManager assetManager;
 
-    public Fighter(int x, int y, Player player, int backwardButton, int forwardButton, int crouchButton, int attackButton, int commandHistorySize) {
+    public Fighter(int x, int y, Player player, int backwardButton, int forwardButton, int crouchButton, int attackButton, int commandHistorySize, AssetManager assetManager) {
         super(x, y);
+        this.assetManager = assetManager;
         this.initialX = x;
         this.initialY = y;
         this.roundsWon = 0;
@@ -47,7 +50,7 @@ public class Fighter extends Entity {
         this.isHitStunnedHigh = false;
         this.isHitStunnedMid = false;
         this.isHitStunnedLow = false;
-        movelist = new Movelist(player);
+        movelist = new Movelist(player, assetManager);
         movelist.getMove(State.HIGH_ATTACK.getId()).setDamage(3);
         movelist.getMove(State.MID_ATTACK.getId()).setDamage(2);
         movelist.getMove(State.LOW_ATTACK.getId()).setDamage(1);
@@ -57,7 +60,7 @@ public class Fighter extends Entity {
         setTextureRegion(movelist.getMove(state.ordinal()).getFrame(currentFrame).getSprite());
     }
 
-    public Fighter(int x, int y, Player player, int backwardButton, int forwardButton, int crouchButton, int attackButton, int commandHistorySize, Multiplayer multiplayer) {
+    /*public Fighter(int x, int y, Player player, int backwardButton, int forwardButton, int crouchButton, int attackButton, int commandHistorySize, Multiplayer multiplayer) {
         super(x, y);
         this.initialX = x;
         this.initialY = y;
@@ -103,7 +106,7 @@ public class Fighter extends Entity {
         hitboxes = movelist.getMove(0).getFrame(0).getHitboxes();
         state = State.NEUTRAL;
         setTextureRegion(movelist.getMove(state.ordinal()).getFrame(currentFrame).getSprite());
-    }
+    }*/
 
     public void moveTo(int x, int y) {
         if (player == Player.PLAYER1 || player == Player.ONLINE_PLAYER1) {
@@ -133,7 +136,10 @@ public class Fighter extends Entity {
     public void update() {
         Command command = inputHandler.handleInput();
         command.execute(this);
-        if (multiplayer != null && (player == Player.PLAYER1 || player == Player.PLAYER2)) multiplayer.sendCommand(command);
+        if (multiplayer != null && (player == Player.PLAYER1 || player == Player.PLAYER2)) {
+            System.out.println("[" + player + "] " + state);
+            multiplayer.sendCommand(command);
+        }
         updateAnimation();
     }
 
@@ -173,6 +179,23 @@ public class Fighter extends Entity {
         state = State.NEUTRAL;
         setTextureRegion(movelist.getMove(state.ordinal()).getFrame(currentFrame).getSprite());
         if (multiplayer != null && (player == Player.PLAYER1 || player == Player.PLAYER2)) multiplayer.sendCommand(new MoveFighterCommand(this, State.NEUTRAL, movelist.getMove(0), 0));
+    }
+
+    public void resetToInitial() {
+        currentFrame = 0;
+        health = 3;
+        this.moveTo(initialX, initialY);
+        isBlockStunnedHigh = false;
+        isBlockStunnedMid = false;
+        isBlockStunnedLow = false;
+        isHitStunnedHigh = false;
+        isHitStunnedMid = false;
+        isHitStunnedLow = false;
+        hurtboxes = movelist.getMove(0).getFrame(0).getHurtboxes();
+        hitboxes = movelist.getMove(0).getFrame(0).getHitboxes();
+        state = State.NEUTRAL;
+        setTextureRegion(movelist.getMove(state.ordinal()).getFrame(currentFrame).getSprite());
+        roundsWon = 0;
     }
 
     private List<Rectangle> adjustBoxesForFighterPosition(List<Rectangle> boxes) {
@@ -236,6 +259,7 @@ public class Fighter extends Entity {
 
     public void setPlayer(Player player) {
         this.player = player;
+        this.inputHandler.setPlayer(player);
     }
 
     public List<Rectangle> getHurtboxes() {
@@ -308,6 +332,7 @@ public class Fighter extends Entity {
 
     public void setMultiplayer(Multiplayer multiplayer) {
         this.multiplayer = multiplayer;
+        this.inputHandler.setMultiplayer(multiplayer);
     }
 
     public int getRoundsWon() {

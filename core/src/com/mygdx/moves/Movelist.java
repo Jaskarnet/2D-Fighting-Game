@@ -1,6 +1,7 @@
 package com.mygdx.moves;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,8 +19,10 @@ public class Movelist {
     private ArrayList<Move> movelist;
     private String moveInfoDirectory;
     private String spriteSheetDirectory;
+    private AssetManager assetManager;
 
-    public Movelist(Player player) {
+    public Movelist(Player player, AssetManager assetManager) {
+        this.assetManager = assetManager;
         int index = player.ordinal() + 1;
         if (index > 2) index = index - 2;
 
@@ -47,15 +50,15 @@ public class Movelist {
             String spriteSheetPath = spriteSheetDirectory + pngFileName;
 
             List<FrameRangeData> frameRangeDataList = moveInfo.getFrameRangeDataList();
-            Move move = createMoveFromFrameRangeDataList(frameRangeDataList, spriteSheetPath);
+            Move move = createMoveFromFrameRangeDataList(frameRangeDataList, spriteSheetPath, assetManager);
             movelist.add(move);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private Move createMoveFromFrameRangeDataList(List<FrameRangeData> frameRangeDataList, String spriteSheetPath) {
-        Texture spriteSheet = new Texture(spriteSheetPath);
+    private Move createMoveFromFrameRangeDataList(List<FrameRangeData> frameRangeDataList, String spriteSheetPath, AssetManager assetManager) {
+        Texture spriteSheet = assetManager.get(spriteSheetPath, Texture.class);
         Move move = new Move(spriteSheet, 0);
 
         for (FrameRangeData frameRangeData : frameRangeDataList) {

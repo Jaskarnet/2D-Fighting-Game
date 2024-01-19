@@ -13,7 +13,6 @@ import java.util.List;
 
 public class Frame {
     TextureRegion sprite;
-
     int xAxisMovement, yAxisMovement;
     List<Rectangle> hurtboxes;
     List<Rectangle> hitboxes;

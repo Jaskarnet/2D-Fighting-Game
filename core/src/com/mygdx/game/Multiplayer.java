@@ -23,8 +23,6 @@ import org.bitlet.weupnp.PortMappingEntry;
 
 
 public class Multiplayer {
-
-    private FightingGame game;
     private Server server;
     private Client client;
     private int serverPort;
@@ -39,9 +37,8 @@ public class Multiplayer {
     String ipAddress;
     LinkedBlockingDeque<Command> commandQueue;
 
-    public Multiplayer(FightingGame game) {
+    public Multiplayer() {
         this.commandQueue = new LinkedBlockingDeque<>();
-        this.game = game;
     }
 
     public void initializeServer() {
@@ -65,6 +62,7 @@ public class Multiplayer {
             @Override
             public void received(Connection connection, Object object) {
                 if (object instanceof Command) {
+                    System.out.println("received: " + object);
                     handleCommand((Command) object);
                 }
             }
@@ -111,11 +109,13 @@ public class Multiplayer {
             @Override
             public void received(Connection connection, Object object) {
                 if (object instanceof SetHighStunCommand) {
+                    System.out.println("received: " + object);
                     player1IsHitStunned = true;
                 }
                 else if (object instanceof StartGameCommand) {
                     startGame = true;
                 } else if (object instanceof Command) {
+                    System.out.println("received: " + object);
                     handleCommand((Command) object);
                 }
             }
@@ -269,8 +269,10 @@ public class Multiplayer {
 
     public void sendCommand(Command command) {
         if (server != null) {
+            System.out.println("send: " + command);
             server.sendToAllTCP(command);
         } else if (client != null) {
+            System.out.println("send: " + command);
             client.sendTCP(command);
         }
 

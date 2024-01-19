@@ -35,6 +35,7 @@ public class Collision {
 
         // Check health and update state
         checkHealthAndSetState();
+        //System.out.println("[Collision] fighter1State: " + fighter1.getState() + " fighter2State: " + fighter2.getState());
     }
 
     public static Direction getDirection(Command command) {
@@ -62,14 +63,14 @@ public class Collision {
         int attState = attacker.getState().getId();
         int defState = defender.getState().getId();
         if (attState == State.HIGH_ATTACK.getId()) {
-            if (defState >= 2 && defState != 3) return State.HIT_STUNNED_HIGH;
+            if (defState >= 2 && defState != 3 && defState != 7 && defState != 8 && defState != 9) return State.HIT_STUNNED_HIGH;
             else if (defState == 3) return null;
             else return State.BLOCK_STUNNED_HIGH;
         } else if (attState == State.MID_ATTACK.getId()) {
-            if (defState >= 2) return State.HIT_STUNNED_MID;
+            if (defState >= 2 && defState != 7 && defState != 8 && defState != 9) return State.HIT_STUNNED_MID;
             else return State.BLOCK_STUNNED_MID;
         } else if (attState == State.LOW_ATTACK.getId()) {
-            if (defState != 3) return State.HIT_STUNNED_LOW;
+            if (defState != 3 && defState != 7 && defState != 8 && defState != 9) return State.HIT_STUNNED_LOW;
             else return State.BLOCK_STUNNED_LOW;
         }
         return null;

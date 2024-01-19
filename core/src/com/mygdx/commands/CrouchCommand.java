@@ -12,6 +12,7 @@ public class CrouchCommand implements Command{
     private int currentFrame;
     private int xBefore, yBefore;
     private int x, y;
+    private int frameCount;
 
     public CrouchCommand() {
     }
@@ -26,6 +27,7 @@ public class CrouchCommand implements Command{
         this.y = fighter.getY() + frame.getYAxisMovement();
         this.xBefore = fighter.getX();
         this.yBefore = fighter.getY();
+        this.frameCount = move.getFrameCount();
     }
 
     @Override
@@ -52,5 +54,8 @@ public class CrouchCommand implements Command{
 
     public void setCurrentFrame(int currentFrame) {
         this.currentFrame = currentFrame;
+    }
+    public int getFrameCount() {
+        return frameCount;
     }
 }

@@ -3,10 +3,13 @@ package com.mygdx.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -17,7 +20,10 @@ import com.mygdx.entities.Fighter;
 import com.mygdx.entities.State;
 import com.mygdx.game.FightingGame;
 import com.mygdx.game.GameState;
-import com.mygdx.game.Multiplayer;
+import com.mygdx.utils.GameAssetManager;
+import com.mygdx.utils.ImageFlipper;
+import com.mygdx.utils.json.MoveFileReader;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,11 +31,9 @@ import java.util.Collection;
 public class OnlineGameScreen implements Screen {
     FightingGame game;
     private Collection<Entity> entities;
-    private Fighter player1, player2;
     private Collision collision;
     private GameState gameState;
-    private Multiplayer multiplayer;
-    private Texture backgroundTexture;
+    private Texture backgroundTexture, p1Movelist, p2Movelist;
     private float countdownTime = 5f;
     private boolean isCountdownActive = true;
     private float fightMessageTime = 0.5f;
@@ -39,7 +43,6 @@ public class OnlineGameScreen implements Screen {
     private boolean isWinnerMessageActive = false;
     private float winnerMessageTime = 2.0f;
     private String winnerMessage = "";
-    private int frameCount;
     private ShapeRenderer shapeRenderer;
     private float player1DepleteHealth = 3;
     private float player2DepleteHealth = 3;
@@ -47,29 +50,86 @@ public class OnlineGameScreen implements Screen {
     private float roundWonAnimationTime = 0.5f;
     private float totalRoundWonAnimationTime = 0.5f;
     private int player1RoundsWon, player2RoundsWon;
+    private Music gameMusic;
+    private Sound soundThree, soundTwo, soundOne;
+    private boolean oneSound = true, twoSound = true, threeSound = true;
+    private int frameIndex = 1;
+    private float timeAccumulator = 0f;
+    private static final float FRAME_DURATION = 1.0f;
+    private static final int MAX_FRAMES = 71;
+    private ArrayList<Texture> frameTextures = new ArrayList<Texture>();
+    private Sound walkSound1;
+    private boolean isWalkSoundPlaying1;
+    private Sound walkSound2;
+    private boolean isWalkSoundPlaying2;
 
 
-    public OnlineGameScreen(FightingGame game, Multiplayer multiplayer, Fighter player1, Fighter player2) {
+
+    public OnlineGameScreen(FightingGame game) {
         this.game = game;
-        this.multiplayer = multiplayer;
-        this.player1 = player1;
-        this.player2 = player2;
-        gameState = GameState.ONLINE_GAME;
+        gameState = GameState.OFFLINE_GAME;
+
+        // Inicjalizacja kolekcji bytów i kolizji
         entities = new ArrayList<>();
-        entities.add(player1);
-        entities.add(player2);
-        collision = new Collision(player1, player2);
-        backgroundTexture = new Texture(Gdx.files.internal("sunset.jpg"));
-        countdownFont = new BitmapFont();
+        entities.add(game.player1);
+        entities.add(game.player2);
+        collision = new Collision(game.player1, game.player2);
+
+        // Pobieranie załadowanych zasobów za pomocą AssetManagera
+        backgroundTexture = game.assetManager.manager.get(GameAssetManager.backgroundImagePath, Texture.class);
+        p1Movelist = game.assetManager.manager.get(GameAssetManager.p1MovelistPath, Texture.class);
+        p2Movelist = game.assetManager.manager.get(GameAssetManager.p2MovelistPath, Texture.class);
+        gameMusic = game.assetManager.manager.get(GameAssetManager.gameMusicPath, Music.class);
+        soundThree = game.assetManager.manager.get(GameAssetManager.threeSoundPath, Sound.class);
+        soundTwo = game.assetManager.manager.get(GameAssetManager.twoSoundPath, Sound.class);
+        soundOne = game.assetManager.manager.get(GameAssetManager.oneSoundPath, Sound.class);
+        walkSound1 = game.assetManager.manager.get(GameAssetManager.walk1SoundPath, Sound.class);
+        walkSound2 = game.assetManager.manager.get(GameAssetManager.walk2SoundPath, Sound.class);
+        isWalkSoundPlaying1 = false;
+
+        // Ustawienia czcionki
+        countdownFont = game.assetManager.manager.get(GameAssetManager.fontPath, BitmapFont.class);
         countdownFont.setColor(Color.WHITE);
         countdownFont.getData().setScale(10);
+
+        // Inicjalizacja layoutu i ShapeRenderera
         layout = new GlyphLayout();
-        this.shapeRenderer = new ShapeRenderer();
+        shapeRenderer = new ShapeRenderer();
+
+        // Inicjalizacja muzyki
+        gameMusic.setLooping(true);
+        gameMusic.setVolume(0.2f);
+        gameMusic.play();
+
+        // Ustawienia animacji tła
+        frameTextures = new ArrayList<>();
+        for (int i = 1; i <= MAX_FRAMES; i++) {
+            String framePath = "sunset/" + String.format("%04d.jpg", i);
+            frameTextures.add(game.assetManager.manager.get(framePath, Texture.class));
+        }
+        backgroundTexture = frameTextures.get(0);
+    }
+
+    private void updateBackground(float delta) {
+        timeAccumulator += delta;
+
+        if (timeAccumulator >= FRAME_DURATION) {
+            timeAccumulator -= FRAME_DURATION; // Reset the accumulator
+
+            // Set the current background to the next frame
+            frameIndex++;
+            if (frameIndex >= MAX_FRAMES) {
+                frameIndex = MAX_FRAMES; // Reset to the last frame if it goes over
+            }
+
+            // Assuming frameTextures contains all your sunset images
+            backgroundTexture = frameTextures.get(frameIndex - 1);
+        }
     }
 
     @Override
     public void show() {
-
+        gameMusic.play();
     }
 
     @Override
@@ -79,6 +139,7 @@ public class OnlineGameScreen implements Screen {
         renderGame();
 
         checkWinCondition();
+        updateBackground(delta);
         updateRoundWonAnimation(delta);
         updateCountdown(delta);
         updateFightMessage(delta);
@@ -92,31 +153,28 @@ public class OnlineGameScreen implements Screen {
         //drawHitboxesAndHurtboxes();
     }
 
+
     private void checkWinCondition() {
-        System.out.println("[" + frameCount++ + "] player1(" + player1.getState() +") HP: " + player1.getHealth() + " R: " + player1.getRoundsWon() + " | player2(" + player2.getState() +") HP: " + player2.getHealth() + " R: " + player2.getRoundsWon());
-        if (player1.getRoundsWon() >= 3 && player2.getRoundsWon() >= 3 && player1.getState() == State.HIT_STUNNED_HIGH && player2.getState() == State.HIT_STUNNED_HIGH) {
+        if (game.player1.getRoundsWon() >= 3 && game.player2.getRoundsWon() >= 3 && game.player1.getState() == State.HIT_STUNNED_HIGH && game.player2.getState() == State.HIT_STUNNED_HIGH) {
             winnerMessage = "Draw!";
             isWinnerMessageActive = true;
             if (winnerMessageTime == 2.0f) isRoundWonActive = true;
-        } else if (player1.getRoundsWon() >= 3 && player2.getState() == State.HIT_STUNNED_HIGH) {
-            if (player1.getPlayer() == Player.PLAYER1) winnerMessage = "You win!";
-            else winnerMessage = "You lose!";
+        } else if (game.player1.getRoundsWon() >= 3 && game.player2.getState() == State.HIT_STUNNED_HIGH) {
+            winnerMessage = "Player 1 wins!";
             isWinnerMessageActive = true;
             if (winnerMessageTime == 2.0f) isRoundWonActive = true;
-        } else if (player2.getRoundsWon() >= 3 && player1.getState() == State.HIT_STUNNED_HIGH) {
-            if (player2.getPlayer() == Player.PLAYER2) winnerMessage = "You win!";
-            else winnerMessage = "You lose!";
+        } else if (game.player2.getRoundsWon() >= 3 && game.player1.getState() == State.HIT_STUNNED_HIGH) {
+            winnerMessage = "Player 2 wins!";
             isWinnerMessageActive = true;
             if (winnerMessageTime == 2.0f) isRoundWonActive = true;
-        } else if (player1.getState() == State.HIT_STUNNED_HIGH || player2.getState() == State.HIT_STUNNED_HIGH) {
-            if (player1.getState() == State.HIT_STUNNED_HIGH && winnerMessageTime == 2.0f) player2.setRoundsWon(player2.getRoundsWon() + 1);
-            if (player2.getState() == State.HIT_STUNNED_HIGH && winnerMessageTime == 2.0f) player1.setRoundsWon(player1.getRoundsWon() + 1);
-            winnerMessage = String.format("%d - %d", player1.getRoundsWon(), player2.getRoundsWon());
+        } else if (game.player1.getState() == State.HIT_STUNNED_HIGH || game.player2.getState() == State.HIT_STUNNED_HIGH) {
+            if (game.player1.getState() == State.HIT_STUNNED_HIGH && winnerMessageTime == 2.0f) game.player2.setRoundsWon(game.player2.getRoundsWon() + 1);
+            if (game.player2.getState() == State.HIT_STUNNED_HIGH && winnerMessageTime == 2.0f) game.player1.setRoundsWon(game.player1.getRoundsWon() + 1);
+            winnerMessage = String.format("%d - %d", game.player1.getRoundsWon(), game.player2.getRoundsWon());
             isWinnerMessageActive = true;
             if (winnerMessageTime == 2.0f) isRoundWonActive = true;
         }
     }
-
 
     private void updateRoundWonAnimation(float delta) {
         if (isRoundWonActive) {
@@ -134,7 +192,7 @@ public class OnlineGameScreen implements Screen {
             if (winnerMessageTime <= 0) {
                 isWinnerMessageActive = false;
                 winnerMessageTime = 2.0f;
-                if (player1.getRoundsWon() >= 3 || player2.getRoundsWon() >= 3) {
+                if (game.player1.getRoundsWon() >= 3 || game.player2.getRoundsWon() >= 3) {
                     dispose();
                     game.setScreen(new MainMenuScreen(game));
                 }
@@ -150,21 +208,35 @@ public class OnlineGameScreen implements Screen {
     }
 
     private void startNewRound() {
-        player1.resetToDefault();
-        player2.resetToDefault();
-        player1DepleteHealth = player1.getMaxHealth();
-        player2DepleteHealth = player2.getMaxHealth();
-        player1RoundsWon = player1.getRoundsWon();
-        player2RoundsWon = player2.getRoundsWon();
+        game.player1.resetToDefault();
+        game.player2.resetToDefault();
+        player1DepleteHealth = game.player1.getMaxHealth();
+        player2DepleteHealth = game.player2.getMaxHealth();
+        player1RoundsWon = game.player1.getRoundsWon();
+        player2RoundsWon = game.player2.getRoundsWon();
+
         isCountdownActive = true;
     }
 
     private void updateCountdown(float delta) {
         if (isCountdownActive) {
             countdownTime -= delta;
+            if (countdownTime <= 3 && threeSound) {
+                soundThree.play(0.2f);
+                threeSound = false;
+            }
+            if (countdownTime <= 2 && twoSound) {
+                soundTwo.play(0.2f);
+                twoSound = false;
+            }
+            if (countdownTime <= 1 && oneSound) {
+                soundOne.play(0.2f);
+                oneSound = false;
+            }
             if (countdownTime <= 0) {
                 isCountdownActive = false;
                 isFightMessageActive = true;
+                oneSound = twoSound = threeSound = true;
                 countdownTime = 3;
             }
         }
@@ -186,22 +258,42 @@ public class OnlineGameScreen implements Screen {
 
     private void updateEntities() {
         if (isCountdownActive || isFightMessageActive) {
-            player1.updateIdle();
-            player2.updateIdle();
+            game.player1.updateIdle();
+            game.player2.updateIdle();
         } else if (isWinnerMessageActive) {
-            player1.updateRoundEnd();
-            player2.updateRoundEnd();
+            game.player1.updateRoundEnd();
+            game.player2.updateRoundEnd();
         } else {
             for (Entity entity : entities) {
                 entity.update();
             }
             collision.update();
         }
+        if (!isWalkSoundPlaying1 && (game.player1.getState() == State.GOING_BACK || game.player1.getState() == State.GOING_FORWARD)) {
+            System.out.println(game.player1.getPlayer() + "play");
+            walkSound1.loop();
+            isWalkSoundPlaying1 = true;
+        } else if (isWalkSoundPlaying1 && !(game.player1.getState() == State.GOING_BACK || game.player1.getState() == State.GOING_FORWARD)) {
+            System.out.println(game.player1.getPlayer() + "stop");
+            walkSound1.stop();
+            isWalkSoundPlaying1 = false;
+        }
+        if (!isWalkSoundPlaying2 && (game.player2.getState() == State.GOING_BACK || game.player2.getState() == State.GOING_FORWARD)) {
+            System.out.println(game.player2.getPlayer() + "play");
+            walkSound2.loop();
+            isWalkSoundPlaying2 = true;
+        } else if (isWalkSoundPlaying2 && !(game.player2.getState() == State.GOING_BACK || game.player2.getState() == State.GOING_FORWARD)){
+            System.out.println(game.player2.getPlayer() + "stop");
+            walkSound2.stop();
+            isWalkSoundPlaying2 = false;
+        }
     }
 
     private void renderGame() {
         game.batch.begin();
         game.batch.draw(backgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        if (game.player1.getPlayer() == Player.PLAYER1) game.batch.draw(p1Movelist, 40, Gdx.graphics.getHeight() - 60 - 300, 200, 300);
+        if (game.player2.getPlayer() == Player.PLAYER2) game.batch.draw(p2Movelist, Gdx.graphics.getWidth() - 40 - 200, Gdx.graphics.getHeight() - 60 - 300, 200, 300);
         for (Entity entity : entities) {
             game.batch.draw(entity.getTextureRegion(), entity.getX(), entity.getY());
         }
@@ -215,8 +307,8 @@ public class OnlineGameScreen implements Screen {
 
         // Constants for the health bars
         float maxHealthWidth = 450; // The total width of the health bar
-        float healthBarHeight = 30; // The height of the health bar
-        float healthBarTopMargin = 40; // Margin from the top of the screen
+        float healthBarHeight = 20; // The height of the health bar
+        float healthBarTopMargin = 20; // Margin from the top of the screen
         float healthBarSideMargin = 40; // Margin from the sides of the screen
         float borderThickness = 3; // Thickness of the health bar border
 
@@ -238,12 +330,12 @@ public class OnlineGameScreen implements Screen {
         shapeRenderer.rect(healthBarSideMargin, Gdx.graphics.getHeight() - healthBarHeight - healthBarTopMargin, maxHealthWidth, healthBarHeight);
 
         // Draw Player 1's depleting health
-        float player1DepleteWidth = (maxHealthWidth / player1.getMaxHealth()) * player1DepleteHealth;
+        float player1DepleteWidth = (maxHealthWidth / game.player1.getMaxHealth()) * player1DepleteHealth;
         shapeRenderer.setColor(Color.RED);
         shapeRenderer.rect(healthBarSideMargin, Gdx.graphics.getHeight() - healthBarHeight - healthBarTopMargin, player1DepleteWidth, healthBarHeight);
 
         // Draw the current health with gradient
-        float player1HealthWidth = (maxHealthWidth / 3) * player1.getHealth(); // Calculate the width based on current health
+        float player1HealthWidth = (maxHealthWidth / 3) * game.player1.getHealth(); // Calculate the width based on current health
         // Starting point of the gradient
         shapeRenderer.rect(healthBarSideMargin, Gdx.graphics.getHeight() - healthBarHeight - healthBarTopMargin, player1HealthWidth, healthBarHeight, endHealthColor, endHealthColor, startHealthColor, startHealthColor);
 
@@ -257,11 +349,11 @@ public class OnlineGameScreen implements Screen {
 
         // Draw Player 2's depleting health
         shapeRenderer.setColor(Color.RED);
-        float player2DepleteWidth = (maxHealthWidth / player2.getMaxHealth()) * player2DepleteHealth;
+        float player2DepleteWidth = (maxHealthWidth / game.player2.getMaxHealth()) * player2DepleteHealth;
         shapeRenderer.rect(Gdx.graphics.getWidth() - player2DepleteWidth - healthBarSideMargin, Gdx.graphics.getHeight() - healthBarHeight - healthBarTopMargin, player2DepleteWidth, healthBarHeight);
 
         // Draw the current health with gradient
-        float player2HealthWidth = (maxHealthWidth / 3) * player2.getHealth(); // Calculate the width based on current health
+        float player2HealthWidth = (maxHealthWidth / 3) * game.player2.getHealth(); // Calculate the width based on current health
         // Ending point of the gradient because it's drawing from right to left
         shapeRenderer.rect(Gdx.graphics.getWidth() - player2HealthWidth - healthBarSideMargin, Gdx.graphics.getHeight() - healthBarHeight - healthBarTopMargin, player2HealthWidth, healthBarHeight, endHealthColor, endHealthColor, startHealthColor, startHealthColor);
 
@@ -275,18 +367,18 @@ public class OnlineGameScreen implements Screen {
         float depleteSpeed = 2; // The speed at which the health depletes
 
         // Animate Player 1's health depleting
-        if (player1DepleteHealth > player1.getHealth()) {
+        if (player1DepleteHealth > game.player1.getHealth()) {
             player1DepleteHealth -= depleteSpeed * delta;
-            if (player1DepleteHealth < player1.getHealth()) {
-                player1DepleteHealth = player1.getHealth();
+            if (player1DepleteHealth < game.player1.getHealth()) {
+                player1DepleteHealth = game.player1.getHealth();
             }
         }
 
         // Animate Player 2's health depleting
-        if (player2DepleteHealth > player2.getHealth()) {
+        if (player2DepleteHealth > game.player2.getHealth()) {
             player2DepleteHealth -= depleteSpeed * delta;
-            if (player2DepleteHealth < player2.getHealth()) {
-                player2DepleteHealth = player2.getHealth();
+            if (player2DepleteHealth < game.player2.getHealth()) {
+                player2DepleteHealth = game.player2.getHealth();
             }
         }
     }
@@ -296,8 +388,8 @@ public class OnlineGameScreen implements Screen {
 
         // Constants for the round counters
         float counterDiameter = 20; // The diameter of the round counter circles
-        float counterMargin = 10; // The margin between the circles
-        float counterYPosition = Gdx.graphics.getHeight() - healthBarHeight - healthBarTopMargin - counterDiameter - 10;
+        float counterMargin = 8; // The margin between the circles
+        float counterYPosition = Gdx.graphics.getHeight() - healthBarHeight - healthBarTopMargin - counterDiameter;
         float borderThickness = 2; // Thickness of the border around the counters
         Color borderColor = Color.BLACK; // Color for the border
         Color emptyCounterColor = Color.GRAY;
@@ -309,8 +401,8 @@ public class OnlineGameScreen implements Screen {
         float counterXStartP2 = Gdx.graphics.getWidth() - (healthBarWidth + healthBarSideMargin - counterMargin);
 
         // Draw Player 1 round counters
-        drawCounters(borderColor, emptyCounterColor, outerCounterColor, centerCounterColor, counterXStartP1, counterDiameter, counterMargin, counterYPosition, borderThickness, 1, player1);
-        drawCounters(borderColor, emptyCounterColor, outerCounterColor, centerCounterColor, counterXStartP2, counterDiameter, counterMargin, counterYPosition, borderThickness, -1, player2);
+        drawCounters(borderColor, emptyCounterColor, outerCounterColor, centerCounterColor, counterXStartP1, counterDiameter, counterMargin, counterYPosition, borderThickness, 1, game.player1);
+        drawCounters(borderColor, emptyCounterColor, outerCounterColor, centerCounterColor, counterXStartP2, counterDiameter, counterMargin, counterYPosition, borderThickness, -1, game.player2);
 
         shapeRenderer.end();
     }
@@ -350,12 +442,14 @@ public class OnlineGameScreen implements Screen {
             // Simulate a gradient by drawing concentric circles
             if (player.getRoundsWon() > i) {
                 if (isRoundWonActive && i == player.getRoundsWon() - 1) {
-                    if (player1RoundsWon < player1.getRoundsWon() && (player.getPlayer() == Player.PLAYER1 || player.getPlayer() == Player.ONLINE_PLAYER1)) {
+                    if (player1RoundsWon < game.player1.getRoundsWon() && (player.getPlayer() == Player.PLAYER1 || player.getPlayer() == Player.ONLINE_PLAYER1)) {
                         outerCounterColor = calculateColor(roundWonAnimationTime, totalRoundWonAnimationTime, Color.GRAY, Color.WHITE, Color.GOLD);
                         centerCounterColor = calculateColor(roundWonAnimationTime, totalRoundWonAnimationTime, Color.GRAY, Color.WHITE, new Color(1f, 1f, 0.8f, 1f));
-                    } else if (player2RoundsWon < player2.getRoundsWon() && (player.getPlayer() == Player.PLAYER2 || player.getPlayer() == Player.ONLINE_PLAYER2)) {
+
+                    } else if (player2RoundsWon < game.player2.getRoundsWon() && (player.getPlayer() == Player.PLAYER2 || player.getPlayer() == Player.ONLINE_PLAYER2)) {
                         outerCounterColor = calculateColor(roundWonAnimationTime, totalRoundWonAnimationTime, Color.GRAY, Color.WHITE, Color.GOLD);
                         centerCounterColor = calculateColor(roundWonAnimationTime, totalRoundWonAnimationTime, Color.GRAY, Color.WHITE, new Color(1f, 1f, 0.8f, 1f));
+
                     }
                 }
                 int gradientSteps = 10;
@@ -377,6 +471,7 @@ public class OnlineGameScreen implements Screen {
             }
         }
     }
+
 
     private void drawCountdown() {
         if (isCountdownActive) {
@@ -402,26 +497,22 @@ public class OnlineGameScreen implements Screen {
     private void drawHitboxesAndHurtboxes() {
         game.shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 
-        // Rysowanie hurtboxów gracza 1
-        for (Rectangle box : player1.getHurtboxes()) {
+        for (Rectangle box : game.player1.getHurtboxes()) {
             game.shapeRenderer.setColor(Color.BLACK);
             game.shapeRenderer.rect(box.x, box.y, box.width, box.height);
         }
 
-        // Rysowanie hurtboxów gracza 2
-        for (Rectangle box : player2.getHurtboxes()) {
+        for (Rectangle box : game.player2.getHurtboxes()) {
             game.shapeRenderer.setColor(Color.BLACK);
             game.shapeRenderer.rect(box.x, box.y, box.width, box.height);
         }
 
-        // Rysowanie hitboxów gracza 1
-        for (Rectangle box : player1.getHitboxes()) {
+        for (Rectangle box : game.player1.getHitboxes()) {
             game.shapeRenderer.setColor(Color.RED);
             game.shapeRenderer.rect(box.x, box.y, box.width, box.height);
         }
 
-        // Rysowanie hitboxów gracza 2
-        for (Rectangle box : player2.getHitboxes()) {
+        for (Rectangle box : game.player2.getHitboxes()) {
             game.shapeRenderer.setColor(Color.RED);
             game.shapeRenderer.rect(box.x, box.y, box.width, box.height);
         }
@@ -453,14 +544,21 @@ public class OnlineGameScreen implements Screen {
     @Override
     public void dispose() {
         System.out.println("~dispose(OnlineGameScreen)");
-        if (multiplayer != null) {
-            if (multiplayer.getServer() != null) {
-                multiplayer.closeServer();
+        gameMusic.stop();
+        walkSound1.stop();
+        walkSound2.stop();
+        if (game.multiplayer != null) {
+            if (game.multiplayer.getServer() != null) {
+                game.multiplayer.closeServer();
             }
 
-            if (multiplayer.getClient() != null) {
-                multiplayer.closeClient();
+            if (game.multiplayer.getClient() != null) {
+                game.multiplayer.closeClient();
             }
         }
+        game.multiplayer = null;
+        game.player1.resetToInitial();
+        game.player2.resetToInitial();
+        countdownFont.getData().setScale(1);
     }
 }

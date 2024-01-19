@@ -27,24 +27,24 @@ import java.nio.file.Paths;
 
 public class HostOnlineGameScreen implements Screen {
     FightingGame game;
-    Multiplayer multiplayer;
     private Skin skin;
     private Stage stage;
     private Label messageLabel;
     private Label encodedIpLabel;
     private TextButton returnButton;
     private TextButton copyButton;
-    private Fighter player1, player2;
     private Label connectedPlayerLabel;
     private TextButton startGameButton;
 
 
     public HostOnlineGameScreen(FightingGame game) {
         this.game = game;
-        multiplayer = new Multiplayer(game);
-        multiplayer.initializeServer();
-        player1 = new Fighter(250, 20, Player.PLAYER1, Input.Keys.A, Input.Keys.D, Input.Keys.S, Input.Keys.F, 600, multiplayer);
-        player2 = new Fighter(650, 20, Player.ONLINE_PLAYER2, 600, multiplayer);
+        game.multiplayer = new Multiplayer();
+        game.multiplayer.initializeServer();
+        game.player1.setMultiplayer(game.multiplayer);
+        game.player1.setPlayer(Player.PLAYER1);
+        game.player2.setMultiplayer(game.multiplayer);
+        game.player2.setPlayer(Player.ONLINE_PLAYER2);
     }
 
 
@@ -101,15 +101,15 @@ public class HostOnlineGameScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (!startGameButton.isDisabled()) {
-                    multiplayer.sendCommand(new StartGameCommand());
+                    game.multiplayer.sendCommand(new StartGameCommand());
                     // Możesz również tutaj przejść do ekranu gry dla hosta
-                    game.setScreen(new OnlineGameScreen(game, multiplayer, player1, player2));
+                    game.setScreen(new OnlineGameScreen(game));
                 }
             }
         });
 
         // Get the encoded IP and display it
-        String encodedIp = multiplayer.encodeIpAndPort(multiplayer.getIpAddress(), multiplayer.getServerPort());
+        String encodedIp = game.multiplayer.encodeIpAndPort(game.multiplayer.getIpAddress(), game.multiplayer.getServerPort());
         encodedIpLabel.setText(encodedIp);
 
         // Add the stage to the input processors
@@ -124,7 +124,7 @@ public class HostOnlineGameScreen implements Screen {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(1, (float) 0.54, 0, 1);
-        if (multiplayer.isConnected()) {
+        if (game.multiplayer.isConnected()) {
             // Get the address of the connected client
             connectedPlayerLabel.setText("Player joined.");
             startGameButton.setDisabled(false); // Make the start game button clickable
@@ -156,8 +156,8 @@ public class HostOnlineGameScreen implements Screen {
     @Override
     public void dispose() {
         System.out.println("~dispose(HostOnlineGameScreen)");
-        if (multiplayer != null) {
-            multiplayer.closeServer();
+        if (game.multiplayer != null) {
+            game.multiplayer.closeServer();
         }
         stage.dispose();
         skin.dispose();

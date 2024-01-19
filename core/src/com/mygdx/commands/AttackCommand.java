@@ -12,6 +12,7 @@ public class AttackCommand implements Command {
     private int currentFrame;
     private int xBefore, yBefore;
     private int x, y;
+    private int frameCount;
 
     public AttackCommand() {
     }
@@ -26,6 +27,7 @@ public class AttackCommand implements Command {
         this.y = fighter.getY() + frame.getYAxisMovement();
         this.xBefore = fighter.getX();
         this.yBefore = fighter.getY();
+        this.frameCount = move.getFrameCount();
     }
 
     @Override
@@ -84,5 +86,13 @@ public class AttackCommand implements Command {
 
     public void setCurrentFrame(int currentFrame) {
         this.currentFrame = currentFrame;
+    }
+
+    @Override
+    public String toString() {
+            return "Attack[" + currentFrame + "]";
+    }
+    public int getFrameCount() {
+        return frameCount;
     }
 }

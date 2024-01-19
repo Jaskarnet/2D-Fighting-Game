@@ -23,8 +23,7 @@ public class InputHandler {
     private boolean recordingInput;
     private Player player;
     private Multiplayer multiplayer;
-    private Sound walkSound;
-    private boolean isWalkSoundPlaying;
+
 
 
     public InputHandler(Fighter fighter, Player player, int forwardButton, int backwardButton, int crouchButton, int attackButton, int commandHistorySize) {
@@ -41,54 +40,12 @@ public class InputHandler {
         this.crouchButton = crouchButton;
         this.attackButton = attackButton;
         this.recordingInput = true;
-        walkSound = Gdx.audio.newSound(Gdx.files.internal("walk.mp3"));
-        isWalkSoundPlaying = false;
-    }
 
-    public InputHandler(Fighter fighter, Player player, int forwardButton, int backwardButton, int crouchButton, int attackButton, int commandHistorySize, Multiplayer multiplayer) {
-        this.fighter = fighter;
-        this.player = player;
-        this.commandHistorySize = commandHistorySize;
-        this.multiplayer = multiplayer;
-        commandHistory = new CircularBuffer<>(commandHistorySize);
-
-        for (int i = 0; i < commandHistorySize; i++) {
-
-        }
-        this.forwardButton = forwardButton;
-        this.backwardButton = backwardButton;
-        this.crouchButton = crouchButton;
-        this.attackButton = attackButton;
-        this.recordingInput = true;
-        walkSound = Gdx.audio.newSound(Gdx.files.internal("walk.mp3"));
-        isWalkSoundPlaying = false;
-    }
-
-    public InputHandler(Fighter fighter, Player player, int commandHistorySize, Multiplayer multiplayer) {
-        this.fighter = fighter;
-        this.player = player;
-        this.commandHistorySize = commandHistorySize;
-        commandHistory = new CircularBuffer<>(commandHistorySize);
-        this.multiplayer = multiplayer;
-        this.recordingInput = true;
-        walkSound = Gdx.audio.newSound(Gdx.files.internal("walk.mp3"));
-        isWalkSoundPlaying = false;
     }
 
     public Command handleInput() {
-        if (!commandHistory.isEmpty() && !isWalkSoundPlaying && commandHistory.get(commandHistory.getSize() - 1) instanceof MoveFighterCommand) {
-            System.out.println("odpala sie dzwiek chodzenia");
-            walkSound.loop();
-            isWalkSoundPlaying = true;
-        } else if (!commandHistory.isEmpty() && isWalkSoundPlaying && !(commandHistory.get(commandHistory.getSize() - 1) instanceof MoveFighterCommand)){
-            System.out.println("stop");
-            walkSound.stop();
-            isWalkSoundPlaying = false;
-        }
         int currentFrame = fighter.getCurrentFrame();
         Command command = null;
-
-        boolean isMoving = Gdx.input.isKeyPressed(forwardButton) || Gdx.input.isKeyPressed(backwardButton);
 
         // Online
         if (player == Player.ONLINE_PLAYER1 || player == Player.ONLINE_PLAYER2) {
@@ -380,5 +337,13 @@ public class InputHandler {
 
     public void setCommandHistory(CircularBuffer<Command> commandHistory) {
         this.commandHistory = commandHistory;
+    }
+
+    public void setMultiplayer(Multiplayer multiplayer) {
+        this.multiplayer = multiplayer;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 }

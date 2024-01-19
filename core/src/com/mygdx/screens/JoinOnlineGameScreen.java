@@ -20,20 +20,20 @@ import java.net.UnknownHostException;
 
 public class JoinOnlineGameScreen implements Screen {
     FightingGame game;
-    Multiplayer multiplayer;
     private Skin skin;
     private Stage stage;
     private TextField inviteCodeField;
     private TextButton connectButton;
     private TextButton returnButton;
-    private Fighter player1, player2;
     private Label connectionStatusLabel;
 
     public JoinOnlineGameScreen(FightingGame game) {
         this.game = game;
-        multiplayer = new Multiplayer(game);
-        player2 = new Fighter(650, 20, Player.PLAYER2, Input.Keys.RIGHT, Input.Keys.LEFT, Input.Keys.DOWN, Input.Keys.CONTROL_RIGHT, 600, multiplayer);
-        player1 = new Fighter(250, 20, Player.ONLINE_PLAYER1, 600, multiplayer);
+        game.multiplayer = new Multiplayer();
+        game.player1.setMultiplayer(game.multiplayer);
+        game.player1.setPlayer(Player.ONLINE_PLAYER1);
+        game.player2.setMultiplayer(game.multiplayer);
+        game.player2.setPlayer(Player.PLAYER2);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class JoinOnlineGameScreen implements Screen {
     }
 
     private void connectToServer() {
-        String[] decodedInviteLink = multiplayer.decodeIpAndPort(inviteCodeField.getText());
+        String[] decodedInviteLink = game.multiplayer.decodeIpAndPort(inviteCodeField.getText());
         if (decodedInviteLink != null) {
             String ipAddress = decodedInviteLink[0];
             int portNumber = Integer.parseInt(decodedInviteLink[1]);
@@ -88,7 +88,7 @@ public class JoinOnlineGameScreen implements Screen {
             System.out.println("IP Address: " + ipAddress);
             System.out.println("Port Number: " + portNumber);
             try {
-                multiplayer.initializeClient(ipAddress, portNumber);
+                game.multiplayer.initializeClient(ipAddress, portNumber);
             } catch (Exception e) {
                 connectionStatusLabel.setText("Connection error: " + e.getMessage());
                 e.printStackTrace();
@@ -103,20 +103,20 @@ public class JoinOnlineGameScreen implements Screen {
 
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
-        if (multiplayer.isAttemptingConnection()) {
+        if (game.multiplayer.isAttemptingConnection()) {
             // Sprawdź, czy połączenie się udało lub wystąpił błąd
-            if (multiplayer.getLastErrorMessage() != null) {
-                connectionStatusLabel.setText(multiplayer.getLastErrorMessage());
-            } else if (multiplayer.isConnected()) {
+            if (game.multiplayer.getLastErrorMessage() != null) {
+                connectionStatusLabel.setText(game.multiplayer.getLastErrorMessage());
+            } else if (game.multiplayer.isConnected()) {
                 connectionStatusLabel.setText("Successfully connected. Waiting for host to start the game.");
             } else {
                 connectionStatusLabel.setText("Connecting...");
             }
         }
-        if (multiplayer.getStartGame()) {
+        if (game.multiplayer.getStartGame()) {
             stage.dispose();
             skin.dispose();
-            game.setScreen(new OnlineGameScreen(game, multiplayer, player1, player2));
+            game.setScreen(new OnlineGameScreen(game));
         }
     }
 
@@ -143,8 +143,8 @@ public class JoinOnlineGameScreen implements Screen {
     @Override
     public void dispose() {
         System.out.println("~dispose(JoinOnlineGameScreen)");
-        if (multiplayer != null) {
-            multiplayer.closeClient();
+        if (game.multiplayer != null) {
+            game.multiplayer.closeClient();
         }
         stage.dispose();
         skin.dispose();
