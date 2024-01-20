@@ -1,8 +1,6 @@
 \chapter{Założenia projektowe}
-
 \section{Reguły i mechanika gry}
-Aby wyróżnić projekt od innych gier z gatunku bijatyk 2D, wprowadzone zostaną elementy mechaniki z gatunku bijatyk 3D, takie jak dłuższe i płynniejsze animacje. 
-Charakterystyczne dla gry będzie ujednolicenie postaci, którymi sterują gracze. Każda z postaci będzie miała 3 punkty zdrowia, a zwycięstwo w rundzie będzie osiągane poprzez zredukowanie zdrowia przeciwnika do zera. W przypadku trzykrotnego powodzenia tego procesu, gracz wygrywa całą grę. 
+Gra stworzona w ramach projektu będzie nazywała się Sunset Showdown. Charakterystyczne dla gry będzie ujednolicenie postaci, którymi sterują gracze. Każda z postaci będzie miała 3 punkty zdrowia, a zwycięstwo w rundzie będzie osiągane poprzez zredukowanie zdrowia przeciwnika do zera. W przypadku trzykrotnego powodzenia tego procesu, gracz wygrywa całą grę. 
 
 Postacie będą miały do dyspozycji trzy różne wysokości ciosów: \emph{high} (cios wysoki), \emph{mid} (cios wyprowadzony w środkową część ciała) oraz \emph{low} (cios niski). Wysokość ciosu wpływa na to, w jakim stanie można go zablokować lub nawet pod nim kucnąć. 
 Cios \emph{high} można zablokować stojąc lub uniknąć, kucając. Cios \emph{mid} można zablokować w pozycji stojącej, jednak trafi, gdy postać kucnie. Natomiast cios \emph{low} trafi stojącego przeciwnika, ale można go zablokować, kucając. Dodatkowo, każdy cios będzie charakteryzować się inną szybkością. Atak \emph{high} będzie najszybszy, \emph{mid} zajmie środkową pozycję, natomiast cios \emph{low} będzie najwolniejszy. 
@@ -22,3 +20,17 @@ Wysokość ataku & Szybkość ataku & Obrażenia & Sytuacja na bloku & Sytuacja 
 \texttt{low} & 21 & 1 & -15 & +2\\ \hline
 \end{tabularx}
 \end{table}
+
+\section{Interfejs użytkownika}
+\begin{figure}
+	\centering
+		\includegraphics[width=0.64\linewidth]{rys02/interfejs}
+	\caption{Zrzut ekranu z gry Sunset Showdown z widocznym interfejsem gry}
+	\label{fig:interfejs}
+\end{figure}
+Na rysunku \ref{fig:interfejs} widoczny jest interfejs użytkownika gry Sunset Showdown. Postacie graczy są zaprezentowane jako sylwetki w jednolitym, czarnym kolorze. W górnej części ekranu umieszczone są zielone paski zdrowia dla każdego z graczy, które zmniejszają się w miarę otrzymywania obrażeń przez postacie. Poniżej pasków zdrowia znajdują się ikony w kształcie kółek, które jeżeli zapalone na żółto wskazują na wygrane rundy.
+
+Po bokach ekranu umiejscowione są schematy sterowania dla każdego z graczy, przedstawiające przypisane klawisze i ich funkcje w grze. Dla Gracza 1, po lewej stronie, przyciski 'A', 'S', 'D', i 'F' odpowiadają za ruchy i podstawowe ataki, z dodatkowymi kombinacjami klawiszy dla ataków wysokich, średnich i niskich. Analogicznie, Gracz 2, po prawej stronie ekranu, korzysta z klawiszy strzałek oraz 'CTRL' do sterowania swoją postacią i wykonania ataków.
+
+\section{Tryby gry}
+W "Sunset Showdown" dostępne będą dwa podstawowe tryby gry. Tryb offline umożliwi dwóm graczom wspólną rozgrywkę na jednym komputerze przy użyciu tej samej klawiatury. Oprócz tego, gra będzie oferować tryb online, który pozwala graczom na połączenie się przez internet z osobnych komputerów. W tym trybie gracze będą mogli tworzyć pokoje gry, do których dostęp jest możliwy po wprowadzeniu specjalnego kodu pokoju. Aby założyć pokój, niezbędne będzie połączenie komputera do routera z aktywną opcją Universal Plug and Play (UPnP). Natomiast dołączenie do pokoju będzie wymagało jedynie standardowego połączenia internetowego. Funkcjonalności te będą dostępne w menu głównym gry.
