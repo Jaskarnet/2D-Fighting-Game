@@ -140,19 +140,22 @@ public class OfflineGameScreen implements Screen {
     public void render(float delta) {
         updateBackground(delta);
         checkWinCondition();
-
         updateRoundWonAnimation(delta);
         updateCountdown(delta);
         updateFightMessage(delta);
         updateWinnerMessage(delta);
         animateHealthDepletion(delta);
+
+        //clear
         clearScreen();
+        //update
         updateEntities();
+        //render
         renderGame();
+
         drawCountdown();
         drawFightMessage();
         drawWinnerMessage();
-        //drawHitboxesAndHurtboxes();
     }
 
 

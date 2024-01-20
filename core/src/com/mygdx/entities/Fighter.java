@@ -60,54 +60,6 @@ public class Fighter extends Entity {
         setTextureRegion(movelist.getMove(state.ordinal()).getFrame(currentFrame).getSprite());
     }
 
-    /*public Fighter(int x, int y, Player player, int backwardButton, int forwardButton, int crouchButton, int attackButton, int commandHistorySize, Multiplayer multiplayer) {
-        super(x, y);
-        this.initialX = x;
-        this.initialY = y;
-        this.multiplayer = multiplayer;
-        inputHandler = new InputHandler(this, player, forwardButton, backwardButton, crouchButton, attackButton, commandHistorySize, multiplayer);
-        this.player = player;
-        health = 3;
-        this.isBlockStunnedHigh = false;
-        this.isBlockStunnedMid = false;
-        this.isBlockStunnedLow = false;
-        this.isHitStunnedHigh = false;
-        this.isHitStunnedMid = false;
-        this.isHitStunnedLow = false;
-        movelist = new Movelist(player);
-        movelist.getMove(State.HIGH_ATTACK.getId()).setDamage(3);
-        movelist.getMove(State.MID_ATTACK.getId()).setDamage(2);
-        movelist.getMove(State.LOW_ATTACK.getId()).setDamage(1);
-        hurtboxes = movelist.getMove(0).getFrame(0).getHurtboxes();
-        hitboxes = movelist.getMove(0).getFrame(0).getHitboxes();
-        state = State.NEUTRAL;
-        setTextureRegion(movelist.getMove(state.ordinal()).getFrame(currentFrame).getSprite());
-    }
-
-    public Fighter(int x, int y, Player player, int commandHistorySize, Multiplayer multiplayer) {
-        super(x, y);
-        this.initialX = x;
-        this.initialY = y;
-        inputHandler = new InputHandler(this, player, commandHistorySize, multiplayer);
-        this.player = player;
-        this.multiplayer = multiplayer;
-        health = 3;
-        this.isBlockStunnedHigh = false;
-        this.isBlockStunnedMid = false;
-        this.isBlockStunnedLow = false;
-        this.isHitStunnedHigh = false;
-        this.isHitStunnedMid = false;
-        this.isHitStunnedLow = false;
-        movelist = new Movelist(player);
-        movelist.getMove(State.HIGH_ATTACK.getId()).setDamage(3);
-        movelist.getMove(State.MID_ATTACK.getId()).setDamage(2);
-        movelist.getMove(State.LOW_ATTACK.getId()).setDamage(1);
-        hurtboxes = movelist.getMove(0).getFrame(0).getHurtboxes();
-        hitboxes = movelist.getMove(0).getFrame(0).getHitboxes();
-        state = State.NEUTRAL;
-        setTextureRegion(movelist.getMove(state.ordinal()).getFrame(currentFrame).getSprite());
-    }*/
-
     public void moveTo(int x, int y) {
         if (player == Player.PLAYER1 || player == Player.ONLINE_PLAYER1) {
             int boundedX = Math.min(Math.max(x, -100), 900);
@@ -120,13 +72,10 @@ public class Fighter extends Entity {
             setX(boundedX);
             setY(boundedY);
         }
-
     }
 
-    void updateAnimation() {
-        if (currentFrame >= movelist.getMove(state.ordinal()).getFrameCount()) {
-            currentFrame = 0;
-        }
+    public void updateAnimation() {
+        if (currentFrame >= movelist.getMove(state.ordinal()).getFrameCount()) currentFrame = 0;
         setTextureRegion(movelist.getMove(state.ordinal()).getFrame(currentFrame).getSprite());
         setHurtboxes(adjustBoxesForFighterPosition(movelist.getMove(state.ordinal()).getFrame(currentFrame).getHurtboxes()));
         setHitboxes(adjustBoxesForFighterPosition(movelist.getMove(state.ordinal()).getFrame(currentFrame).getHitboxes()));
@@ -137,7 +86,6 @@ public class Fighter extends Entity {
         Command command = inputHandler.handleInput();
         command.execute(this);
         if (multiplayer != null && (player == Player.PLAYER1 || player == Player.PLAYER2)) {
-            System.out.println("[" + player + "] " + state);
             multiplayer.sendCommand(command);
         }
         updateAnimation();

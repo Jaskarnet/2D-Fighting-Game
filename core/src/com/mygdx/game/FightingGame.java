@@ -18,8 +18,6 @@ public class FightingGame extends Game {
     public Fighter player1, player2;
     public Multiplayer multiplayer;
 
-
-
     @Override
     public void create() {
         batch = new SpriteBatch();

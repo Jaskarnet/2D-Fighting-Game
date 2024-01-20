@@ -24,23 +24,16 @@ public class InputHandler {
     private Player player;
     private Multiplayer multiplayer;
 
-
-
     public InputHandler(Fighter fighter, Player player, int forwardButton, int backwardButton, int crouchButton, int attackButton, int commandHistorySize) {
         this.fighter = fighter;
         this.player = player;
         this.commandHistorySize = commandHistorySize;
         commandHistory = new CircularBuffer<>(commandHistorySize);
-
-        for (int i = 0; i < commandHistorySize; i++) {
-
-        }
         this.forwardButton = forwardButton;
         this.backwardButton = backwardButton;
         this.crouchButton = crouchButton;
         this.attackButton = attackButton;
         this.recordingInput = true;
-
     }
 
     public Command handleInput() {
