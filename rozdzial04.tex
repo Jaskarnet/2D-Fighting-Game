@@ -1,1 +1,103 @@
 \chapter{Testy}
+Ten rozdział poświęcony jest prezentacji testów przeprowadzonych w ramach projektu. Testy automatyczne zostały przeprowadzone z użyciem JUnit i Mockito.
+
+\section{FighterTest}
+%chętnie dostalbym informacje zwrotną czy lepiej żeby opisy testżw były w takim formacie, czy moze lepiej podzielic je na punkty jak np. 1. cel testu, 2. srodowisko testowe, 3. kroki testowe, 4. oczekiwane wyniki, 5. Wynik testu lub inne
+W celu zweryfikowania poprawnego działania klasy \texttt{Fighter} została przetestowana metoda \texttt{update}, która zajmuje się aktualizacją stanu obiektu w każdej klatce. Test przedstawiony jest w listingu \ref{list:FighterTest}. Zaczyna się od zaimportowania wszystkich potrzebnych komponentów. W funkcji \texttt{init}, która jest udekorowana adnotacją \emph{BeforeAll}, zawarte są wszystkie potrzebne inicjalizacje związane z frameworkiem \texttt{LibGDX} oraz jego uruchomieniem bez środowiska graficznego. Następnie w funkcji \texttt{setUp} tworzone są wszystkie potrzebne obiekty do testów - obiekt klasy \texttt{Fighter} oraz \texttt{GameAssetManager}. Test polega na sprawdzeniu czy poprawnie zmienia się stan obiektu z klasy \texttt{Fighter}. W związku z tym należy zasymulować wciśnięcie przycisku, a dokładniej zwrócenie odpowiedniego polecenia z metody \texttt{handleInput} instancji obiektu "InputHandler". W teście takie \emph{mockowanie} zrealizowane jest poprzez zwracanie komendy \emph{MoveFighterCommand} jeżeli wywołana zostanie funkcja \texttt{handleInput}.
+Test rozpoczyna się od potwierdzenia stanu dopiero utworzonej postaci. Następnie wywoływana jest funkcja \texttt{update}, która ma za zadanie zaktualizowac postać na podstawie komendy. Następnie sprawdzane jest czy prawidłowo zmienione zostały konkretne pola. Dokładniej mówiąc sprawdzane jest czy postać dopiero rozpoczyna animacje (czy znajduje w klatce o zerowym indeksie), czy poruszyła się o odpowiednią odległość, czy jej stan został odpowiednio zmieniony, czy obszary kolizji zmieniły się na te zgodne z aktualną animacją oraz czy podmieniona została wyświetlana aktualnie tekstura. Test przebiegł pomyślnie potwierdzając wszystkie sprawdzenia.
+\begin{lstlisting}[language=Java,style=JavaStyle,label=list:FighterTest,caption=Test metody \texttt{update} z klasy \texttt{Fighter},
+                   basicstyle=\footnotesize\ttfamily]
+							
+package com.mygdx.entities;
+...
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+public class FighterTest extends ApplicationAdapter {
+    private Fighter fighter;
+    private InputHandler mockInputHandler;
+    private int initialX, initialY;
+
+    @BeforeAll
+    public static void init() {
+        HeadlessApplicationConfiguration conf = new HeadlessApplicationConfiguration();
+        new HeadlessApplication(new FightingGame(), conf);
+        Gdx.gl = mock(GL20.class);
+        Gdx.gl20 = mock(GL20.class);
+    }
+    @BeforeEach
+    void setUp() {
+        initialX = 0;
+        initialY = 0;
+        mockInputHandler = mock(InputHandler.class);
+        GameAssetManager gameAssetManager = new GameAssetManager();
+        gameAssetManager.loadAssets();
+        while (!gameAssetManager.manager.update()) {
+            // oczekiwanie aż wszystkie zasoby sie załadują
+        }
+        fighter = new Fighter(initialX, initialY, Player.PLAYER1, 0, 0, 0, 0, 10, gameAssetManager.manager);
+        fighter.setInputHandler(mockInputHandler);
+    }
+
+    @Test
+    void testUpdateWithMoveForwardCommand() {
+        // Sprawdzenie początkowego stanu postaci
+        assertEquals(0, fighter.getCurrentFrame());
+        assertEquals(initialX, fighter.getX());
+        assertEquals(initialY, fighter.getY());
+        assertEquals(State.NEUTRAL, fighter.getState());
+        Move idleMove = fighter.getMovelist().getMove(State.NEUTRAL.getId());
+        List<Rectangle> initialHurtboxes = idleMove.getFrame(0).getHurtboxes();
+        List<Rectangle> initialHitboxes = idleMove.getFrame(0).getHitboxes();
+        TextureRegion initialSprite = idleMove.getFrame(0).getSprite();
+        assertEquals(initialHurtboxes, fighter.getHurtboxes());
+        assertEquals(initialHitboxes, fighter.getHitboxes());
+        assertEquals(initialSprite, fighter.getTextureRegion());
+
+        // Symulacja otrzymania komendy MoveFighterCommand od InputHandler'a
+        when(mockInputHandler.handleInput()).thenReturn(CommandFactory.moveFighterCommandForward(fighter));
+
+        // Aktualizacja logiki postaci
+        fighter.update();
+
+        // Sprawdzenie, czy aktualna klatka animacji to 0
+        assertEquals(0, fighter.getCurrentFrame());
+
+        // Sprawdzenie, czy postać poruszyła się o oczekiwaną odległość
+        Move goingForwardMove = fighter.getMovelist().getMove(State.GOING_FORWARD.getId());
+        int xAxisMovement = goingForwardMove.getFrame(0).getXAxisMovement();
+        int yAxisMovement = goingForwardMove.getFrame(0).getYAxisMovement();
+        assertEquals(initialX + xAxisMovement, fighter.getX());
+        assertEquals(initialY + yAxisMovement, fighter.getY());
+
+        // Sprawdzenie, czy stan postaci zmienił się na GOING_FORWARD
+        assertEquals(State.GOING_FORWARD, fighter.getState());
+
+        // Sprawdzenie, czy hurtboxy i hitboxy są zgodne z aktualną klatką ruchu
+        List<Rectangle> hurtboxes = goingForwardMove.getFrame(0).getHurtboxes();
+        for (Rectangle hurtbox : hurtboxes) {
+            // Jako że położenie hurtboxów jest względne (wobec postaci)
+            // to należy jeszcze dodać przebytą drogę
+            hurtbox.x = hurtbox.x + xAxisMovement;
+        }
+        List<Rectangle> hitboxes = goingForwardMove.getFrame(0).getHitboxes();
+        for (Rectangle hitbox : hitboxes) {
+            // Jako że położenie hitboxów jest względne (wobec postaci)
+            // to należy jeszcze dodać przebytą drogę
+            hitbox.x = hitbox.x + xAxisMovement;
+        }
+        assertEquals(hurtboxes ,fighter.getHurtboxes());
+        assertEquals(hitboxes ,fighter.getHitboxes());
+
+        // Sprawdzenie czy postac zmienilła wyświetlaną teksturę
+        TextureRegion sprite = goingForwardMove.getFrame(0).getSprite();
+        assertEquals(sprite, fighter.getTextureRegion());
+    }
+}
+\end{lstlisting}
+
+\section{Testy manualne}
+W celu sprawdzenia poprawności działania trybu online przeprowadzone zostały testy polegające na rozegraniu gry z dwóch różnych komputerów korzystając z opcji dostępnych w programie. Proces wyglądał następująco: host zakładał pokój, a następnie udostępniał drugiemu graczowi kod zaproszeniowy. Drugi gracz po wpisaniu kodu w odpowiednim miejscu łączył się z przeciwnikiem i jeżeli połączenie było udane obydwaj dostawali odpowiedni komunikat. Host po kliknięciu przycisku startował grę, po której zaczynała się rozgrywka. Postacie odpowiednio reagowały na sterowanie graczy. Przebieg rund jak i całego meczu odbywał się prawidłowo. Całość testu potwierdza działanie kodu sieciowego.
+
+
