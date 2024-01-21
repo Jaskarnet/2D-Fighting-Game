@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.mygdx.entities.FighterTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-01-21T12:55:10" hostname="DESKTOP-1RUB8V8" time="5.033">
+<testsuite name="com.mygdx.entities.FighterTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-01-21T14:01:49" hostname="DESKTOP-1RUB8V8" time="6.446">
   <properties/>
-  <testcase name="testUpdateWithMoveForwardCommand()" classname="com.mygdx.entities.FighterTest" time="5.033"/>
+  <testcase name="testUpdateWithMoveForwardCommand()" classname="com.mygdx.entities.FighterTest" time="6.446"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[Exception in thread "HeadlessApplication" java.lang.NullPointerException: Cannot invoke "com.badlogic.gdx.graphics.GL20.glCreateShader(int)" because "gl" is null
 	at com.badlogic.gdx.graphics.glutils.ShaderProgram.loadShader(ShaderProgram.java:204)
