@@ -1,21 +1,48 @@
-
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 apply plugin: "java"
 
-sourceCompatibility = 1.6
+dependencies {
+    // https://mvnrepository.com/artifact/org.mockito/mockito-core
+    testImplementation 'org.mockito:mockito-core:5.9.0'
+    // https://mvnrepository.com/artifact/org.mockito/mockito-junit-jupiter
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.9.0'
+    // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.1'
+    // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.1'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.15.2'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.14.2'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.14.2'
+}
+
+configurations {
+    all*.exclude group: 'org.mockito', module: 'mockito-all'
+
+    all {
+        exclude group: 'junit', module: 'junit'
+    }
+}
+
+
+test {
+    useJUnitPlatform()
+    jvmArgs '--add-opens', 'java.base/java.lang=ALL-UNNAMED'
+}
+
+
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
-
-
 sourceSets {
-	test {
+    test {
         java {
-            srcDir 'src'
+            srcDirs = ['src/test/java']
         }
     }
-    
-    
 }
+
+
 
 eclipse.project {
     name = appName + "-tests"

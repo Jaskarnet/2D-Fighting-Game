@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.mygdx.entities.FighterTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-01-21T12:55:10" hostname="DESKTOP-1RUB8V8" time="5.033">
+  <properties/>
+  <testcase name="testUpdateWithMoveForwardCommand()" classname="com.mygdx.entities.FighterTest" time="5.033"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[Exception in thread "HeadlessApplication" java.lang.NullPointerException: Cannot invoke "com.badlogic.gdx.graphics.GL20.glCreateShader(int)" because "gl" is null
+	at com.badlogic.gdx.graphics.glutils.ShaderProgram.loadShader(ShaderProgram.java:204)
+	at com.badlogic.gdx.graphics.glutils.ShaderProgram.compileShaders(ShaderProgram.java:183)
+	at com.badlogic.gdx.graphics.glutils.ShaderProgram.<init>(ShaderProgram.java:166)
+	at com.badlogic.gdx.graphics.g2d.SpriteBatch.createDefaultShader(SpriteBatch.java:163)
+	at com.badlogic.gdx.graphics.g2d.SpriteBatch.<init>(SpriteBatch.java:127)
+	at com.badlogic.gdx.graphics.g2d.SpriteBatch.<init>(SpriteBatch.java:81)
+	at com.mygdx.game.FightingGame.create(FightingGame.java:23)
+	at com.badlogic.gdx.backends.headless.HeadlessApplication.mainLoop(HeadlessApplication.java:108)
+	at com.badlogic.gdx.backends.headless.HeadlessApplication$1.run(HeadlessApplication.java:93)
+]]></system-err>
+</testsuite>

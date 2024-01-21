@@ -63,8 +63,8 @@ public class GameAssetManager {
         scanner.close();
     }
 
-    private Class<?> getAssetType(String path) {
-        if (path.endsWith(".png") || path.endsWith(".jpg")) {
+    public Class<?> getAssetType(String path) {
+        if (!path.startsWith("default.png") && (path.endsWith(".png") || path.endsWith(".jpg"))) {
             return Texture.class;
         } else if (path.endsWith(".mp3")) {
             if (path.contains("risk") || path.contains("dreamscape")) return Music.class;

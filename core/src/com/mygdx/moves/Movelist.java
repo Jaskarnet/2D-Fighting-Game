@@ -36,17 +36,18 @@ public class Movelist {
 
         for (String asset : assetList) {
             asset = asset.replace("\r","");
-            System.out.println(moveInfoDirectory + "(...)" + ".json");
-            System.out.println(asset);
+            //System.out.println(moveInfoDirectory + "(...)" + ".json");
+            //System.out.println(asset);
             if (asset.startsWith(moveInfoDirectory) && asset.endsWith(".json")) {
-                System.out.println("git");
+                //System.out.println("git");
                 processAsset(asset);
             }
         }
     }
 
-    private void processAsset(String asset) {
+    public void processAsset(String asset) {
         FileHandle file = Gdx.files.internal(asset);
+
         try {
             TempData moveInfo = new ObjectMapper().readValue(file.read(), TempData.class);
             String jsonFileName = file.name();
@@ -61,7 +62,7 @@ public class Movelist {
         }
     }
 
-    private Move createMoveFromFrameRangeDataList(List<FrameRangeData> frameRangeDataList, String spriteSheetPath, AssetManager assetManager) {
+    public Move createMoveFromFrameRangeDataList(List<FrameRangeData> frameRangeDataList, String spriteSheetPath, AssetManager assetManager) {
         Texture spriteSheet = assetManager.get(spriteSheetPath, Texture.class);
         Move move = new Move(spriteSheet, 0);
 
@@ -83,5 +84,21 @@ public class Movelist {
 
     public ArrayList<Move> getMovelist() {
         return movelist;
+    }
+
+    public String getMoveInfoDirectory() {
+        return moveInfoDirectory;
+    }
+
+    public void setMoveInfoDirectory(String moveInfoDirectory) {
+        this.moveInfoDirectory = moveInfoDirectory;
+    }
+
+    public String getSpriteSheetDirectory() {
+        return spriteSheetDirectory;
+    }
+
+    public void setSpriteSheetDirectory(String spriteSheetDirectory) {
+        this.spriteSheetDirectory = spriteSheetDirectory;
     }
 }
