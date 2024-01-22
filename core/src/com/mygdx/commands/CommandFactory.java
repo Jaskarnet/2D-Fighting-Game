@@ -12,7 +12,7 @@ public class CommandFactory {
         return new MoveFighterCommand(fighter, State.GOING_BACK, fighter.getMovelist().getMove(State.GOING_BACK.ordinal()), fighter.getCurrentFrame());
     }
 
-    static AttackCommand AttackCommandHigh(Fighter fighter) {
+    public static AttackCommand AttackCommandHigh(Fighter fighter) {
         return new AttackCommand(fighter, State.HIGH_ATTACK, fighter.getMovelist().getMove(State.HIGH_ATTACK.ordinal()), fighter.getCurrentFrame());
     }
 
@@ -40,7 +40,7 @@ public class CommandFactory {
         return new BlockStunCommand(fighter, State.BLOCK_STUNNED_LOW, fighter.getMovelist().getMove(State.BLOCK_STUNNED_LOW.ordinal()), fighter.getCurrentFrame());
     }
 
-    static HitStunCommand hitStunCommandHigh(Fighter fighter) {
+    public static HitStunCommand hitStunCommandHigh(Fighter fighter) {
         return new HitStunCommand(fighter, State.HIT_STUNNED_HIGH, fighter.getMovelist().getMove(State.HIT_STUNNED_HIGH.ordinal()), fighter.getCurrentFrame());
     }
 

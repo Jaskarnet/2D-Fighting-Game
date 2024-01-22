@@ -1,8 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.mygdx.entities.FighterTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-01-21T14:01:49" hostname="DESKTOP-1RUB8V8" time="6.446">
+<testsuite name="com.mygdx.engine.CollisionTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-01-22T03:40:40" hostname="DESKTOP-1RUB8V8" time="5.286">
   <properties/>
-  <testcase name="testUpdateWithMoveForwardCommand()" classname="com.mygdx.entities.FighterTest" time="6.446"/>
-  <system-out><![CDATA[]]></system-out>
+  <testcase name="testCollisionDetectionAndAftermaths()" classname="com.mygdx.engine.CollisionTest" time="5.286"/>
+  <system-out><![CDATA[[i = 0]receiver: 0
+[i = 0]attacker: 0
+[i = 0]receiver: 1
+[i = 0]attacker: 1
+[i = 1]receiver: 2
+[i = 1]attacker: 2
+[i = 2]receiver: 3
+[i = 2]attacker: 3
+[i = 3]receiver: 4
+[i = 3]attacker: 4
+[i = 4]receiver: 5
+[i = 4]attacker: 5
+[i = 5]receiver: 6
+[i = 5]attacker: 6
+[i = 6]receiver: 7
+[i = 6]attacker: 7
+[i = 7]receiver: 8
+[i = 7]attacker: 8
+[i = 8]receiver: 9
+[i = 8]attacker: 9
+[i = 9]receiver: 10
+[i = 9]attacker: 10
+[i = 10]receiver: 11
+[i = 10]attacker: 11
+[i = 11]receiver: 12
+[i = 11]attacker: 12
+[i = 12]receiver: 13
+[i = 12]attacker: 13
+]]></system-out>
   <system-err><![CDATA[Exception in thread "HeadlessApplication" java.lang.NullPointerException: Cannot invoke "com.badlogic.gdx.graphics.GL20.glCreateShader(int)" because "gl" is null
 	at com.badlogic.gdx.graphics.glutils.ShaderProgram.loadShader(ShaderProgram.java:204)
 	at com.badlogic.gdx.graphics.glutils.ShaderProgram.compileShaders(ShaderProgram.java:183)
