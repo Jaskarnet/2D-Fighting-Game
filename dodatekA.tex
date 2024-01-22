@@ -1,3 +1,15 @@
 \chapter{Instrukcja wdrożeniowa}
-Jeśli praca skończyła się wykonaniem jakiegoś oprogramowania, to w dodatku powinna pojawić się instrukcja wdrożeniowa (o tym jak skompilować/zainstalować to oprogramowanie).
-Przydałoby się również krótkie ,,\emph{how to}'' (jak uruchomić system i coś w nim zrobić -- zademonstrowane na jakimś najprostszym przypadku użycia). Można z tego zrobić osobny dodatek.
+Wymagania wstępne:
+Java Development Kit (JDK), Gradle, środowisko programistyczne - zalecane jest użycie IntelliJ IDEA, git - Potrzebny do klonowania repozytorium.
+
+Klonowanie repozytorium: 
+Otwórz terminal. Sklonuj repozytorium, używając polecenia: \emph{git clone https://github.com/Jaskarnet/2DFightingGame.git}. Przejdź do sklonowanego katalogu.
+
+Konfiguracja projektu:
+Otwórz sklonowany projekt w środowisku programistycznym. Upewnij się, że struktura projektu została poprawnie zaimportowana i że wszystkie potrzebne zależności są zainstalowane. Możliwe, że środowisko samo wykryje i zainstaluje potrzebne zależności.
+
+Uruchamianie gry:
+Znajdź główną klasę aplikacji, która znajduje się w ścieżce \emph{desktop/src/com/mygdx/game/DesktopLauncher.java}. Uruchom projekt, korzystając z przycisku \emph{Run} w IDE. Jeżeli uruchomienie programu zakończy się błędem, prawdopodobnie należy ustawić katalog roboczy na folder \emph{assets}. W tym celu należy nacisnąć przycisk \emph{More Actions} (trzy kropki) znajdujący się w górnej części graficznego interfejsu obok nazwy uruchamianej konfiguracji i z menu kontekstowego wybrać opcję \emph{Edit} z zakładki \emph{Configuration}. Następnie w otwartym okienku należy znaleźć opcję \emph{Working Directory} i zmienić jej wartość na ścieżkę do folderu \emph{assets} znajdującego się pod głównym folderem projektu. Po tej konfiguracji program powinien się skompilować i uruchomić poprawnie.
+
+Uwagi końcowe:
+Dokładne kroki mogą się różnić w zależności od konkretnego środowiska programistycznego i konfiguracji systemu. Jeśli środowisko automatycznie nie pobrało zależności, należy je uwzględnić.

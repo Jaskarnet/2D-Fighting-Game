@@ -1,7 +1,8 @@
 \chapter{Testy}
 Ten rozdział poświęcony jest prezentacji testów przeprowadzonych w ramach projektu. Testy automatyczne zostały przeprowadzone z użyciem JUnit i Mockito.
 
-\section{FighterTest}
+\section{Testy automatyczne}
+\subsection{FighterTest}
 %chętnie dostalbym informacje zwrotną czy lepiej żeby opisy testżw były w takim formacie, czy moze lepiej podzielic je na punkty jak np. 1. cel testu, 2. srodowisko testowe, 3. kroki testowe, 4. oczekiwane wyniki, 5. Wynik testu lub inne
 W celu zweryfikowania poprawnego działania klasy \texttt{Fighter} została przetestowana metoda \texttt{update}, która zajmuje się aktualizacją stanu obiektu w każdej klatce. Test przedstawiony jest w listingu \ref{list:FighterTest}. Zaczyna się od zaimportowania wszystkich potrzebnych komponentów. W funkcji \texttt{init}, która jest udekorowana adnotacją \emph{BeforeAll}, zawarte są wszystkie potrzebne inicjalizacje związane z frameworkiem \texttt{LibGDX} oraz jego uruchomieniem bez środowiska graficznego. Następnie w funkcji \texttt{setUp} tworzone są wszystkie potrzebne obiekty do testów - obiekt klasy \texttt{Fighter} oraz \texttt{GameAssetManager}. Test polega na sprawdzeniu czy poprawnie zmienia się stan obiektu z klasy \texttt{Fighter}. W związku z tym należy zasymulować wciśnięcie przycisku, a dokładniej zwrócenie odpowiedniego polecenia z metody \texttt{handleInput} instancji obiektu "InputHandler". W teście takie \emph{mockowanie} zrealizowane jest poprzez zwracanie komendy \emph{MoveFighterCommand} jeżeli wywołana zostanie funkcja \texttt{handleInput}.
 Test rozpoczyna się od potwierdzenia stanu dopiero utworzonej postaci. Następnie wywoływana jest funkcja \texttt{update}, która ma za zadanie zaktualizowac postać na podstawie komendy. Następnie sprawdzane jest czy prawidłowo zmienione zostały konkretne pola. Dokładniej mówiąc sprawdzane jest czy postać dopiero rozpoczyna animacje (czy znajduje w klatce o zerowym indeksie), czy poruszyła się o odpowiednią odległość, czy jej stan został odpowiednio zmieniony, czy obszary kolizji zmieniły się na te zgodne z aktualną animacją oraz czy podmieniona została wyświetlana aktualnie tekstura. Test przebiegł pomyślnie potwierdzając wszystkie sprawdzenia.
@@ -97,7 +98,111 @@ public class FighterTest extends ApplicationAdapter {
 }
 \end{lstlisting}
 
+\subsection{CollisionTest}
+Test polega na symulowaniu serii klatek gry, w których atakujący wykonuje atak wysoki (high attack), a odbierający porusza się do przodu. Celem jest sprawdzenie, czy w odpowiedniej klatce dochodzi do kolizji i czy system poprawnie reaguje na tę sytuację, zmieniając stan postaci odbierającej na \texttt{HIT\_STUNNED\_HIGH} oraz czy poprawnie odejmuje jej zdrowie.
+
+\begin{lstlisting}[language=Java,style=JavaStyle,label=list:CollisionTest,caption=Test poprawnego wykrywania kolizji w klasie \texttt{Collision},
+                   basicstyle=\footnotesize\ttfamily]
+package com.mygdx.engine;
+...
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+public class CollisionTest extends ApplicationAdapter {
+    Collision collision;
+    private Fighter attacker, receiver;
+    private InputHandler attackerMockInputHandler, receiverMockInputHandler;
+    private int attackerInitialX, attackerInitialY, receiverInitialX, receiverInitialY;
+    @BeforeAll
+    public static void init() {
+        HeadlessApplicationConfiguration conf = new HeadlessApplicationConfiguration();
+        new HeadlessApplication(new FightingGame(), conf);
+        Gdx.gl = mock(GL20.class);
+        Gdx.gl20 = mock(GL20.class);
+    }
+    @BeforeEach
+    void setUp() {
+        // Początkowe rozmieszczenie umieszcza postacie tuż obok siebie
+        attackerInitialX = 0;
+        attackerInitialY = 0;
+        receiverInitialX = 300;
+        receiverInitialY = 0;
+        GameAssetManager gameAssetManager = new GameAssetManager();
+        gameAssetManager.loadAssets();
+        while (!gameAssetManager.manager.update()) {
+            // oczekiwanie aż wszystkie zasoby sie zaladują
+        }
+        attacker = new Fighter(attackerInitialX, attackerInitialY, Player.PLAYER1, 0, 0, 0, 0, 10, gameAssetManager.manager);
+        attackerMockInputHandler = spy(new InputHandler(attacker, Player.PLAYER1, 0, 0, 0, 0, 10));
+        attacker.setInputHandler(attackerMockInputHandler);
+        receiver = new Fighter(receiverInitialX, receiverInitialY, Player.PLAYER2, 0, 0, 0, 0, 10, gameAssetManager.manager);
+        receiverMockInputHandler = spy(new InputHandler(receiver, Player.PLAYER2, 0, 0, 0, 0, 10));
+        receiver.setInputHandler(receiverMockInputHandler);
+        collision = new Collision(attacker, receiver);
+    }
+
+    @Test
+    void testCollisionDetectionAndAftermaths() {
+        // Symulacja otrzymania komendy AttackFighterCommand od InputHandler'a
+        doAnswer(invocation -> {
+            Command command = CommandFactory.AttackCommandHigh(attacker);
+            attackerMockInputHandler.getCommandHistory().add(command);
+            attacker.setCurrentFrame(attacker.getCurrentFrame() + 1);
+            return command;
+        }).when(attackerMockInputHandler).handleInput();
+        // Symulacja funkcjonalności InputHandler.handleInput() ograniczającej się
+        // do zwracania komendy MoveFighterCommand lub HitStunCommand w przypadku,
+        // gdy Collision wykryje otrzymanie ataku high
+        doAnswer(invocation -> {
+            Command command = CommandFactory.moveFighterCommandForward(receiver);
+            int currentFrame = receiver.getCurrentFrame() + 1;
+            if (receiver.isHitStunnedHigh()) {
+                if (receiver.getState() != State.HIT_STUNNED_HIGH) {
+                    receiver.setCurrentFrame(0);
+                    command = CommandFactory.hitStunCommandHigh(receiver);
+                    receiverMockInputHandler.getCommandHistory().add(command);
+                    return command;
+                } else if (receiver.getState() == State.HIT_STUNNED_HIGH && currentFrame >= receiver.getMovelist().getMove(State.HIT_STUNNED_HIGH.ordinal()).getFrameCount()) {
+                    receiver.setHitStunnedHigh(false);
+                } else {
+                    receiver.setCurrentFrame(currentFrame);
+                    command = CommandFactory.hitStunCommandHigh(receiver);
+                    receiverMockInputHandler.getCommandHistory().add(command);
+                    return command;
+                }
+            }
+            receiverMockInputHandler.getCommandHistory().add(command);
+            receiver.setCurrentFrame(currentFrame);
+            return command;
+        }).when(receiverMockInputHandler).handleInput();
+
+        // Symulacja upływanego czasu, gdzie "i" oznacza indeks aktualnej klatki
+        for (int i = 0; i <= 14; i++) {
+            attacker.update();
+            receiver.update();
+            collision.update();
+            if (i <= 12) {
+                // Sprawdzanie czy receiver nie dostał za wcześnie atakiem
+                assertFalse(receiver.isHitStunnedHigh());
+            } else if (i == 13) {
+                // W 14 klatce collision powinien wykryć kolizję i zmienić flagę isHitStunnedHigh na true
+                assertTrue(receiver.isHitStunnedHigh());
+            } else if (i >= 14) {
+                // W 15 klatce receiver powinien odczuć skutki dostania atakiem high
+                int damage = attacker.getMovelist().getMove(State.HIGH_ATTACK.getId()).getDamage();
+                assertEquals(receiver.getMaxHealth() - damage, receiver.getHealth());
+                assertEquals(State.HIT_STUNNED_HIGH, receiver.getState());
+            }
+        }
+    }
+}
+\end{lstlisting}
+
 \section{Testy manualne}
+\subsection{Rozgrywka w trybie offline}
+Test polegał na uruchomieniu programu oraz wybraniu opcji "Play offline" z menu głównego. Następnie sprawdzone zostały wszystkie dostępne ruchy postaci oraz ich interakcje z przeciwnikiem. Wraz z postępem rozgrywki przetestowany został również system rund. W celu sprawdzenia czy dla każdego przypadku gra wypisuje odpowiednie wiadomości wskazujące aktualny wynik lub wygranego całego pojedynku (lub remisu) test powielono wielokrotnie. Podczas całego testu wszystkie zachowania postaci oraz wiadomości gry zgadzały się z oczekiwaniami.
+
+\subsection{Rozgrywka w trybie online}
 W celu sprawdzenia poprawności działania trybu online przeprowadzone zostały testy polegające na rozegraniu gry z dwóch różnych komputerów korzystając z opcji dostępnych w programie. Proces wyglądał następująco: host zakładał pokój, a następnie udostępniał drugiemu graczowi kod zaproszeniowy. Drugi gracz po wpisaniu kodu w odpowiednim miejscu łączył się z przeciwnikiem i jeżeli połączenie było udane obydwaj dostawali odpowiedni komunikat. Host po kliknięciu przycisku startował grę, po której zaczynała się rozgrywka. Postacie odpowiednio reagowały na sterowanie graczy. Przebieg rund jak i całego meczu odbywał się prawidłowo. Całość testu potwierdza działanie kodu sieciowego.
 
 
