@@ -2,10 +2,17 @@
 Ten rozdział poświęcony jest prezentacji testów przeprowadzonych w ramach projektu. Testy automatyczne zostały przeprowadzone z użyciem JUnit i Mockito.
 
 \section{Testy automatyczne}
-\subsection{FighterTest}
-%chętnie dostalbym informacje zwrotną czy lepiej żeby opisy testżw były w takim formacie, czy moze lepiej podzielic je na punkty jak np. 1. cel testu, 2. srodowisko testowe, 3. kroki testowe, 4. oczekiwane wyniki, 5. Wynik testu lub inne
-W celu zweryfikowania poprawnego działania klasy \texttt{Fighter} została przetestowana metoda \texttt{update}, która zajmuje się aktualizacją stanu obiektu w każdej klatce. Test przedstawiony jest w listingu \ref{list:FighterTest}. Zaczyna się od zaimportowania wszystkich potrzebnych komponentów. W funkcji \texttt{init}, która jest udekorowana adnotacją \emph{BeforeAll}, zawarte są wszystkie potrzebne inicjalizacje związane z frameworkiem \texttt{LibGDX} oraz jego uruchomieniem bez środowiska graficznego. Następnie w funkcji \texttt{setUp} tworzone są wszystkie potrzebne obiekty do testów - obiekt klasy \texttt{Fighter} oraz \texttt{GameAssetManager}. Test polega na sprawdzeniu czy poprawnie zmienia się stan obiektu z klasy \texttt{Fighter}. W związku z tym należy zasymulować wciśnięcie przycisku, a dokładniej zwrócenie odpowiedniego polecenia z metody \texttt{handleInput} instancji obiektu "InputHandler". W teście takie \emph{mockowanie} zrealizowane jest poprzez zwracanie komendy \emph{MoveFighterCommand} jeżeli wywołana zostanie funkcja \texttt{handleInput}.
-Test rozpoczyna się od potwierdzenia stanu dopiero utworzonej postaci. Następnie wywoływana jest funkcja \texttt{update}, która ma za zadanie zaktualizowac postać na podstawie komendy. Następnie sprawdzane jest czy prawidłowo zmienione zostały konkretne pola. Dokładniej mówiąc sprawdzane jest czy postać dopiero rozpoczyna animacje (czy znajduje w klatce o zerowym indeksie), czy poruszyła się o odpowiednią odległość, czy jej stan został odpowiednio zmieniony, czy obszary kolizji zmieniły się na te zgodne z aktualną animacją oraz czy podmieniona została wyświetlana aktualnie tekstura. Test przebiegł pomyślnie potwierdzając wszystkie sprawdzenia.
+\subsection{\texttt{FighterTest}}
+%chętnie dostalbym informacje zwrotną czy lepiej żeby opisy testów były w takim formacie, czy moze lepiej podzielic je na punkty jak np. 1. cel testu, 2. srodowisko testowe, 3. kroki testowe, 4. oczekiwane wyniki, 5. Wynik testu lub inne
+
+% TO DO: Jak dla mnie opis jest poprawny. Kroki, które Pan wymienił w zapytaniu powyżej lepiej pasują do testów akceptacyjnych niż jednostkowych. Tak więc opis może zostać jak jest.
+W celu zweryfikowania poprawnego działania klasy \texttt{Fighter} napisano i przeprowadzono test sprawdzający działanie metody \texttt{update} (metoda ta zajmuje się aktualizacją stanu obiektu w każdej klatce). Implementacja testu zaczyna się od zaimportowania wszystkich potrzebnych komponentów (patrz listing \ref{list:FighterTest}). W funkcji \texttt{init}, która jest udekorowana adnotacją \texttt{@BeforeAll}, zawarte są wszystkie potrzebne inicjalizacje związane z frameworkiem \texttt{LibGDX} oraz jego uruchomieniem bez środowiska graficznego. Następnie w funkcji \texttt{setUp} tworzone są wszystkie potrzebne obiekty do testów -- obiekt klasy \texttt{Fighter} oraz \texttt{GameAssetManager}. 
+
+Sam test miał sprawdzać, czy poprawnie zmienia się stan obiektu z klasy \texttt{Fighter}. Dlatego należało zasymulować wciśnięcie przycisku, a dokładniej -- zwrócenie odpowiedniego polecenia z metody \texttt{handleInput} instancji obiektu "InputHandler". W teście takie \emph{mockowanie} zrealizowane jest poprzez zwracanie komendy \emph{MoveFighterCommand} jeżeli wywołana zostanie funkcja \texttt{handleInput}.
+
+Test rozpoczyna się od potwierdzenia stanu dopiero utworzonej postaci. Następnie wywoływana jest funkcja \texttt{update}, która ma za zadanie zaktualizować postać na podstawie komendy. Następnie sprawdzane jest czy prawidłowo zmienione zostały konkretne pola. Dokładniej mówiąc sprawdzane jest czy postać dopiero rozpoczyna animacje (czy znajduje w klatce o zerowym indeksie), czy poruszyła się o odpowiednią odległość, czy jej stan został odpowiednio zmieniony, czy obszary kolizji zmieniły się na te zgodne z aktualną animacją oraz czy podmieniona została wyświetlana aktualnie tekstura. 
+
+Test przebiegł pomyślnie potwierdzając wszystkie sprawdzenia.
 \begin{lstlisting}[language=Java,style=JavaStyle,label=list:FighterTest,caption=Test metody \texttt{update} z klasy \texttt{Fighter},
                    basicstyle=\footnotesize\ttfamily]
 							
@@ -98,7 +105,7 @@ public class FighterTest extends ApplicationAdapter {
 }
 \end{lstlisting}
 
-\subsection{CollisionTest}
+\subsection{\texttt{CollisionTest}}
 Test polega na symulowaniu serii klatek gry, w których atakujący wykonuje atak wysoki (high attack), a odbierający porusza się do przodu. Celem jest sprawdzenie, czy w odpowiedniej klatce dochodzi do kolizji i czy system poprawnie reaguje na tę sytuację, zmieniając stan postaci odbierającej na \texttt{HIT\_STUNNED\_HIGH} oraz czy poprawnie odejmuje jej zdrowie.
 
 \begin{lstlisting}[language=Java,style=JavaStyle,label=list:CollisionTest,caption=Test poprawnego wykrywania kolizji w klasie \texttt{Collision},
@@ -199,10 +206,15 @@ public class CollisionTest extends ApplicationAdapter {
 \end{lstlisting}
 
 \section{Testy manualne}
+Testy te można zaliczyć do grupy testów akceptacyjnych, choć bez formalnie wyspecyfikowanego scenariusza testów. Generalnie testy te miały dowieść, czy aplikacja spełnia oczekiwania użytkownika, a więc czy zaimplementowana gra pozwala na ,,bijatykę''.
 \subsection{Rozgrywka w trybie offline}
 Test polegał na uruchomieniu programu oraz wybraniu opcji "Play offline" z menu głównego. Następnie sprawdzone zostały wszystkie dostępne ruchy postaci oraz ich interakcje z przeciwnikiem. Wraz z postępem rozgrywki przetestowany został również system rund. W celu sprawdzenia czy dla każdego przypadku gra wypisuje odpowiednie wiadomości wskazujące aktualny wynik lub wygranego całego pojedynku (lub remisu) test powielono wielokrotnie. Podczas całego testu wszystkie zachowania postaci oraz wiadomości gry zgadzały się z oczekiwaniami.
 
 \subsection{Rozgrywka w trybie online}
 W celu sprawdzenia poprawności działania trybu online przeprowadzone zostały testy polegające na rozegraniu gry z dwóch różnych komputerów korzystając z opcji dostępnych w programie. Proces wyglądał następująco: host zakładał pokój, a następnie udostępniał drugiemu graczowi kod zaproszeniowy. Drugi gracz po wpisaniu kodu w odpowiednim miejscu łączył się z przeciwnikiem i jeżeli połączenie było udane obydwaj dostawali odpowiedni komunikat. Host po kliknięciu przycisku startował grę, po której zaczynała się rozgrywka. Postacie odpowiednio reagowały na sterowanie graczy. Przebieg rund jak i całego meczu odbywał się prawidłowo. Całość testu potwierdza działanie kodu sieciowego.
+
+% TO DO: przydałyby się jakieś zrzuty z ekranu zrobione podczas jakiegoś ataku/uniku. Rozgrywkę można nagrać, a potem wyciąć z tego nagrania interesujące klatki.
+
+% TO DO: ciekawe byłoby również postawienie jakiegoś proxy celem podglądu przesyłanych komunikatów (albo w jakiś sposób zademonstrowania, że komunikcja działa - np. można wyświetlić aktywność sieciową - z panelu administrowania zasobami - może na nim będzie widać, że aktywność w czasie tej gry wzrasta/maleje).
 
 
