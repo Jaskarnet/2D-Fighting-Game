@@ -115,3 +115,221 @@ public class OfflineGameScreen implements Screen {
 		...
 }
 \end{lstlisting}
+
+\subsection{Klasa \texttt{Multiplayer}}
+Klasa \texttt{Multiplayer} została stworzona w celu obsługi połączenia między graczami w trybie online. Wykorzystuje ona biblioteki kryo \cite{Kryo}, kryonet \cite{Kryonet} oraz weupnp \cite{weupnp}, co jest widoczne w importach klasy w listingu \ref{list:multiplayer}. Konstruktor klasy nie otwiera jeszcze żadnego połączenia, a konkretne metody obsługi połączenia są wywoływane dopiero po wybraniu przez użytkownika odpowiedniego trybu gry. 
+Jeśli gracz wybierze opcję hostowania meczu, oznacza to uruchomienie serwera na jego komputerze za pomocą funkcji \texttt{initializeServer}. Funkcja ta rozpoczyna od znalezienia wolnego portu, którym domyślnie jest port 54555. Następnie próbuje otworzyć go za pomocą funkcji \texttt{openPortUPnP}, która wyszukuje dostępny router i sprawdza jego zewnętrzny adres IP, a następnie tworzy mapowanie portów. Po tych krokach tworzony jest serwer i przypisywane są do niego klasy do serializacji i deserializacji. Serwer nasłuchuje różne zdarzenia, takie jak połączenie i rozłączenie drugiego gracza, które zmieniają flagi klasy \texttt{Multiplayer}. Dodatkowo, jeśli do serwera przyjdzie instancja obiektu \texttt{Command} jest ona dodawana do kolejki komend. Na podstawie tej kolejki \texttt{InputHandler} definiuje zachowanie postaci gracza połączonego przez sieć. Ostatecznie serwer jest przypisywany do portu, na którym ma pracować. 
+W przypadku wyboru przez użytkownika opcji dołączenia do pokoju i podania kodu uzyskanego od drugiego gracza, uruchamiana jest funkcja \texttt{initializeClient}. Podobnie jak w przypadku serwera, klient również nasłuchuje przychodzące wiadomości. Jedyną różnicą jest obsługa konkretnych komend, takich jak rozpoczęcie gry czy wiadomość o powaleniu przeciwnika. Reszta komend jest obsługiwana w podobny sposób jak na serwerze. 
+Klasa \texttt{Multiplayer} posiada także funkcje do zamykania serwera i klienta \texttt{closeServer} i \texttt{closeClient}, które służą do zakończenie połączenia po zakończeniu rozgrywki i w przypadku serwera również zakończenie przekierowania portów na routerze.
+
+\begin{lstlisting}[language=Java,style=JavaStyle,label=list:multiplayer,caption=Klasa \texttt{Multiplayer},
+                   basicstyle=\footnotesize\ttfamily]
+package com.mygdx.game;
+
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryonet.Connection;
+import com.esotericsoftware.kryonet.Listener;
+import com.esotericsoftware.kryonet.Server;
+import com.esotericsoftware.kryonet.Client;
+...
+import org.bitlet.weupnp.GatewayDevice;
+import org.bitlet.weupnp.GatewayDiscover;
+import org.bitlet.weupnp.PortMappingEntry;
+
+
+public class Multiplayer {
+    private Server server;
+    private Client client;
+    private int serverPort;
+    private int connectedPort;
+    private boolean isAttemptingConnection = false;
+    private boolean isConnected = false;
+    private boolean startGame = false;
+    private String lastErrorMessage = null;
+	...
+    String ipAddress;
+    LinkedBlockingDeque<Command> commandQueue;
+
+    public Multiplayer() {
+        this.commandQueue = new LinkedBlockingDeque<>();
+    }
+
+    public void initializeServer() {
+        isAttemptingConnection = true;
+        serverPort = findFreePort();
+        if (openPortUPnP(serverPort)) {
+            System.out.println("UPnP: Port został otwarty");
+        } else {
+            System.out.println("UPnP: Nie udało się otworzyć portu, sprawdź konfigurację routera lub ustawienia firewalla");
+        }
+        server = new Server();
+        client = null;
+        configureKryo(server.getKryo());
+
+        server.addListener(new Listener() {
+            @Override
+            public void connected(Connection connection) {
+                isConnected = true;
+                lastErrorMessage = null;
+            }
+            @Override
+            public void received(Connection connection, Object object) {
+                if (object instanceof Command) {
+                    System.out.println("received: " + object);
+                    handleCommand((Command) object);
+                }
+            }
+            @Override
+            public void disconnected(Connection connection) {
+                isConnected = false;
+                lastErrorMessage = "Disconnected";
+            }
+        });
+
+        ipAddress = getPublicIpAddress();
+        System.out.println("IpAddress: " + ipAddress);
+        try {
+            server.bind(serverPort);
+            server.start();
+            System.out.println(" Server started on serverPort: " + serverPort);
+        } catch (IOException e) {
+            lastErrorMessage = "Connection error: " + e.getMessage();
+            e.printStackTrace();
+        }
+    }
+
+    public void closeServer() {
+        if (server != null) {
+            server.stop();
+            server = null;
+            removePortUPnP(serverPort);
+            System.out.println("Serwer zostal zamkniety.");
+        }
+    }
+
+
+    public void initializeClient(String ipAddress, int port) {
+        isAttemptingConnection = true;
+        client = new Client();
+        configureKryo(client.getKryo());
+
+        client.addListener(new Listener() {
+            @Override
+            public void connected(Connection connection) {
+                isConnected = true;
+                lastErrorMessage = null;
+            }
+            @Override
+            public void received(Connection connection, Object object) {
+                if (object instanceof SetHighStunCommand) {
+                    System.out.println("received: " + object);
+                    player1IsHitStunned = true;
+                }
+                else if (object instanceof StartGameCommand) {
+                    startGame = true;
+                } else if (object instanceof Command) {
+                    System.out.println("received: " + object);
+                    handleCommand((Command) object);
+                }
+            }
+            @Override
+            public void disconnected(Connection connection) {
+                isConnected = false;
+                lastErrorMessage = "disconnected";
+            }
+        });
+
+        try {
+            client.start();
+            //System.out.println("Klient probuje sie polaczyc z " + ipAddress + "/" + port);
+            client.connect(5000, ipAddress, port);
+            this.ipAddress = ipAddress;
+        } catch (IOException e) {
+            lastErrorMessage = "Connection error: " + e.getMessage();
+            e.printStackTrace();
+        }
+    }
+
+    public void closeClient() {
+        if (client != null) {
+            client.stop();
+            client = null;
+            System.out.println("Klient zostal zamkniety.");
+        }
+    }
+
+    public void stopServer() {
+        if (server != null) {
+            // Usuń mapowanie portów za pomocą UPnP
+            removePortUPnP(serverPort);
+            server.stop();
+            server.close();
+            System.out.println("Serwer zatrzymany");
+        }
+    }
+
+    private void handleCommand(Command command) {
+        commandQueue.add(command);
+    }
+
+    public void sendCommand(Command command) {
+        if (server != null) {
+            System.out.println("send: " + command);
+            server.sendToAllTCP(command);
+        } else if (client != null) {
+            System.out.println("send: " + command);
+            client.sendTCP(command);
+        }
+
+    }
+
+    public boolean openPortUPnP(int port) {
+        try {
+            GatewayDiscover discover = new GatewayDiscover();
+            discover.discover();
+            GatewayDevice d = discover.getValidGateway();
+
+            if (d == null) {
+                System.out.println("Nie znaleziono bramy UPnP!");
+                return false;
+            }
+
+            System.out.println("Znaleziono brame UPnP: " + d.getModelName());
+
+            // Pobierz zewnętrzny adres IP
+            String externalIPAddress = d.getExternalIPAddress();
+            System.out.println("Zewnetrzny adres IP to: " + externalIPAddress);
+
+            // Utwórz mapowanie portów
+            boolean done = d.addPortMapping(port, port, d.getLocalAddress().getHostAddress(), "TCP", "KryoNet Game Server");
+
+            if (done) {
+                System.out.println("Port przekierowany: " + port);
+                return true;
+            } else {
+                System.out.println("Nie udalo się przekierować portu: " + port);
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean removePortUPnP(int port) {
+        try {
+            GatewayDiscover discover = new GatewayDiscover();
+            discover.discover();
+            GatewayDevice d = discover.getValidGateway();
+            if (d != null) {
+                return d.deletePortMapping(port, "TCP");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+		...
+}
+									
+\end{lstlisting}

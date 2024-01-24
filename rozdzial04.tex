@@ -1,16 +1,13 @@
 \chapter{Testy}
-Ten rozdział poświęcony jest prezentacji testów przeprowadzonych w ramach projektu. Testy automatyczne zostały przeprowadzone z użyciem JUnit i Mockito.
+Ten rozdział poświęcony jest prezentacji testów przeprowadzonych w ramach projektu. Testy automatyczne zostały przeprowadzone z użyciem JUnit \cite{JUnit} i Mockito \cite{Mockito}.
 
 \section{Testy automatyczne}
 \subsection{\texttt{FighterTest}}
-%chętnie dostalbym informacje zwrotną czy lepiej żeby opisy testów były w takim formacie, czy moze lepiej podzielic je na punkty jak np. 1. cel testu, 2. srodowisko testowe, 3. kroki testowe, 4. oczekiwane wyniki, 5. Wynik testu lub inne
-
-% TO DO: Jak dla mnie opis jest poprawny. Kroki, które Pan wymienił w zapytaniu powyżej lepiej pasują do testów akceptacyjnych niż jednostkowych. Tak więc opis może zostać jak jest.
 W celu zweryfikowania poprawnego działania klasy \texttt{Fighter} napisano i przeprowadzono test sprawdzający działanie metody \texttt{update} (metoda ta zajmuje się aktualizacją stanu obiektu w każdej klatce). Implementacja testu zaczyna się od zaimportowania wszystkich potrzebnych komponentów (patrz listing \ref{list:FighterTest}). W funkcji \texttt{init}, która jest udekorowana adnotacją \texttt{@BeforeAll}, zawarte są wszystkie potrzebne inicjalizacje związane z frameworkiem \texttt{LibGDX} oraz jego uruchomieniem bez środowiska graficznego. Następnie w funkcji \texttt{setUp} tworzone są wszystkie potrzebne obiekty do testów -- obiekt klasy \texttt{Fighter} oraz \texttt{GameAssetManager}. 
 
 Sam test miał sprawdzać, czy poprawnie zmienia się stan obiektu z klasy \texttt{Fighter}. Dlatego należało zasymulować wciśnięcie przycisku, a dokładniej -- zwrócenie odpowiedniego polecenia z metody \texttt{handleInput} instancji obiektu "InputHandler". W teście takie \emph{mockowanie} zrealizowane jest poprzez zwracanie komendy \emph{MoveFighterCommand} jeżeli wywołana zostanie funkcja \texttt{handleInput}.
 
-Test rozpoczyna się od potwierdzenia stanu dopiero utworzonej postaci. Następnie wywoływana jest funkcja \texttt{update}, która ma za zadanie zaktualizować postać na podstawie komendy. Następnie sprawdzane jest czy prawidłowo zmienione zostały konkretne pola. Dokładniej mówiąc sprawdzane jest czy postać dopiero rozpoczyna animacje (czy znajduje w klatce o zerowym indeksie), czy poruszyła się o odpowiednią odległość, czy jej stan został odpowiednio zmieniony, czy obszary kolizji zmieniły się na te zgodne z aktualną animacją oraz czy podmieniona została wyświetlana aktualnie tekstura. 
+Test rozpoczyna się od potwierdzenia stanu dopiero utworzonej postaci. Następnie wywoływana jest funkcja \texttt{update}, która ma za zadanie zaktualizować postać na podstawie komendy. Następnie sprawdzane jest czy prawidłowo zmienione zostały konkretne pola. Dokładniej mówiąc sprawdzane jest czy postać dopiero rozpoczyna animację (czy znajduje się w klatce o zerowym indeksie), czy poruszyła się o odpowiednią odległość, czy jej stan został odpowiednio zmieniony, czy obszary kolizji zmieniły się na te zgodne z aktualną animacją oraz czy podmieniona została wyświetlana aktualnie tekstura. 
 
 Test przebiegł pomyślnie potwierdzając wszystkie sprawdzenia.
 \begin{lstlisting}[language=Java,style=JavaStyle,label=list:FighterTest,caption=Test metody \texttt{update} z klasy \texttt{Fighter},
@@ -150,7 +147,7 @@ public class CollisionTest extends ApplicationAdapter {
 
     @Test
     void testCollisionDetectionAndAftermaths() {
-        // Symulacja otrzymania komendy AttackFighterCommand od InputHandler'a
+        // Symulacja otrzymania komendy AttackCommand od InputHandler'a
         doAnswer(invocation -> {
             Command command = CommandFactory.AttackCommandHigh(attacker);
             attackerMockInputHandler.getCommandHistory().add(command);
