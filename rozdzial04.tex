@@ -205,10 +205,22 @@ public class CollisionTest extends ApplicationAdapter {
 \section{Testy manualne}
 Testy te można zaliczyć do grupy testów akceptacyjnych, choć bez formalnie wyspecyfikowanego scenariusza testów. Generalnie testy te miały dowieść, czy aplikacja spełnia oczekiwania użytkownika, a więc czy zaimplementowana gra pozwala na ,,bijatykę''.
 \subsection{Rozgrywka w trybie offline}
-Test polegał na uruchomieniu programu oraz wybraniu opcji "Play offline" z menu głównego. Następnie sprawdzone zostały wszystkie dostępne ruchy postaci oraz ich interakcje z przeciwnikiem. Wraz z postępem rozgrywki przetestowany został również system rund. W celu sprawdzenia czy dla każdego przypadku gra wypisuje odpowiednie wiadomości wskazujące aktualny wynik lub wygranego całego pojedynku (lub remisu) test powielono wielokrotnie. Podczas całego testu wszystkie zachowania postaci oraz wiadomości gry zgadzały się z oczekiwaniami.
+\begin{figure}[htb]
+	\centering
+		\includegraphics[width=0.9\linewidth]{rys04/offline}
+	\caption{Przetestowanie trybu offline}
+	\label{fig:offline}
+\end{figure}
+Test polegał na uruchomieniu programu oraz wybraniu opcji "Play offline" z menu głównego. Następnie sprawdzone zostały wszystkie dostępne ruchy postaci oraz ich interakcje z przeciwnikiem. Wraz z postępem rozgrywki przetestowany został również system rund. W celu sprawdzenia czy dla każdego przypadku gra wypisuje odpowiednie wiadomości wskazujące aktualny wynik lub wygranego całego pojedynku (lub remisu) test powielono wielokrotnie. Zrzuty ekranu z przykładowej rozgrywki oznaczone kolejnymi literami alfabetu są widoczne na rysunku \ref{fig:offline}. Podczas całego testu wszystkie zachowania postaci oraz wiadomości gry zgadzały się z oczekiwaniami.
 
 \subsection{Rozgrywka w trybie online}
-W celu sprawdzenia poprawności działania trybu online przeprowadzone zostały testy polegające na rozegraniu gry z dwóch różnych komputerów korzystając z opcji dostępnych w programie. Proces wyglądał następująco: host zakładał pokój, a następnie udostępniał drugiemu graczowi kod zaproszeniowy. Drugi gracz po wpisaniu kodu w odpowiednim miejscu łączył się z przeciwnikiem i jeżeli połączenie było udane obydwaj dostawali odpowiedni komunikat. Host po kliknięciu przycisku startował grę, po której zaczynała się rozgrywka. Postacie odpowiednio reagowały na sterowanie graczy. Przebieg rund jak i całego meczu odbywał się prawidłowo. Całość testu potwierdza działanie kodu sieciowego.
+\begin{figure}[htb]
+	\centering
+		\includegraphics[width=0.8\linewidth]{rys04/online}
+	\caption{Proces tworzenia pokoju przez hosta oraz dołączania do niego przez drugiego gracza}
+	\label{fig:online}
+\end{figure}
+W celu sprawdzenia poprawności działania trybu online przeprowadzone zostały testy polegające na rozegraniu gry z dwóch różnych komputerów korzystając z opcji dostępnych w programie. Proces wyglądał następująco: host zakładał pokój, a następnie udostępniał drugiemu graczowi kod zaproszeniowy. Drugi gracz po wpisaniu kodu w odpowiednim miejscu łączył się z przeciwnikiem i jeżeli połączenie było udane obydwaj dostawali odpowiedni komunikat. Host po kliknięciu przycisku startował grę, po której zaczynała się rozgrywka. Zrzuty ekranu przedstawiające proces łączenia się, zarówno z punktu widzenia hosta jak i gracza dołączającego, widoczne są na rysunku \ref{fig:online}. Sama gra prezentowała się podobnie do rozgrywki offline z paroma drobnymi różnicami dotyczącymi wyświetlanych komunikatów. Postacie odpowiednio reagowały na sterowanie graczy. Przebieg rund jak i całego meczu odbywał się prawidłowo. Całość testu potwierdza działanie kodu sieciowego.
 
 % TO DO: przydałyby się jakieś zrzuty z ekranu zrobione podczas jakiegoś ataku/uniku. Rozgrywkę można nagrać, a potem wyciąć z tego nagrania interesujące klatki.
 

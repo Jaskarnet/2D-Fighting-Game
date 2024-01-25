@@ -1,4 +1,8 @@
 \chapter{Instrukcja wdrożeniowa}
+\section{Uruchomienie z pliku wykonywalnego}
+Aby pobrać plik wykonywalny gry należy wejść na stronę repozytorium \emph{https://github.com/Jaskarnet/2DFightingGame.git}, następnie przejść do sekcji \emph{release}, gdzie można znaleźć plik .rar. Po jego pobraniu i rozpakowaniu wystarczy uruchomić znajdujący się w nim plik wykonywalny SunsetShowdown.exe.
+
+\section{Skompilowanie kodu}
 Wymagania wstępne:
 Java Development Kit (JDK), Gradle, środowisko programistyczne - zalecane jest użycie IntelliJ IDEA, git - Potrzebny do klonowania repozytorium.
 
@@ -9,7 +13,7 @@ Konfiguracja projektu:
 Otwórz sklonowany projekt w środowisku programistycznym. Upewnij się, że struktura projektu została poprawnie zaimportowana i że wszystkie potrzebne zależności są zainstalowane. Możliwe, że środowisko samo wykryje i zainstaluje potrzebne zależności.
 
 Uruchamianie gry:
-Znajdź główną klasę aplikacji, która znajduje się w ścieżce \emph{desktop/src/com/mygdx/game/DesktopLauncher.java}. Uruchom projekt, korzystając z przycisku \emph{Run} w IDE. Jeżeli uruchomienie programu zakończy się błędem, prawdopodobnie należy ustawić katalog roboczy na folder \emph{assets}. W tym celu należy nacisnąć przycisk \emph{More Actions} (trzy kropki) znajdujący się w górnej części graficznego interfejsu obok nazwy uruchamianej konfiguracji i z menu kontekstowego wybrać opcję \emph{Edit} z zakładki \emph{Configuration}. Następnie w otwartym okienku należy znaleźć opcję \emph{Working Directory} i zmienić jej wartość na ścieżkę do folderu \emph{assets} znajdującego się pod głównym folderem projektu. Po tej konfiguracji program powinien się skompilować i uruchomić poprawnie.
+Znajdź główną klasę aplikacji, która znajduje się w ścieżce \emph{desktop/src/com/mygdx/game/DesktopLauncher.java}. Uruchom projekt, korzystając z przycisku \emph{Run} w~IDE. Jeżeli uruchomienie programu zakończy się błędem, prawdopodobnie należy ustawić katalog roboczy na folder \emph{assets}. W tym celu należy nacisnąć przycisk \emph{More Actions} (trzy kropki) znajdujący się w górnej części graficznego interfejsu obok nazwy uruchamianej konfiguracji i z menu kontekstowego wybrać opcję \emph{Edit} z zakładki \emph{Configuration}. Następnie w otwartym okienku należy znaleźć opcję \emph{Working Directory} i zmienić jej wartość na ścieżkę do folderu \emph{assets} znajdującego się pod głównym folderem projektu. Po tej konfiguracji program powinien się skompilować i uruchomić poprawnie.
 
 Uwagi końcowe:
 Dokładne kroki mogą się różnić w zależności od konkretnego środowiska programistycznego i konfiguracji systemu. Jeśli środowisko automatycznie nie pobrało zależności, należy je uwzględnić.
