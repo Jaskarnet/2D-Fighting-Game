@@ -1,11 +1,11 @@
 \chapter{Testy}
-Ten rozdział poświęcony jest prezentacji testów przeprowadzonych w ramach projektu. Testy automatyczne zostały przeprowadzone z użyciem JUnit \cite{JUnit} i Mockito \cite{Mockito}.
+Ten rozdział poświęcono na prezentację testów przeprowadzonych w ramach projektu. Testy automatyczne zostały przeprowadzone z użyciem JUnit \cite{JUnit} i Mockito \cite{Mockito}.
 
 \section{Testy automatyczne}
 \subsection{\texttt{FighterTest}}
 W celu zweryfikowania poprawnego działania klasy \texttt{Fighter} napisano i przeprowadzono test sprawdzający działanie metody \texttt{update} (metoda ta zajmuje się aktualizacją stanu obiektu w każdej klatce). Implementacja testu zaczyna się od zaimportowania wszystkich potrzebnych komponentów (patrz listing \ref{list:FighterTest}). W funkcji \texttt{init}, która jest udekorowana adnotacją \texttt{@BeforeAll}, zawarte są wszystkie potrzebne inicjalizacje związane z frameworkiem \texttt{LibGDX} oraz jego uruchomieniem bez środowiska graficznego. Następnie w funkcji \texttt{setUp} tworzone są wszystkie potrzebne obiekty do testów -- obiekt klasy \texttt{Fighter} oraz \texttt{GameAssetManager}. 
 
-Sam test miał sprawdzać, czy poprawnie zmienia się stan obiektu z klasy \texttt{Fighter}. Dlatego należało zasymulować wciśnięcie przycisku, a dokładniej -- zwrócenie odpowiedniego polecenia z metody \texttt{handleInput} instancji obiektu "InputHandler". W teście takie \emph{mockowanie} zrealizowane jest poprzez zwracanie komendy \emph{MoveFighterCommand} jeżeli wywołana zostanie funkcja \texttt{handleInput}.
+Testowana miała być poprawność zmiany stanu obiektu z klasy \texttt{Fighter}. Należało więc zasymulować wciśnięcie przycisku, a dokładniej -- zwrócenie odpowiedniego polecenia z~metody \texttt{handleInput} instancji obiektu "InputHandler". Takie \emph{mockowanie} zrealizowano poprzez zwracanie komendy \emph{MoveFighterCommand} jeżeli wywołana zostanie funkcja \texttt{handleInput}.
 
 Test rozpoczyna się od potwierdzenia stanu dopiero utworzonej postaci. Następnie wywoływana jest funkcja \texttt{update}, która ma za zadanie zaktualizować postać na podstawie komendy. Następnie sprawdzane jest czy prawidłowo zmienione zostały konkretne pola. Dokładniej mówiąc sprawdzane jest czy postać dopiero rozpoczyna animację (czy znajduje się w klatce o zerowym indeksie), czy poruszyła się o odpowiednią odległość, czy jej stan został odpowiednio zmieniony, czy obszary kolizji zmieniły się na te zgodne z aktualną animacją oraz czy podmieniona została wyświetlana aktualnie tekstura. 
 
@@ -208,19 +208,21 @@ Testy te można zaliczyć do grupy testów akceptacyjnych, choć bez formalnie w
 \begin{figure}[htb]
 	\centering
 		\includegraphics[width=0.9\linewidth]{rys04/offline}
-	\caption{Przetestowanie trybu offline}
+	\caption{Przetestowanie trybu offline (chronologia zgodna z kolejnością alfabetyczną)}
 	\label{fig:offline}
 \end{figure}
-Test polegał na uruchomieniu programu oraz wybraniu opcji "Play offline" z menu głównego. Następnie sprawdzone zostały wszystkie dostępne ruchy postaci oraz ich interakcje z przeciwnikiem. Wraz z postępem rozgrywki przetestowany został również system rund. W celu sprawdzenia czy dla każdego przypadku gra wypisuje odpowiednie wiadomości wskazujące aktualny wynik lub wygranego całego pojedynku (lub remisu) test powielono wielokrotnie. Zrzuty ekranu z przykładowej rozgrywki oznaczone kolejnymi literami alfabetu są widoczne na rysunku \ref{fig:offline}. Podczas całego testu wszystkie zachowania postaci oraz wiadomości gry zgadzały się z oczekiwaniami.
+Test polegał na uruchomieniu programu oraz wybraniu opcji "Play offline" z menu głównego. Następnie sprawdzone zostały wszystkie dostępne ruchy postaci oraz ich interakcje z przeciwnikiem. Wraz z postępem rozgrywki przetestowany został również system rund.  Test wykonano wielokrotnie w celu sprawdzenia, czy dla każdego przypadku wypisywane są odpowiednie wiadomości wskazujące aktualny wynik lub wygranego całego pojedynku (lub remisu). Zrzuty ekranu z przykładowej rozgrywki pokazano na rysunku \ref{fig:offline}. Podczas całego testu wszystkie zachowania postaci oraz wiadomości gry zgadzały się z oczekiwaniami.
 
 \subsection{Rozgrywka w trybie online}
 \begin{figure}[htb]
 	\centering
 		\includegraphics[width=0.8\linewidth]{rys04/online}
-	\caption{Proces tworzenia pokoju przez hosta oraz dołączania do niego przez drugiego gracza}
+	\caption{Kolejne etapy tworzenia pokoju przez hosta oraz dołączania do niego przez drugiego gracza}
 	\label{fig:online}
 \end{figure}
-W celu sprawdzenia poprawności działania trybu online przeprowadzone zostały testy polegające na rozegraniu gry z dwóch różnych komputerów korzystając z opcji dostępnych w programie. Proces wyglądał następująco: host zakładał pokój, a następnie udostępniał drugiemu graczowi kod zaproszeniowy. Drugi gracz po wpisaniu kodu w odpowiednim miejscu łączył się z przeciwnikiem i jeżeli połączenie było udane obydwaj dostawali odpowiedni komunikat. Host po kliknięciu przycisku startował grę, po której zaczynała się rozgrywka. Zrzuty ekranu przedstawiające proces łączenia się, zarówno z punktu widzenia hosta jak i gracza dołączającego, widoczne są na rysunku \ref{fig:online}. Sama gra prezentowała się podobnie do rozgrywki offline z paroma drobnymi różnicami dotyczącymi wyświetlanych komunikatów. Postacie odpowiednio reagowały na sterowanie graczy. Przebieg rund jak i całego meczu odbywał się prawidłowo. Całość testu potwierdza działanie kodu sieciowego.
+W celu sprawdzenia poprawności działania trybu online przeprowadzono testy polegające na rozegraniu gry z dwóch różnych komputerów korzystając z opcji dostępnych w programie. Proces wyglądał następująco: host zakładał pokój, a następnie udostępniał drugiemu graczowi kod zaproszeniowy. Drugi gracz po wpisaniu kodu w odpowiednim miejscu łączył się z przeciwnikiem i jeżeli połączenie było udane obydwaj dostawali odpowiedni komunikat. Host po kliknięciu przycisku startował grę, po której zaczynała się rozgrywka. Na rysunku \ref{fig:online} pokazano zrzuty ekranu odpowiadające etapom łączenia się, zarówno z punktu widzenia hosta jak i gracza dołączającego. Sama gra prezentowała się podobnie do rozgrywki offline z paroma drobnymi różnicami dotyczącymi wyświetlanych komunikatów. Postacie odpowiednio reagowały na sterowanie graczy. Przebieg rund jak i całego meczu odbywał się prawidłowo. Całość testu potwierdza działanie kodu sieciowego.
+
+
 
 % TO DO: przydałyby się jakieś zrzuty z ekranu zrobione podczas jakiegoś ataku/uniku. Rozgrywkę można nagrać, a potem wyciąć z tego nagrania interesujące klatki.
 
