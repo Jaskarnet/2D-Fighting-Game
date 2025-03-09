@@ -8,7 +8,7 @@ Author: Jan Kucharski
 
 **Project Description:**
 
-This project is an engineering diploma thesis created by Jan Kucharski. It is a 2D Fighting game that offers both online and offline modes. A detailed description of creating this game in Polish can be found in the file **"Diploma_Thesis_Jan_Kucharski.pdf"**.
+This project is an engineering diploma thesis created by Jan Kucharski. It is a 2D Fighting game that offers both online and offline modes. A detailed description of the game's development process (in Polish) can be found in the **[Diploma Thesis (PDF)](https://github.com/Jaskarnet/2D-Fighting-Game/blob/main/Diploma_Thesis_Jan_Kucharski.pdf)**.
 
 ![ezgif-124d358e4d9fe4](https://github.com/user-attachments/assets/b54642c8-5baa-48e9-a347-b682cdf92eae)
 
